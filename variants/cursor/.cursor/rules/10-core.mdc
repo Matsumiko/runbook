@@ -1,0 +1,15 @@
+---
+description: Core repository workflow and delivery rules
+alwaysApply: true
+---
+
+# Cursor Core Rules
+
+- Read `CODER.md`, `PLAN.md`, `TODO.md`, and `CHANGELOG.md` before non-trivial work.
+- Audit first.
+- Plan non-trivial work in `PLAN.md`.
+- Prefer minimal diffs over broad rewrites.
+- Preserve the existing project DNA and nearby patterns.
+- Read `FRONTEND-DNA.md` for UI work and `BACKEND-SECURITY-CHECKLIST.md` for sensitive backend work.
+- Verify before claiming completion.
+- Keep rules in `.cursor/rules/`; do not rely on legacy `.cursorrules`.
