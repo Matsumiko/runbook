@@ -1,0 +1,6 @@
+interface:
+  display_name: "Component Builder"
+  short_description: "Build components on top of existing theme rules"
+  default_prompt: "Use $frontend-component-builder to build frontend components that follow the existing stack, theme tokens, and FRONTEND-DNA rules."
+policy:
+  allow_implicit_invocation: true
