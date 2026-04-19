@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tabs Builder"
+  short_description: "Build tab UI on existing foundations"
+  default_prompt: "Use frontend-tabs-builder to build tabbed UI that follows the existing stack, tokens, and product UI DNA."

@@ -1,6 +1,6 @@
 ---
 name: frontend-detail-page-builder
-description: Build or refine frontend detail pages, entity views, product detail routes, admin drill-down screens, and other route-level detail surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement summary headers, key metadata, primary and secondary actions, status treatment, related sections, timelines, tabs, or drill-down states while preserving the current component family and handling hierarchy, scannability, and responsive composition correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is a generic multi-section page rather than a drill-down detail surface, use `frontend-page-builder`. If the task is specifically a dashboard, auth flow, marketing page, checkout flow, settings surface, or focused modal/overlay flow, use the matching specialized skill instead.
+description: Build or refine frontend detail pages, entity views, product detail routes, admin drill-down screens, and other route-level detail surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement summary headers, key metadata, primary and secondary actions, status treatment, related sections, timelines, tabs, or drill-down states while preserving the current component family and handling hierarchy, scannability, and responsive composition correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is a generic multi-section page rather than a drill-down detail surface, use `frontend-page-builder`. If the task is specifically a dashboard, auth flow, marketing page, checkout flow, settings surface, focused modal/overlay flow, or dedicated tabbed-surface work, use the matching specialized skill instead.
 ---
 
 # Frontend Detail Page Builder
@@ -101,6 +101,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the task is specifically a checkout, billing, or purchase flow
 - the task is specifically a settings or preferences surface
 - the task is specifically a focused modal, dialog, drawer, or overlay flow
+- the task is specifically a dedicated tabbed subview or tab-surface implementation
 - the task is mostly one component, one form, or one table
 - the work is purely a tiny copy or spacing tweak on an existing detail page
 

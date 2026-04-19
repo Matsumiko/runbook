@@ -47,6 +47,7 @@ const skillDirectories = {
   "frontend-notification-builder": ".agents/skills/frontend-notification-builder",
   "frontend-upload-builder": ".agents/skills/frontend-upload-builder",
   "frontend-modal-builder": ".agents/skills/frontend-modal-builder",
+  "frontend-tabs-builder": ".agents/skills/frontend-tabs-builder",
   "frontend-marketing-builder": ".agents/skills/frontend-marketing-builder",
   "frontend-checkout-builder": ".agents/skills/frontend-checkout-builder",
   "frontend-settings-builder": ".agents/skills/frontend-settings-builder",
@@ -69,6 +70,7 @@ const skillSummaries = {
   "frontend-notification-builder": "build notification surfaces with urgency, placement, and lifecycle discipline",
   "frontend-upload-builder": "build upload surfaces with constraints, progress, and retry discipline",
   "frontend-modal-builder": "build modal and overlay surfaces with focus, layering, and dismissal discipline",
+  "frontend-tabs-builder": "build tabs and segmented panels with active-state and overflow discipline",
   "frontend-marketing-builder": "build marketing pages with narrative, CTA, and proof discipline",
   "frontend-checkout-builder": "build checkout flows with totals, trust, and payment-state discipline",
   "frontend-settings-builder": "build settings surfaces with grouping, persistence, and destructive-state discipline",
@@ -462,6 +464,7 @@ Examples:
   npx @matsumiko/runbook skill install frontend-notification-builder
   npx @matsumiko/runbook skill install frontend-upload-builder
   npx @matsumiko/runbook skill install frontend-modal-builder
+  npx @matsumiko/runbook skill install frontend-tabs-builder
   npx @matsumiko/runbook skill install frontend-marketing-builder
   npx @matsumiko/runbook skill install frontend-checkout-builder
   npx @matsumiko/runbook skill install frontend-settings-builder
