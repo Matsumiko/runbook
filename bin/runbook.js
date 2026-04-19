@@ -38,6 +38,7 @@ const skillDirectories = {
   "frontend-figma-to-theme": ".agents/skills/frontend-figma-to-theme",
   "frontend-component-builder": ".agents/skills/frontend-component-builder",
   "frontend-dashboard-builder": ".agents/skills/frontend-dashboard-builder",
+  "frontend-page-builder": ".agents/skills/frontend-page-builder",
   "frontend-polish-pass": ".agents/skills/frontend-polish-pass",
   "frontend-form-builder": ".agents/skills/frontend-form-builder",
   "frontend-table-builder": ".agents/skills/frontend-table-builder",
@@ -48,6 +49,7 @@ const skillSummaries = {
   "frontend-figma-to-theme": "turn Figma design context into theme tokens and frontend DNA",
   "frontend-component-builder": "build components that follow the existing stack, theme, and UI DNA",
   "frontend-dashboard-builder": "build dashboard and analytics surfaces with hierarchy and state discipline",
+  "frontend-page-builder": "build full pages with route-level hierarchy, flow, and state discipline",
   "frontend-polish-pass": "refine existing frontend surfaces without redesigning the product",
   "frontend-form-builder": "build forms with validation, states, and submit lifecycle discipline",
   "frontend-table-builder": "build data tables with density, states, and action discipline",
@@ -429,6 +431,7 @@ Examples:
   npx @matsumiko/runbook skill install frontend-figma-to-theme
   npx @matsumiko/runbook skill install frontend-component-builder
   npx @matsumiko/runbook skill install frontend-dashboard-builder
+  npx @matsumiko/runbook skill install frontend-page-builder
   npx @matsumiko/runbook skill install frontend-polish-pass
   npx @matsumiko/runbook skill install frontend-form-builder
   npx @matsumiko/runbook skill install frontend-table-builder

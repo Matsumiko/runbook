@@ -9,7 +9,7 @@
 <br/>
 
 <img
-  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Durable+project+memory+for+AI+coding+agents.;Now+with+bundled+Codex+skills+for+frontend+foundations%2C+theme+translation%2C+components%2C+dashboards%2C+forms%2C+tables%2C+and+final+polish."
+  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Durable+project+memory+for+AI+coding+agents.;Now+with+bundled+Codex+skills+for+frontend+foundations%2C+theme+translation%2C+components%2C+pages%2C+dashboards%2C+forms%2C+tables%2C+and+final+polish."
   alt="RunBook typing banner"
 />
 
@@ -85,7 +85,7 @@ File yang sudah ada akan di-skip secara default. Gunakan `--force` hanya jika me
 
 ## Install Skill Codex Bawaan
 
-RunBook sekarang menyertakan skill Codex repo-scoped untuk memilih fondasi frontend, menerjemahkan konteks Figma menjadi theme tokens, membangun komponen dan dashboard, mengerjakan form dan data table, dan melakukan refinement akhir sebelum ship.
+RunBook sekarang menyertakan skill Codex repo-scoped untuk memilih fondasi frontend, menerjemahkan konteks Figma menjadi theme tokens, membangun komponen, page, dan dashboard, mengerjakan form dan data table, dan melakukan refinement akhir sebelum ship.
 
 Install skill ke proyek aktif:
 
@@ -94,6 +94,7 @@ npx @matsumiko/runbook skill install frontend-foundation-builder
 npx @matsumiko/runbook skill install frontend-figma-to-theme
 npx @matsumiko/runbook skill install frontend-component-builder
 npx @matsumiko/runbook skill install frontend-dashboard-builder
+npx @matsumiko/runbook skill install frontend-page-builder
 npx @matsumiko/runbook skill install frontend-polish-pass
 npx @matsumiko/runbook skill install frontend-form-builder
 npx @matsumiko/runbook skill install frontend-table-builder
@@ -106,6 +107,7 @@ npx @matsumiko/runbook skill install frontend-foundation-builder ./my-app
 npx @matsumiko/runbook skill install frontend-figma-to-theme ./my-app
 npx @matsumiko/runbook skill install frontend-component-builder ./my-app
 npx @matsumiko/runbook skill install frontend-dashboard-builder ./my-app
+npx @matsumiko/runbook skill install frontend-page-builder ./my-app
 npx @matsumiko/runbook skill install frontend-polish-pass ./my-app
 npx @matsumiko/runbook skill install frontend-form-builder ./my-app
 npx @matsumiko/runbook skill install frontend-table-builder ./my-app
@@ -155,6 +157,7 @@ RunBook/
 | `frontend-foundation-builder` | Saat memulai frontend baru dari nol atau membuat surface frontend baru yang benar-benar greenfield | Memilih Chakra UI atau Tamagui, lalu menyiapkan provider, theme seed, starter surface, dan catatan keputusan stack |
 | `frontend-figma-to-theme` | Saat sudah ada Figma, Dev Mode details, variable export, style guide, atau screenshot yang perlu diterjemahkan ke implementasi frontend | Mengubah konteks desain menjadi tokens, theme config, dan update `FRONTEND-DNA.md` |
 | `frontend-component-builder` | Saat stack dan arah visual sudah ada, lalu komponen atau section perlu diimplementasikan dengan disiplin sistem | Membangun komponen, variants, states, dan proof surface yang mengikuti stack, theme, dan `FRONTEND-DNA.md` |
+| `frontend-page-builder` | Saat surface utama berupa halaman penuh seperti landing page, settings page, detail page, auth page, atau route-level surface lain | Membangun halaman dengan contract yang jelas, section order yang rapi, route-level hierarchy, dan page states yang jujur |
 | `frontend-dashboard-builder` | Saat surface utama berupa dashboard, analytics overview, admin home, atau multi-panel summary page | Membangun dashboard dengan contract yang jelas, hierarchy yang kuat, panel system yang konsisten, dan state coverage yang jujur |
 | `frontend-polish-pass` | Saat UI utama sudah ada dan butuh refinement akhir sebelum ship | Merapikan hierarchy, spacing, consistency, responsive behavior, dan state coverage tanpa redesign liar |
 | `frontend-form-builder` | Saat surface utama berupa form, wizard, settings form, checkout form, atau input-heavy UI lain | Membangun form dengan contract yang jelas, validation, field states, submit lifecycle, dan feedback yang rapi |
@@ -174,11 +177,12 @@ RunBook/
 1. Gunakan `frontend-foundation-builder` jika stack frontend belum dipilih.
 2. Gunakan `frontend-figma-to-theme` setelah stack dipilih atau saat repo sudah punya stack aktif.
 3. Gunakan `frontend-component-builder` saat mulai membangun komponen atau section di atas fondasi itu.
-4. Gunakan `frontend-dashboard-builder` saat permukaan utamanya berupa dashboard atau analytics overview dengan banyak panel.
-5. Gunakan `frontend-form-builder` saat permukaan utamanya berupa form atau flow input.
-6. Gunakan `frontend-table-builder` saat permukaan utamanya berupa data table atau grid.
-7. Gunakan `frontend-polish-pass` sebagai refinement pass menjelang ship.
-8. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
+4. Gunakan `frontend-page-builder` saat permukaan utamanya berupa halaman penuh non-dashboard dengan beberapa section.
+5. Gunakan `frontend-dashboard-builder` saat permukaan utamanya berupa dashboard atau analytics overview dengan banyak panel.
+6. Gunakan `frontend-form-builder` saat permukaan utamanya berupa form atau flow input.
+7. Gunakan `frontend-table-builder` saat permukaan utamanya berupa data table atau grid.
+8. Gunakan `frontend-polish-pass` sebagai refinement pass menjelang ship.
+9. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
 
 ---
 
@@ -291,6 +295,7 @@ Ia cocok untuk proyek yang lebih mementingkan konsistensi, auditability, dan kea
 |       `-- frontend-foundation-builder/
 |       `-- frontend-figma-to-theme/
 |       `-- frontend-component-builder/
+|       `-- frontend-page-builder/
 |       `-- frontend-dashboard-builder/
 |       `-- frontend-polish-pass/
 |       `-- frontend-form-builder/

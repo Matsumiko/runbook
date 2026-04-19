@@ -1,0 +1,4 @@
+interface:
+  display_name: "Page Builder"
+  short_description: "Build full page surfaces on existing UI foundations"
+  default_prompt: "Use $frontend-page-builder to build full frontend pages that follow the existing stack, tokens, and product UI DNA."
