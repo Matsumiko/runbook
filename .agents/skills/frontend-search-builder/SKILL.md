@@ -1,6 +1,6 @@
 ---
 name: frontend-search-builder
-description: Build or refine frontend search pages, discovery surfaces, filtered result views, and query-driven browse experiences on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement search bars, query chips, filter panels, sort controls, result summaries, recent searches, no-match states, or refinement flows while preserving the current component family and handling query clarity, result feedback, and responsive composition correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is just one isolated filter form, use `frontend-form-builder` first. If the task is mostly a data table or grid with light filtering, use `frontend-table-builder` first. If the task is a generic route-level page rather than a search or discovery experience, use `frontend-page-builder` first.
+description: Build or refine frontend search pages, discovery surfaces, filtered result views, and query-driven browse experiences on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement search bars, query chips, filter panels, sort controls, result summaries, recent searches, no-match states, or refinement flows while preserving the current component family and handling query clarity, result feedback, and responsive composition correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the main task is specifically a no-results, empty-index, or recovery-first search state rather than the search surface as a whole, use `frontend-empty-state-builder` first. If the task is just one isolated filter form, use `frontend-form-builder` first. If the task is mostly a data table or grid with light filtering, use `frontend-table-builder` first. If the task is a generic route-level page rather than a search or discovery experience, use `frontend-page-builder` first.
 ---
 
 # Frontend Search Builder
@@ -94,6 +94,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 
 - the main task is stack selection
 - the theme still needs to be derived from design references
+- the main task is specifically a no-results, empty-index, or recovery-first search state rather than the search surface as a whole
 - the task is just one isolated filter form
 - the task is mostly a data table or grid with only light filtering
 - the task is a generic route-level page rather than a search or discovery experience

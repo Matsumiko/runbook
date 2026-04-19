@@ -1,6 +1,6 @@
 ---
 name: frontend-table-builder
-description: Build or refine frontend tables, data grids, list views, and dense data-display surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement admin tables, dashboard lists, activity logs, invoices, user directories, or other row-and-column surfaces while handling density, sorting, filtering affordances, row states, empty states, loading states, and responsive degradation correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is specifically a search or discovery surface where query and refinement UX matter most, use `frontend-search-builder` first. If the task is mostly general component work rather than data-display surfaces, use `frontend-component-builder`.
+description: Build or refine frontend tables, data grids, list views, and dense data-display surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement admin tables, dashboard lists, activity logs, invoices, user directories, or other row-and-column surfaces while handling density, sorting, filtering affordances, row states, empty states, loading states, and responsive degradation correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is specifically a search or discovery surface where query and refinement UX matter most, use `frontend-search-builder` first. If the main task is specifically an empty table, zero-row replacement, or recovery-first no-data surface, use `frontend-empty-state-builder` first. If the task is mostly general component work rather than data-display surfaces, use `frontend-component-builder`.
 ---
 
 # Frontend Table Builder
@@ -93,6 +93,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is stack selection
 - the theme still needs to be derived from design references
 - the task is specifically a search or discovery surface where query and refinement UX matter most
+- the main task is specifically an empty table, zero-row replacement, or recovery-first no-data surface
 - the task is mostly a generic non-data component
 - the work is purely a tiny copy or spacing tweak on an existing table
 

@@ -43,6 +43,7 @@ const skillDirectories = {
   "frontend-auth-builder": ".agents/skills/frontend-auth-builder",
   "frontend-onboarding-builder": ".agents/skills/frontend-onboarding-builder",
   "frontend-search-builder": ".agents/skills/frontend-search-builder",
+  "frontend-empty-state-builder": ".agents/skills/frontend-empty-state-builder",
   "frontend-marketing-builder": ".agents/skills/frontend-marketing-builder",
   "frontend-checkout-builder": ".agents/skills/frontend-checkout-builder",
   "frontend-settings-builder": ".agents/skills/frontend-settings-builder",
@@ -61,6 +62,7 @@ const skillSummaries = {
   "frontend-auth-builder": "build auth flows with trust, recovery, and access-state discipline",
   "frontend-onboarding-builder": "build first-run onboarding flows with activation and progression discipline",
   "frontend-search-builder": "build search and discovery flows with query, refinement, and result-state discipline",
+  "frontend-empty-state-builder": "build empty and recovery states with clear next-action discipline",
   "frontend-marketing-builder": "build marketing pages with narrative, CTA, and proof discipline",
   "frontend-checkout-builder": "build checkout flows with totals, trust, and payment-state discipline",
   "frontend-settings-builder": "build settings surfaces with grouping, persistence, and destructive-state discipline",
@@ -450,6 +452,7 @@ Examples:
   npx @matsumiko/runbook skill install frontend-auth-builder
   npx @matsumiko/runbook skill install frontend-onboarding-builder
   npx @matsumiko/runbook skill install frontend-search-builder
+  npx @matsumiko/runbook skill install frontend-empty-state-builder
   npx @matsumiko/runbook skill install frontend-marketing-builder
   npx @matsumiko/runbook skill install frontend-checkout-builder
   npx @matsumiko/runbook skill install frontend-settings-builder

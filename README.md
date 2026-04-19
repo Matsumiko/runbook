@@ -9,7 +9,7 @@
 <br/>
 
 <img
-  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Durable+project+memory+for+AI+coding+agents.;Now+with+bundled+Codex+skills+for+frontend+foundations%2C+theme+translation%2C+components%2C+detail+pages%2C+pages%2C+dashboards%2C+auth%2C+onboarding%2C+search%2C+marketing%2C+checkout%2C+settings%2C+forms%2C+tables%2C+and+final+polish."
+  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Durable+project+memory+for+AI+coding+agents.;Now+with+bundled+Codex+skills+for+frontend+foundations%2C+theme+translation%2C+components%2C+detail+pages%2C+pages%2C+dashboards%2C+auth%2C+onboarding%2C+search%2C+empty+states%2C+marketing%2C+checkout%2C+settings%2C+forms%2C+tables%2C+and+final+polish."
   alt="RunBook typing banner"
 />
 
@@ -85,7 +85,7 @@ File yang sudah ada akan di-skip secara default. Gunakan `--force` hanya jika me
 
 ## Install Skill Codex Bawaan
 
-RunBook sekarang menyertakan skill Codex repo-scoped untuk memilih fondasi frontend, menerjemahkan konteks Figma menjadi theme tokens, membangun komponen, detail page, generic page, dashboard, auth flow, onboarding flow, search/discovery flow, marketing page, checkout flow, dan settings surface, mengerjakan form dan data table, dan melakukan refinement akhir sebelum ship.
+RunBook sekarang menyertakan skill Codex repo-scoped untuk memilih fondasi frontend, menerjemahkan konteks Figma menjadi theme tokens, membangun komponen, detail page, generic page, dashboard, auth flow, onboarding flow, search/discovery flow, empty/recovery state, marketing page, checkout flow, dan settings surface, mengerjakan form dan data table, dan melakukan refinement akhir sebelum ship.
 
 Install skill ke proyek aktif:
 
@@ -99,6 +99,7 @@ npx @matsumiko/runbook skill install frontend-dashboard-builder
 npx @matsumiko/runbook skill install frontend-auth-builder
 npx @matsumiko/runbook skill install frontend-onboarding-builder
 npx @matsumiko/runbook skill install frontend-search-builder
+npx @matsumiko/runbook skill install frontend-empty-state-builder
 npx @matsumiko/runbook skill install frontend-marketing-builder
 npx @matsumiko/runbook skill install frontend-checkout-builder
 npx @matsumiko/runbook skill install frontend-settings-builder
@@ -119,6 +120,7 @@ npx @matsumiko/runbook skill install frontend-dashboard-builder ./my-app
 npx @matsumiko/runbook skill install frontend-auth-builder ./my-app
 npx @matsumiko/runbook skill install frontend-onboarding-builder ./my-app
 npx @matsumiko/runbook skill install frontend-search-builder ./my-app
+npx @matsumiko/runbook skill install frontend-empty-state-builder ./my-app
 npx @matsumiko/runbook skill install frontend-marketing-builder ./my-app
 npx @matsumiko/runbook skill install frontend-checkout-builder ./my-app
 npx @matsumiko/runbook skill install frontend-settings-builder ./my-app
@@ -177,6 +179,7 @@ RunBook/
 | `frontend-auth-builder` | Saat surface utama berupa login, register, password reset, email verification, MFA, invite acceptance, atau access-denied flow | Membangun auth flow dengan contract yang jelas, trust signals, privacy-safe feedback, dan recovery states yang rapi |
 | `frontend-onboarding-builder` | Saat surface utama berupa welcome flow, setup wizard, first-workspace setup, first-project activation, import setup, atau guided empty-state journey | Membangun onboarding flow dengan contract yang jelas, step progression yang rapi, activation target yang kuat, dan skip/resume/completion states yang jujur |
 | `frontend-search-builder` | Saat surface utama berupa search page, discovery flow, filtered directory, catalog browse, atau result surface dengan query/refinement behavior yang penting | Membangun search surface dengan contract yang jelas, query/refinement model yang rapi, result summary yang jujur, dan no-match/reset states yang kuat |
+| `frontend-empty-state-builder` | Saat surface utama berupa no-data state, no-results state, blocked state, empty dashboard/table/search shell, atau recovery-first zero-state surface | Membangun empty-state surface dengan contract yang jelas, explanation yang jujur, recovery CTA yang kuat, dan distinction antara no-data/no-results/blocked yang rapi |
 | `frontend-marketing-builder` | Saat surface utama berupa landing page, pricing page, feature page, campaign page, atau conversion-focused public page | Membangun marketing page dengan contract yang jelas, narrative flow, CTA hierarchy, proof/pricing sections, dan conversion states yang jujur |
 | `frontend-checkout-builder` | Saat surface utama berupa checkout, billing step, order review, payment-method selection, atau purchase completion flow | Membangun checkout flow dengan contract yang jelas, totals clarity, trust cues, payment-state handling, dan recovery states yang rapi |
 | `frontend-settings-builder` | Saat surface utama berupa account settings, team settings, preferences, security settings, billing preferences, atau configuration surfaces lain | Membangun settings surface dengan contract yang jelas, grouping yang rapi, persistence behavior, permission cues, dan destructive-state safety |
@@ -205,12 +208,13 @@ RunBook/
 8. Gunakan `frontend-auth-builder` saat permukaan utamanya berupa auth entry, account recovery, verification, atau access state.
 9. Gunakan `frontend-onboarding-builder` saat permukaan utamanya berupa first-run setup, activation flow, atau guided empty-state journey setelah user punya akses.
 10. Gunakan `frontend-search-builder` saat permukaan utamanya berupa search, discovery, filtered browsing, atau result exploration surface.
-11. Gunakan `frontend-checkout-builder` saat permukaan utamanya berupa checkout, order review, billing step, atau purchase completion flow.
-12. Gunakan `frontend-settings-builder` saat permukaan utamanya berupa settings, preferences, atau configuration surface.
-13. Gunakan `frontend-form-builder` saat permukaan utamanya berupa form atau flow input non-auth non-checkout non-settings.
-14. Gunakan `frontend-table-builder` saat permukaan utamanya berupa data table atau grid.
-15. Gunakan `frontend-polish-pass` sebagai refinement pass menjelang ship.
-16. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
+11. Gunakan `frontend-empty-state-builder` saat permukaan utamanya berupa zero-data, no-results, blocked, atau recovery-first state.
+12. Gunakan `frontend-checkout-builder` saat permukaan utamanya berupa checkout, order review, billing step, atau purchase completion flow.
+13. Gunakan `frontend-settings-builder` saat permukaan utamanya berupa settings, preferences, atau configuration surface.
+14. Gunakan `frontend-form-builder` saat permukaan utamanya berupa form atau flow input non-auth non-checkout non-settings.
+15. Gunakan `frontend-table-builder` saat permukaan utamanya berupa data table atau grid.
+16. Gunakan `frontend-polish-pass` sebagai refinement pass menjelang ship.
+17. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
 
 ---
 
@@ -329,6 +333,7 @@ Ia cocok untuk proyek yang lebih mementingkan konsistensi, auditability, dan kea
 |       `-- frontend-auth-builder/
 |       `-- frontend-onboarding-builder/
 |       `-- frontend-search-builder/
+|       `-- frontend-empty-state-builder/
 |       `-- frontend-marketing-builder/
 |       `-- frontend-checkout-builder/
 |       `-- frontend-settings-builder/

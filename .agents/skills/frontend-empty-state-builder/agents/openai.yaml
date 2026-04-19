@@ -1,0 +1,4 @@
+interface:
+  display_name: "Empty State Builder"
+  short_description: "Build empty and recovery states on existing UI foundations"
+  default_prompt: "Use $frontend-empty-state-builder to build empty, no-data, and recovery states that follow the existing stack, tokens, and product UI DNA."
