@@ -35,10 +35,12 @@ const variantFiles = {
 
 const skillDirectories = {
   "frontend-foundation-builder": ".agents/skills/frontend-foundation-builder",
+  "frontend-figma-to-theme": ".agents/skills/frontend-figma-to-theme",
 };
 
 const skillSummaries = {
   "frontend-foundation-builder": "choose Chakra UI or Tamagui for greenfield frontend work",
+  "frontend-figma-to-theme": "turn Figma design context into theme tokens and frontend DNA",
 };
 
 const validAgents = Object.keys(variantFiles);
@@ -414,6 +416,7 @@ Examples:
   npx @matsumiko/runbook init ./my-app --agent cursor,copilot
   npx @matsumiko/runbook skill list
   npx @matsumiko/runbook skill install frontend-foundation-builder
+  npx @matsumiko/runbook skill install frontend-figma-to-theme
   npx @matsumiko/runbook skill install frontend-foundation-builder ./my-app --dry-run
 
 Default behavior:

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Figma to Theme"
+  short_description: "Turn Figma design context into theme tokens"
+  default_prompt: "Use $frontend-figma-to-theme to translate Figma design context into frontend tokens, theme config, and FRONTEND-DNA updates."
+policy:
+  allow_implicit_invocation: true

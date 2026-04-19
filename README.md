@@ -85,18 +85,20 @@ File yang sudah ada akan di-skip secara default. Gunakan `--force` hanya jika me
 
 ## Install Skill Codex Bawaan
 
-RunBook sekarang menyertakan skill Codex repo-scoped untuk bootstrap frontend dari nol.
+RunBook sekarang menyertakan skill Codex repo-scoped untuk bootstrap frontend dari nol dan untuk menerjemahkan konteks Figma menjadi tokens serta theme config.
 
 Install skill ke proyek aktif:
 
 ```bash
 npx @matsumiko/runbook skill install frontend-foundation-builder
+npx @matsumiko/runbook skill install frontend-figma-to-theme
 ```
 
 Install ke direktori tertentu:
 
 ```bash
 npx @matsumiko/runbook skill install frontend-foundation-builder ./my-app
+npx @matsumiko/runbook skill install frontend-figma-to-theme ./my-app
 ```
 
 Skill ini akan disalin ke:
@@ -141,6 +143,7 @@ RunBook/
 | Skill | Kapan Dipakai | Hasil Utama |
 | --- | --- | --- |
 | `frontend-foundation-builder` | Saat memulai frontend baru dari nol atau membuat surface frontend baru yang benar-benar greenfield | Memilih Chakra UI atau Tamagui, lalu menyiapkan provider, theme seed, starter surface, dan catatan keputusan stack |
+| `frontend-figma-to-theme` | Saat sudah ada Figma, Dev Mode details, variable export, style guide, atau screenshot yang perlu diterjemahkan ke implementasi frontend | Mengubah konteks desain menjadi tokens, theme config, dan update `FRONTEND-DNA.md` |
 
 ### Logika Pemilihan Stack
 
@@ -150,6 +153,12 @@ RunBook/
 | Shared UI untuk web dan React Native atau Expo | Tamagui |
 | User sudah memilih stack tertentu | Ikuti pilihan user |
 | Repo sudah punya design system matang | Pertahankan stack yang ada |
+
+### Urutan Pakai yang Direkomendasikan
+
+1. Gunakan `frontend-foundation-builder` jika stack frontend belum dipilih.
+2. Gunakan `frontend-figma-to-theme` setelah stack dipilih atau saat repo sudah punya stack aktif.
+3. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
 
 ---
 
@@ -260,6 +269,7 @@ Ia cocok untuk proyek yang lebih mementingkan konsistensi, auditability, dan kea
 |-- .agents/
 |   `-- skills/
 |       `-- frontend-foundation-builder/
+|       `-- frontend-figma-to-theme/
 |-- bin/
 |   `-- runbook.js
 |-- templates/
