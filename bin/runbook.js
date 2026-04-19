@@ -41,6 +41,7 @@ const skillDirectories = {
   "frontend-dashboard-builder": ".agents/skills/frontend-dashboard-builder",
   "frontend-auth-builder": ".agents/skills/frontend-auth-builder",
   "frontend-marketing-builder": ".agents/skills/frontend-marketing-builder",
+  "frontend-checkout-builder": ".agents/skills/frontend-checkout-builder",
   "frontend-polish-pass": ".agents/skills/frontend-polish-pass",
   "frontend-form-builder": ".agents/skills/frontend-form-builder",
   "frontend-table-builder": ".agents/skills/frontend-table-builder",
@@ -54,6 +55,7 @@ const skillSummaries = {
   "frontend-dashboard-builder": "build dashboard and analytics surfaces with hierarchy and state discipline",
   "frontend-auth-builder": "build auth flows with trust, recovery, and access-state discipline",
   "frontend-marketing-builder": "build marketing pages with narrative, CTA, and proof discipline",
+  "frontend-checkout-builder": "build checkout flows with totals, trust, and payment-state discipline",
   "frontend-polish-pass": "refine existing frontend surfaces without redesigning the product",
   "frontend-form-builder": "build forms with validation, states, and submit lifecycle discipline",
   "frontend-table-builder": "build data tables with density, states, and action discipline",
@@ -438,6 +440,7 @@ Examples:
   npx @matsumiko/runbook skill install frontend-dashboard-builder
   npx @matsumiko/runbook skill install frontend-auth-builder
   npx @matsumiko/runbook skill install frontend-marketing-builder
+  npx @matsumiko/runbook skill install frontend-checkout-builder
   npx @matsumiko/runbook skill install frontend-polish-pass
   npx @matsumiko/runbook skill install frontend-form-builder
   npx @matsumiko/runbook skill install frontend-table-builder

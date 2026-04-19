@@ -1,6 +1,6 @@
 ---
 name: frontend-form-builder
-description: Build or refine frontend forms on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement a settings form, checkout form, profile editor, search or filter form, wizard step, or other input-heavy surface while preserving the current component family and handling validation, field states, submission, and accessibility correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is mostly general component work rather than form behavior, use `frontend-component-builder`. If the task is specifically auth entry, account recovery, or identity verification, use `frontend-auth-builder` first.
+description: Build or refine frontend forms on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement a settings form, profile editor, search or filter form, wizard step, or other input-heavy surface while preserving the current component family and handling validation, field states, submission, and accessibility correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is mostly general component work rather than form behavior, use `frontend-component-builder`. If the task is specifically auth entry, account recovery, or identity verification, use `frontend-auth-builder` first. If the task is specifically checkout or billing-step UX, use `frontend-checkout-builder` first.
 ---
 
 # Frontend Form Builder
@@ -92,6 +92,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is stack selection
 - the theme still needs to be derived from design references
 - the task is specifically an auth entry or account recovery flow
+- the task is specifically a checkout or billing-step flow
 - the task is mostly a generic non-form component
 - the work is purely a tiny copy or spacing tweak on an existing form
 

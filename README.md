@@ -9,7 +9,7 @@
 <br/>
 
 <img
-  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Durable+project+memory+for+AI+coding+agents.;Now+with+bundled+Codex+skills+for+frontend+foundations%2C+theme+translation%2C+components%2C+pages%2C+dashboards%2C+auth%2C+marketing%2C+forms%2C+tables%2C+and+final+polish."
+  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Durable+project+memory+for+AI+coding+agents.;Now+with+bundled+Codex+skills+for+frontend+foundations%2C+theme+translation%2C+components%2C+pages%2C+dashboards%2C+auth%2C+marketing%2C+checkout%2C+forms%2C+tables%2C+and+final+polish."
   alt="RunBook typing banner"
 />
 
@@ -85,7 +85,7 @@ File yang sudah ada akan di-skip secara default. Gunakan `--force` hanya jika me
 
 ## Install Skill Codex Bawaan
 
-RunBook sekarang menyertakan skill Codex repo-scoped untuk memilih fondasi frontend, menerjemahkan konteks Figma menjadi theme tokens, membangun komponen, page, dashboard, auth flow, dan marketing page, mengerjakan form dan data table, dan melakukan refinement akhir sebelum ship.
+RunBook sekarang menyertakan skill Codex repo-scoped untuk memilih fondasi frontend, menerjemahkan konteks Figma menjadi theme tokens, membangun komponen, page, dashboard, auth flow, marketing page, dan checkout flow, mengerjakan form dan data table, dan melakukan refinement akhir sebelum ship.
 
 Install skill ke proyek aktif:
 
@@ -97,6 +97,7 @@ npx @matsumiko/runbook skill install frontend-page-builder
 npx @matsumiko/runbook skill install frontend-dashboard-builder
 npx @matsumiko/runbook skill install frontend-auth-builder
 npx @matsumiko/runbook skill install frontend-marketing-builder
+npx @matsumiko/runbook skill install frontend-checkout-builder
 npx @matsumiko/runbook skill install frontend-polish-pass
 npx @matsumiko/runbook skill install frontend-form-builder
 npx @matsumiko/runbook skill install frontend-table-builder
@@ -112,6 +113,7 @@ npx @matsumiko/runbook skill install frontend-page-builder ./my-app
 npx @matsumiko/runbook skill install frontend-dashboard-builder ./my-app
 npx @matsumiko/runbook skill install frontend-auth-builder ./my-app
 npx @matsumiko/runbook skill install frontend-marketing-builder ./my-app
+npx @matsumiko/runbook skill install frontend-checkout-builder ./my-app
 npx @matsumiko/runbook skill install frontend-polish-pass ./my-app
 npx @matsumiko/runbook skill install frontend-form-builder ./my-app
 npx @matsumiko/runbook skill install frontend-table-builder ./my-app
@@ -165,8 +167,9 @@ RunBook/
 | `frontend-dashboard-builder` | Saat surface utama berupa dashboard, analytics overview, admin home, atau multi-panel summary page | Membangun dashboard dengan contract yang jelas, hierarchy yang kuat, panel system yang konsisten, dan state coverage yang jujur |
 | `frontend-auth-builder` | Saat surface utama berupa login, register, password reset, email verification, MFA, invite acceptance, atau access-denied flow | Membangun auth flow dengan contract yang jelas, trust signals, privacy-safe feedback, dan recovery states yang rapi |
 | `frontend-marketing-builder` | Saat surface utama berupa landing page, pricing page, feature page, campaign page, atau conversion-focused public page | Membangun marketing page dengan contract yang jelas, narrative flow, CTA hierarchy, proof/pricing sections, dan conversion states yang jujur |
+| `frontend-checkout-builder` | Saat surface utama berupa checkout, billing step, order review, payment-method selection, atau purchase completion flow | Membangun checkout flow dengan contract yang jelas, totals clarity, trust cues, payment-state handling, dan recovery states yang rapi |
 | `frontend-polish-pass` | Saat UI utama sudah ada dan butuh refinement akhir sebelum ship | Merapikan hierarchy, spacing, consistency, responsive behavior, dan state coverage tanpa redesign liar |
-| `frontend-form-builder` | Saat surface utama berupa form, wizard, settings form, checkout form, atau input-heavy UI lain | Membangun form dengan contract yang jelas, validation, field states, submit lifecycle, dan feedback yang rapi |
+| `frontend-form-builder` | Saat surface utama berupa form, wizard, settings form, profile editor, atau input-heavy UI non-auth non-checkout lain | Membangun form dengan contract yang jelas, validation, field states, submit lifecycle, dan feedback yang rapi |
 | `frontend-table-builder` | Saat surface utama berupa tabel, data grid, activity list, admin list, atau dense data display lain | Membangun tabel dengan contract yang jelas, density yang terkontrol, row actions, dan loading/empty/error states yang rapi |
 
 ### Logika Pemilihan Stack
@@ -187,10 +190,11 @@ RunBook/
 5. Gunakan `frontend-page-builder` saat permukaan utamanya berupa halaman produk non-dashboard dengan beberapa section.
 6. Gunakan `frontend-dashboard-builder` saat permukaan utamanya berupa dashboard atau analytics overview dengan banyak panel.
 7. Gunakan `frontend-auth-builder` saat permukaan utamanya berupa auth entry, account recovery, verification, atau access state.
-8. Gunakan `frontend-form-builder` saat permukaan utamanya berupa form atau flow input non-auth.
-9. Gunakan `frontend-table-builder` saat permukaan utamanya berupa data table atau grid.
-10. Gunakan `frontend-polish-pass` sebagai refinement pass menjelang ship.
-11. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
+8. Gunakan `frontend-checkout-builder` saat permukaan utamanya berupa checkout, order review, billing step, atau purchase completion flow.
+9. Gunakan `frontend-form-builder` saat permukaan utamanya berupa form atau flow input non-auth non-checkout.
+10. Gunakan `frontend-table-builder` saat permukaan utamanya berupa data table atau grid.
+11. Gunakan `frontend-polish-pass` sebagai refinement pass menjelang ship.
+12. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
 
 ---
 
@@ -307,6 +311,7 @@ Ia cocok untuk proyek yang lebih mementingkan konsistensi, auditability, dan kea
 |       `-- frontend-dashboard-builder/
 |       `-- frontend-auth-builder/
 |       `-- frontend-marketing-builder/
+|       `-- frontend-checkout-builder/
 |       `-- frontend-polish-pass/
 |       `-- frontend-form-builder/
 |       `-- frontend-table-builder/
