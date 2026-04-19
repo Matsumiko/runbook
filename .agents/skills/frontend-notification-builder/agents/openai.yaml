@@ -1,0 +1,4 @@
+interface:
+  display_name: "Notification Builder"
+  short_description: "Build notification UI on existing foundations"
+  default_prompt: "Use $frontend-notification-builder to build notification UI that follows the existing stack, tokens, and product UI DNA."
