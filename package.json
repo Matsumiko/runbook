@@ -1,6 +1,6 @@
 {
   "name": "@matsumiko/runbook",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Operational instruction kit for AI coding agents.",
   "type": "commonjs",
   "homepage": "https://github.com/Matsumiko/runbook#readme",
@@ -15,6 +15,7 @@
     "runbook": "bin/runbook.js"
   },
   "files": [
+    ".agents/",
     "bin/",
     "templates/",
     "variants/",
@@ -30,13 +31,14 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node bin/runbook.js --help && node bin/runbook.js list && node bin/runbook.js init ./tmp-runbook-smoke --agent all --dry-run",
+    "test": "node bin/runbook.js --help && node bin/runbook.js list && node bin/runbook.js init ./tmp-runbook-smoke --agent all --dry-run && node bin/runbook.js skill list && node bin/runbook.js skill install frontend-foundation-builder ./tmp-skill-smoke --dry-run",
     "pack:dry-run": "npm pack --dry-run"
   },
   "keywords": [
     "ai",
     "agents",
     "runbook",
+    "skills",
     "codex",
     "claude",
     "cursor",

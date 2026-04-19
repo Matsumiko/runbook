@@ -33,7 +33,16 @@ const variantFiles = {
   aider: ["CONVENTIONS.md", ".aider.conf.yml"],
 };
 
+const skillDirectories = {
+  "frontend-foundation-builder": ".agents/skills/frontend-foundation-builder",
+};
+
+const skillSummaries = {
+  "frontend-foundation-builder": "choose Chakra UI or Tamagui for greenfield frontend work",
+};
+
 const validAgents = Object.keys(variantFiles);
+const validSkills = Object.keys(skillDirectories);
 
 function main(argv) {
   const args = parseArgs(argv);
@@ -44,11 +53,30 @@ function main(argv) {
   }
 
   if (args.command === "list") {
-    printAgents();
+    printAgentsAndSkills();
     return;
   }
 
-  if (!args.command || args.command === "init") {
+  if (args.command === "skill" || args.command === "skills") {
+    if (!args.subcommand || args.subcommand === "list") {
+      printSkills();
+      return;
+    }
+
+    if (args.subcommand === "install") {
+      installSkill(args);
+      return;
+    }
+
+    if (args.subcommand === "help") {
+      printHelp();
+      return;
+    }
+
+    fail(`Unknown skill command: ${args.subcommand}`);
+  }
+
+  if (args.command === "init") {
     init(args);
     return;
   }
@@ -59,8 +87,10 @@ function main(argv) {
 function parseArgs(argv) {
   const args = {
     command: undefined,
+    subcommand: undefined,
     target: ".",
     agent: "codex",
+    skillName: undefined,
     force: false,
     dryRun: false,
     help: false,
@@ -107,19 +137,35 @@ function parseArgs(argv) {
     positional.push(value);
   }
 
-  args.command = positional[0];
+  if (positional.length === 0) {
+    args.command = "init";
+    return args;
+  }
 
-  if (args.command && args.command !== "init" && args.command !== "list" && args.command !== "help") {
-    fail(`Unknown command: ${args.command}`);
+  const first = positional[0];
+
+  if (first === "help" || first === "list" || first === "init") {
+    args.command = first;
+  } else if (first === "skill" || first === "skills") {
+    args.command = first;
+    args.subcommand = positional[1] || "list";
+
+    if (args.subcommand === "install") {
+      args.skillName = positional[2];
+      args.target = positional[3] || ".";
+
+      if (!args.skillName) {
+        fail('Missing skill name. Usage: runbook skill install <name> [target]');
+      }
+    }
+  } else {
+    args.command = "init";
+    args.target = first;
+    return args;
   }
 
   if (args.command === "init" && positional[1]) {
     args.target = positional[1];
-  }
-
-  if (!args.command && positional[0]) {
-    args.command = "init";
-    args.target = positional[0];
   }
 
   return args;
@@ -154,10 +200,46 @@ function init(args) {
   });
 
   printSummary({
+    title: "RunBook",
+    mode: args.dryRun ? "Dry run" : "Installed",
     targetDir,
-    agents: agentSelection,
+    detailLines: [
+      `Agents: ${agentSelection.length > 0 ? agentSelection.join(", ") : "none"}`,
+      `Overwrite existing files: ${args.force ? "yes" : "no"}`,
+    ],
+    result,
+  });
+}
+
+function installSkill(args) {
+  const skillName = normalizeSkillName(args.skillName);
+  const targetDir = path.resolve(process.cwd(), args.target);
+  const sourceDir = path.join(packageRoot, skillDirectories[skillName]);
+  const destinationDir = path.join(targetDir, ".agents", "skills", skillName);
+
+  if (!fs.existsSync(sourceDir)) {
+    fail(`Bundled skill "${skillName}" is missing from this package.`);
+  }
+
+  const operations = collectDirectoryOperations(
+    sourceDir,
+    destinationDir,
+    path.posix.join(".agents", "skills", skillName),
+  );
+
+  const result = copyOperations(operations, {
     force: args.force,
     dryRun: args.dryRun,
+  });
+
+  printSummary({
+    title: `skill ${skillName}`,
+    mode: args.dryRun ? "Dry run" : "Installed",
+    targetDir: destinationDir,
+    detailLines: [
+      `Project root: ${targetDir}`,
+      `Overwrite existing files: ${args.force ? "yes" : "no"}`,
+    ],
     result,
   });
 }
@@ -183,6 +265,49 @@ function normalizeAgentSelection(value) {
   }
 
   return normalized;
+}
+
+function normalizeSkillName(value) {
+  const skillName = String(value || "").trim().toLowerCase();
+
+  if (!validSkills.includes(skillName)) {
+    fail(`Unknown skill "${value}". Run "runbook skill list" to see bundled skills.`);
+  }
+
+  return skillName;
+}
+
+function collectDirectoryOperations(sourceDir, destinationDir, labelRoot) {
+  const operations = [];
+
+  walk(sourceDir);
+  return operations;
+
+  function walk(currentDir) {
+    const entries = fs.readdirSync(currentDir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const sourcePath = path.join(currentDir, entry.name);
+      const relativePath = path.relative(sourceDir, sourcePath);
+
+      if (entry.isDirectory()) {
+        walk(sourcePath);
+        continue;
+      }
+
+      if (!entry.isFile()) {
+        continue;
+      }
+
+      const relativeLabel = relativePath.split(path.sep).join("/");
+
+      operations.push({
+        source: sourcePath,
+        destination: path.join(destinationDir, relativePath),
+        label: path.posix.join(labelRoot, relativeLabel),
+      });
+    }
+  }
 }
 
 function copyOperations(operations, options) {
@@ -216,16 +341,15 @@ function copyOperations(operations, options) {
   return result;
 }
 
-function printSummary({ targetDir, agents, force, dryRun, result }) {
-  const mode = dryRun ? "Dry run" : "Installed";
-  const agentLabel = agents.length > 0 ? agents.join(", ") : "none";
+function printSummary({ title, mode, targetDir, detailLines, result }) {
+  console.log(`${mode} ${title} into ${targetDir}`);
 
-  console.log(`${mode} RunBook into ${targetDir}`);
-  console.log(`Agents: ${agentLabel}`);
-  console.log(`Overwrite existing files: ${force ? "yes" : "no"}`);
+  for (const line of detailLines) {
+    console.log(line);
+  }
 
   if (result.copied.length > 0) {
-    console.log(`\nFiles ${dryRun ? "to copy" : "copied"}:`);
+    console.log(`\nFiles ${mode === "Dry run" ? "to copy" : "copied"}:`);
     for (const file of result.copied) {
       console.log(`  + ${file}`);
     }
@@ -248,6 +372,12 @@ function printSummary({ targetDir, agents, force, dryRun, result }) {
   }
 }
 
+function printAgentsAndSkills() {
+  printAgents();
+  console.log("");
+  printSkills();
+}
+
 function printAgents() {
   console.log("Supported agents:");
   for (const agent of validAgents) {
@@ -259,24 +389,38 @@ function printAgents() {
   console.log("  none     install only the core kit");
 }
 
+function printSkills() {
+  console.log("Bundled skills:");
+  for (const skillName of validSkills) {
+    console.log(`  ${skillName.padEnd(30)} ${skillSummaries[skillName]}`);
+  }
+  console.log("\nInstall with:");
+  console.log("  runbook skill install <name> [target]");
+}
+
 function printHelp() {
   console.log(`RunBook
 
 Usage:
   runbook init [target] [--agent <name|all|none>] [--force] [--dry-run]
   runbook list
+  runbook skill list
+  runbook skill install <name> [target] [--force] [--dry-run]
   runbook help
 
 Examples:
   npx @matsumiko/runbook init
   npx @matsumiko/runbook init --agent claude
   npx @matsumiko/runbook init ./my-app --agent cursor,copilot
-  npx @matsumiko/runbook init --agent all --dry-run
+  npx @matsumiko/runbook skill list
+  npx @matsumiko/runbook skill install frontend-foundation-builder
+  npx @matsumiko/runbook skill install frontend-foundation-builder ./my-app --dry-run
 
 Default behavior:
   - copies the canonical RunBook markdown files
   - uses Codex-compatible AGENTS.md by default
   - skips existing files unless --force is provided
+  - installs bundled Codex skills into .agents/skills/
 `);
 }
 

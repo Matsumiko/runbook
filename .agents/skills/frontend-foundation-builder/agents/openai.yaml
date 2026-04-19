@@ -1,0 +1,6 @@
+interface:
+  display_name: "Frontend Foundation"
+  short_description: "Bootstrap Chakra or Tamagui foundations"
+  default_prompt: "Use $frontend-foundation-builder to choose Chakra UI or Tamagui and scaffold a greenfield frontend foundation."
+policy:
+  allow_implicit_invocation: true
