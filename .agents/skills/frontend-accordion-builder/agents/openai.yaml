@@ -1,0 +1,4 @@
+interface:
+  display_name: "Accordion Builder"
+  short_description: "Build disclosure and accordion surfaces"
+  default_prompt: "Use frontend-accordion-builder to build accordions and disclosure stacks that follow the existing stack, theme, and product UI DNA."

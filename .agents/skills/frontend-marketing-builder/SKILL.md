@@ -1,6 +1,6 @@
 ---
 name: frontend-marketing-builder
-description: Build or refine frontend marketing pages, public landing pages, campaign pages, pricing pages, feature pages, and other narrative conversion surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement hero sections, benefit sections, social proof, pricing blocks, FAQs, CTA bands, comparison sections, or conversion-oriented page flows while preserving the current brand language and handling narrative hierarchy, trust cues, responsive composition, and conversion states correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is a generic product page rather than a public-facing conversion page, use `frontend-page-builder` first.
+description: Build or refine frontend marketing pages, public landing pages, campaign pages, pricing pages, feature pages, and other narrative conversion surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement hero sections, benefit sections, social proof, pricing blocks, FAQs, CTA bands, comparison sections, or conversion-oriented page flows while preserving the current brand language and handling narrative hierarchy, trust cues, responsive composition, and conversion states correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really an FAQ accordion or a generic product page rather than a public-facing conversion page, use the matching specialized skill first.
 ---
 
 # Frontend Marketing Builder
@@ -93,6 +93,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 
 - the main task is stack selection
 - the theme still needs to be derived from design references
+- the task is specifically an FAQ accordion or disclosure stack rather than the page as a whole
 - the task is a generic internal page, dashboard, or auth flow
 - the work is purely a tiny copy or spacing tweak on an existing marketing page
 

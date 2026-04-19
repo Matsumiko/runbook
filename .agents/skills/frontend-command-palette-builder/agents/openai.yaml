@@ -1,0 +1,4 @@
+interface:
+  display_name: "Command Palette Builder"
+  short_description: "Build command palette and spotlight flows"
+  default_prompt: "Use frontend-command-palette-builder to build command palettes and spotlight overlays that follow the existing stack, theme, and product UI DNA."

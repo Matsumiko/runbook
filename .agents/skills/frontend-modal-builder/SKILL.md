@@ -1,6 +1,6 @@
 ---
 name: frontend-modal-builder
-description: Build or refine frontend modals, dialogs, sheets, drawers, confirm dialogs, overlay forms, and interruptive action surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement a modal flow, confirmation dialog, destructive-action prompt, side sheet, slide-over panel, or focused overlay step while preserving the current component family and handling trigger context, focus, layering, dismissal, scroll locking, responsive behavior, and action clarity correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the main task is a broader page, auth flow, checkout, or detail page and the modal is only one sub-part, use the matching builder first unless the modal itself is the main job. If the work is only a tiny tweak on an existing modal, use the nearest skill first.
+description: Build or refine frontend modals, dialogs, sheets, drawers, confirm dialogs, overlay forms, and interruptive action surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement a modal flow, confirmation dialog, destructive-action prompt, side sheet, slide-over panel, or focused overlay step while preserving the current component family and handling trigger context, focus, layering, dismissal, scroll locking, responsive behavior, and action clarity correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really a command palette or a broader page, auth, checkout, or detail flow where the modal is only one part, use the matching specialized skill first. If the work is only a tiny tweak on an existing modal, use the nearest skill first.
 ---
 
 # Frontend Modal Builder
@@ -94,6 +94,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 
 - the main task is stack selection
 - the theme still needs to be derived from design references
+- the main task is specifically a command palette or spotlight launcher
 - the main task is a broader page, auth flow, checkout flow, or detail page and the modal is only one sub-part
 - the task is mostly a general component without overlay-specific behavior
 - the work is purely a tiny copy or spacing tweak on an existing modal

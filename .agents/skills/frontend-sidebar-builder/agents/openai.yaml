@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sidebar Builder"
+  short_description: "Build persistent sidebar navigation surfaces"
+  default_prompt: "Use frontend-sidebar-builder to build sidebar navigation that follows the existing stack, theme, and product UI DNA."
