@@ -37,12 +37,14 @@ const skillDirectories = {
   "frontend-foundation-builder": ".agents/skills/frontend-foundation-builder",
   "frontend-figma-to-theme": ".agents/skills/frontend-figma-to-theme",
   "frontend-component-builder": ".agents/skills/frontend-component-builder",
+  "frontend-polish-pass": ".agents/skills/frontend-polish-pass",
 };
 
 const skillSummaries = {
   "frontend-foundation-builder": "choose Chakra UI or Tamagui for greenfield frontend work",
   "frontend-figma-to-theme": "turn Figma design context into theme tokens and frontend DNA",
   "frontend-component-builder": "build components that follow the existing stack, theme, and UI DNA",
+  "frontend-polish-pass": "refine existing frontend surfaces without redesigning the product",
 };
 
 const validAgents = Object.keys(variantFiles);
@@ -420,6 +422,7 @@ Examples:
   npx @matsumiko/runbook skill install frontend-foundation-builder
   npx @matsumiko/runbook skill install frontend-figma-to-theme
   npx @matsumiko/runbook skill install frontend-component-builder
+  npx @matsumiko/runbook skill install frontend-polish-pass
   npx @matsumiko/runbook skill install frontend-foundation-builder ./my-app --dry-run
 
 Default behavior:

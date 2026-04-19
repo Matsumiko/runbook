@@ -1,0 +1,6 @@
+interface:
+  display_name: "Polish Pass"
+  short_description: "Refine UI before shipping"
+  default_prompt: "Use $frontend-polish-pass to refine an existing frontend surface for consistency, responsiveness, states, and ship-readiness without redesigning the product."
+policy:
+  allow_implicit_invocation: true
