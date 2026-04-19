@@ -1,0 +1,6 @@
+interface:
+  display_name: "Form Builder"
+  short_description: "Build robust forms on existing UI foundations"
+  default_prompt: "Use $frontend-form-builder to build frontend forms that follow the existing stack, tokens, validation rules, and product UI DNA."
+policy:
+  allow_implicit_invocation: true

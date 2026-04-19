@@ -1,6 +1,6 @@
 {
   "name": "@matsumiko/runbook",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Operational instruction kit for AI coding agents.",
   "type": "commonjs",
   "homepage": "https://github.com/Matsumiko/runbook#readme",
@@ -31,7 +31,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node bin/runbook.js --help && node bin/runbook.js list && node bin/runbook.js init ./tmp-runbook-smoke --agent all --dry-run && node bin/runbook.js skill list && node bin/runbook.js skill install frontend-foundation-builder ./tmp-skill-smoke --dry-run && node bin/runbook.js skill install frontend-figma-to-theme ./tmp-figma-skill-smoke --dry-run && node bin/runbook.js skill install frontend-component-builder ./tmp-component-skill-smoke --dry-run && node bin/runbook.js skill install frontend-polish-pass ./tmp-polish-skill-smoke --dry-run",
+    "test": "node bin/runbook.js --help && node bin/runbook.js list && node bin/runbook.js init ./tmp-runbook-smoke --agent all --dry-run && node bin/runbook.js skill list && node bin/runbook.js skill install frontend-foundation-builder ./tmp-skill-smoke --dry-run && node bin/runbook.js skill install frontend-figma-to-theme ./tmp-figma-skill-smoke --dry-run && node bin/runbook.js skill install frontend-component-builder ./tmp-component-skill-smoke --dry-run && node bin/runbook.js skill install frontend-polish-pass ./tmp-polish-skill-smoke --dry-run && node bin/runbook.js skill install frontend-form-builder ./tmp-form-skill-smoke --dry-run",
     "pack:dry-run": "npm pack --dry-run"
   },
   "keywords": [

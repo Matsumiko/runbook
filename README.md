@@ -9,7 +9,7 @@
 <br/>
 
 <img
-  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Durable+project+memory+for+AI+coding+agents.;Now+with+bundled+Codex+skills+for+frontend+foundations%2C+theme+translation%2C+component+work%2C+and+final+polish."
+  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Durable+project+memory+for+AI+coding+agents.;Now+with+bundled+Codex+skills+for+frontend+foundations%2C+theme+translation%2C+component+work%2C+forms%2C+and+final+polish."
   alt="RunBook typing banner"
 />
 
@@ -94,6 +94,7 @@ npx @matsumiko/runbook skill install frontend-foundation-builder
 npx @matsumiko/runbook skill install frontend-figma-to-theme
 npx @matsumiko/runbook skill install frontend-component-builder
 npx @matsumiko/runbook skill install frontend-polish-pass
+npx @matsumiko/runbook skill install frontend-form-builder
 ```
 
 Install ke direktori tertentu:
@@ -103,6 +104,7 @@ npx @matsumiko/runbook skill install frontend-foundation-builder ./my-app
 npx @matsumiko/runbook skill install frontend-figma-to-theme ./my-app
 npx @matsumiko/runbook skill install frontend-component-builder ./my-app
 npx @matsumiko/runbook skill install frontend-polish-pass ./my-app
+npx @matsumiko/runbook skill install frontend-form-builder ./my-app
 ```
 
 Skill ini akan disalin ke:
@@ -150,6 +152,7 @@ RunBook/
 | `frontend-figma-to-theme` | Saat sudah ada Figma, Dev Mode details, variable export, style guide, atau screenshot yang perlu diterjemahkan ke implementasi frontend | Mengubah konteks desain menjadi tokens, theme config, dan update `FRONTEND-DNA.md` |
 | `frontend-component-builder` | Saat stack dan arah visual sudah ada, lalu komponen atau section perlu diimplementasikan dengan disiplin sistem | Membangun komponen, variants, states, dan proof surface yang mengikuti stack, theme, dan `FRONTEND-DNA.md` |
 | `frontend-polish-pass` | Saat UI utama sudah ada dan butuh refinement akhir sebelum ship | Merapikan hierarchy, spacing, consistency, responsive behavior, dan state coverage tanpa redesign liar |
+| `frontend-form-builder` | Saat surface utama berupa form, wizard, settings form, checkout form, atau input-heavy UI lain | Membangun form dengan contract yang jelas, validation, field states, submit lifecycle, dan feedback yang rapi |
 
 ### Logika Pemilihan Stack
 
@@ -165,8 +168,9 @@ RunBook/
 1. Gunakan `frontend-foundation-builder` jika stack frontend belum dipilih.
 2. Gunakan `frontend-figma-to-theme` setelah stack dipilih atau saat repo sudah punya stack aktif.
 3. Gunakan `frontend-component-builder` saat mulai membangun komponen atau section di atas fondasi itu.
-4. Gunakan `frontend-polish-pass` sebagai refinement pass menjelang ship.
-5. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
+4. Gunakan `frontend-form-builder` saat permukaan utamanya berupa form atau flow input.
+5. Gunakan `frontend-polish-pass` sebagai refinement pass menjelang ship.
+6. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
 
 ---
 
@@ -280,6 +284,7 @@ Ia cocok untuk proyek yang lebih mementingkan konsistensi, auditability, dan kea
 |       `-- frontend-figma-to-theme/
 |       `-- frontend-component-builder/
 |       `-- frontend-polish-pass/
+|       `-- frontend-form-builder/
 |-- bin/
 |   `-- runbook.js
 |-- templates/
