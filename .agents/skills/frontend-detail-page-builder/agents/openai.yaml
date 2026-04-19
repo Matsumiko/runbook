@@ -1,0 +1,4 @@
+interface:
+  display_name: "Detail Page Builder"
+  short_description: "Build detail pages on existing UI foundations"
+  default_prompt: "Use $frontend-detail-page-builder to build detail pages that follow the existing stack, tokens, and product UI DNA."

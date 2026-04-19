@@ -37,6 +37,7 @@ const skillDirectories = {
   "frontend-foundation-builder": ".agents/skills/frontend-foundation-builder",
   "frontend-figma-to-theme": ".agents/skills/frontend-figma-to-theme",
   "frontend-component-builder": ".agents/skills/frontend-component-builder",
+  "frontend-detail-page-builder": ".agents/skills/frontend-detail-page-builder",
   "frontend-page-builder": ".agents/skills/frontend-page-builder",
   "frontend-dashboard-builder": ".agents/skills/frontend-dashboard-builder",
   "frontend-auth-builder": ".agents/skills/frontend-auth-builder",
@@ -52,6 +53,7 @@ const skillSummaries = {
   "frontend-foundation-builder": "choose Chakra UI or Tamagui for greenfield frontend work",
   "frontend-figma-to-theme": "turn Figma design context into theme tokens and frontend DNA",
   "frontend-component-builder": "build components that follow the existing stack, theme, and UI DNA",
+  "frontend-detail-page-builder": "build detail pages with summary, metadata, and related-section discipline",
   "frontend-page-builder": "build full pages with route-level hierarchy, flow, and state discipline",
   "frontend-dashboard-builder": "build dashboard and analytics surfaces with hierarchy and state discipline",
   "frontend-auth-builder": "build auth flows with trust, recovery, and access-state discipline",
@@ -438,6 +440,7 @@ Examples:
   npx @matsumiko/runbook skill install frontend-foundation-builder
   npx @matsumiko/runbook skill install frontend-figma-to-theme
   npx @matsumiko/runbook skill install frontend-component-builder
+  npx @matsumiko/runbook skill install frontend-detail-page-builder
   npx @matsumiko/runbook skill install frontend-page-builder
   npx @matsumiko/runbook skill install frontend-dashboard-builder
   npx @matsumiko/runbook skill install frontend-auth-builder

@@ -9,7 +9,7 @@
 <br/>
 
 <img
-  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Durable+project+memory+for+AI+coding+agents.;Now+with+bundled+Codex+skills+for+frontend+foundations%2C+theme+translation%2C+components%2C+pages%2C+dashboards%2C+auth%2C+marketing%2C+checkout%2C+settings%2C+forms%2C+tables%2C+and+final+polish."
+  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Durable+project+memory+for+AI+coding+agents.;Now+with+bundled+Codex+skills+for+frontend+foundations%2C+theme+translation%2C+components%2C+detail+pages%2C+pages%2C+dashboards%2C+auth%2C+marketing%2C+checkout%2C+settings%2C+forms%2C+tables%2C+and+final+polish."
   alt="RunBook typing banner"
 />
 
@@ -85,7 +85,7 @@ File yang sudah ada akan di-skip secara default. Gunakan `--force` hanya jika me
 
 ## Install Skill Codex Bawaan
 
-RunBook sekarang menyertakan skill Codex repo-scoped untuk memilih fondasi frontend, menerjemahkan konteks Figma menjadi theme tokens, membangun komponen, page, dashboard, auth flow, marketing page, checkout flow, dan settings surface, mengerjakan form dan data table, dan melakukan refinement akhir sebelum ship.
+RunBook sekarang menyertakan skill Codex repo-scoped untuk memilih fondasi frontend, menerjemahkan konteks Figma menjadi theme tokens, membangun komponen, detail page, generic page, dashboard, auth flow, marketing page, checkout flow, dan settings surface, mengerjakan form dan data table, dan melakukan refinement akhir sebelum ship.
 
 Install skill ke proyek aktif:
 
@@ -93,6 +93,7 @@ Install skill ke proyek aktif:
 npx @matsumiko/runbook skill install frontend-foundation-builder
 npx @matsumiko/runbook skill install frontend-figma-to-theme
 npx @matsumiko/runbook skill install frontend-component-builder
+npx @matsumiko/runbook skill install frontend-detail-page-builder
 npx @matsumiko/runbook skill install frontend-page-builder
 npx @matsumiko/runbook skill install frontend-dashboard-builder
 npx @matsumiko/runbook skill install frontend-auth-builder
@@ -110,6 +111,7 @@ Install ke direktori tertentu:
 npx @matsumiko/runbook skill install frontend-foundation-builder ./my-app
 npx @matsumiko/runbook skill install frontend-figma-to-theme ./my-app
 npx @matsumiko/runbook skill install frontend-component-builder ./my-app
+npx @matsumiko/runbook skill install frontend-detail-page-builder ./my-app
 npx @matsumiko/runbook skill install frontend-page-builder ./my-app
 npx @matsumiko/runbook skill install frontend-dashboard-builder ./my-app
 npx @matsumiko/runbook skill install frontend-auth-builder ./my-app
@@ -165,7 +167,8 @@ RunBook/
 | `frontend-foundation-builder` | Saat memulai frontend baru dari nol atau membuat surface frontend baru yang benar-benar greenfield | Memilih Chakra UI atau Tamagui, lalu menyiapkan provider, theme seed, starter surface, dan catatan keputusan stack |
 | `frontend-figma-to-theme` | Saat sudah ada Figma, Dev Mode details, variable export, style guide, atau screenshot yang perlu diterjemahkan ke implementasi frontend | Mengubah konteks desain menjadi tokens, theme config, dan update `FRONTEND-DNA.md` |
 | `frontend-component-builder` | Saat stack dan arah visual sudah ada, lalu komponen atau section perlu diimplementasikan dengan disiplin sistem | Membangun komponen, variants, states, dan proof surface yang mengikuti stack, theme, dan `FRONTEND-DNA.md` |
-| `frontend-page-builder` | Saat surface utama berupa halaman penuh seperti detail page, onboarding page, atau route-level product surface lain | Membangun halaman dengan contract yang jelas, section order yang rapi, route-level hierarchy, dan page states yang jujur |
+| `frontend-detail-page-builder` | Saat surface utama berupa detail page seperti product detail, user detail, order detail, invoice detail, project detail, atau drill-down route lain | Membangun detail page dengan contract yang jelas, summary hierarchy yang kuat, metadata yang rapi, related sections yang disiplin, dan states yang jujur |
+| `frontend-page-builder` | Saat surface utama berupa halaman penuh seperti onboarding page, generic product page, atau route-level surface non-detail lain | Membangun halaman dengan contract yang jelas, section order yang rapi, route-level hierarchy, dan page states yang jujur |
 | `frontend-dashboard-builder` | Saat surface utama berupa dashboard, analytics overview, admin home, atau multi-panel summary page | Membangun dashboard dengan contract yang jelas, hierarchy yang kuat, panel system yang konsisten, dan state coverage yang jujur |
 | `frontend-auth-builder` | Saat surface utama berupa login, register, password reset, email verification, MFA, invite acceptance, atau access-denied flow | Membangun auth flow dengan contract yang jelas, trust signals, privacy-safe feedback, dan recovery states yang rapi |
 | `frontend-marketing-builder` | Saat surface utama berupa landing page, pricing page, feature page, campaign page, atau conversion-focused public page | Membangun marketing page dengan contract yang jelas, narrative flow, CTA hierarchy, proof/pricing sections, dan conversion states yang jujur |
@@ -190,15 +193,16 @@ RunBook/
 2. Gunakan `frontend-figma-to-theme` setelah stack dipilih atau saat repo sudah punya stack aktif.
 3. Gunakan `frontend-component-builder` saat mulai membangun komponen atau section di atas fondasi itu.
 4. Gunakan `frontend-marketing-builder` saat permukaan utamanya berupa public marketing atau conversion page.
-5. Gunakan `frontend-page-builder` saat permukaan utamanya berupa halaman produk non-dashboard dengan beberapa section.
-6. Gunakan `frontend-dashboard-builder` saat permukaan utamanya berupa dashboard atau analytics overview dengan banyak panel.
-7. Gunakan `frontend-auth-builder` saat permukaan utamanya berupa auth entry, account recovery, verification, atau access state.
-8. Gunakan `frontend-checkout-builder` saat permukaan utamanya berupa checkout, order review, billing step, atau purchase completion flow.
-9. Gunakan `frontend-settings-builder` saat permukaan utamanya berupa settings, preferences, atau configuration surface.
-10. Gunakan `frontend-form-builder` saat permukaan utamanya berupa form atau flow input non-auth non-checkout non-settings.
-11. Gunakan `frontend-table-builder` saat permukaan utamanya berupa data table atau grid.
-12. Gunakan `frontend-polish-pass` sebagai refinement pass menjelang ship.
-13. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
+5. Gunakan `frontend-detail-page-builder` saat permukaan utamanya berupa detail page atau drill-down route untuk satu record utama.
+6. Gunakan `frontend-page-builder` saat permukaan utamanya berupa halaman produk non-dashboard non-detail dengan beberapa section.
+7. Gunakan `frontend-dashboard-builder` saat permukaan utamanya berupa dashboard atau analytics overview dengan banyak panel.
+8. Gunakan `frontend-auth-builder` saat permukaan utamanya berupa auth entry, account recovery, verification, atau access state.
+9. Gunakan `frontend-checkout-builder` saat permukaan utamanya berupa checkout, order review, billing step, atau purchase completion flow.
+10. Gunakan `frontend-settings-builder` saat permukaan utamanya berupa settings, preferences, atau configuration surface.
+11. Gunakan `frontend-form-builder` saat permukaan utamanya berupa form atau flow input non-auth non-checkout non-settings.
+12. Gunakan `frontend-table-builder` saat permukaan utamanya berupa data table atau grid.
+13. Gunakan `frontend-polish-pass` sebagai refinement pass menjelang ship.
+14. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
 
 ---
 
@@ -311,6 +315,7 @@ Ia cocok untuk proyek yang lebih mementingkan konsistensi, auditability, dan kea
 |       `-- frontend-foundation-builder/
 |       `-- frontend-figma-to-theme/
 |       `-- frontend-component-builder/
+|       `-- frontend-detail-page-builder/
 |       `-- frontend-page-builder/
 |       `-- frontend-dashboard-builder/
 |       `-- frontend-auth-builder/
