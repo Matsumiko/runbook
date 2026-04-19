@@ -1,6 +1,6 @@
 ---
 name: frontend-auth-builder
-description: Build or refine frontend authentication pages, access gates, and account entry flows on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement sign in, sign up, password reset, email verification, magic link, MFA challenge, session-expired screens, invite acceptance, or access-denied surfaces while preserving the current component family and handling trust signals, privacy-safe errors, session states, and recovery paths correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is mostly a generic page or non-auth form, use `frontend-page-builder` or `frontend-form-builder` first.
+description: Build or refine frontend authentication pages, access gates, and account entry flows on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement sign in, sign up, password reset, email verification, magic link, MFA challenge, session-expired screens, invite acceptance, or access-denied surfaces while preserving the current component family and handling trust signals, privacy-safe errors, session states, and recovery paths correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is specifically a post-auth first-run setup or activation flow, use `frontend-onboarding-builder` first. If the task is mostly a generic page or non-auth form, use `frontend-page-builder` or `frontend-form-builder` first.
 ---
 
 # Frontend Auth Builder
@@ -93,6 +93,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 
 - the main task is stack selection
 - the theme still needs to be derived from design references
+- the task is specifically a post-auth onboarding or activation flow
 - the task is a generic non-auth page or form
 - the work is purely a tiny copy or spacing tweak on an existing auth screen
 
