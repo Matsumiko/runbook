@@ -1,0 +1,4 @@
+interface:
+  display_name: "Auth Builder"
+  short_description: "Build auth flows on existing UI foundations"
+  default_prompt: "Use $frontend-auth-builder to build frontend auth flows that follow the existing stack, tokens, and product UI DNA."
