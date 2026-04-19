@@ -1,0 +1,4 @@
+interface:
+  display_name: "Search Builder"
+  short_description: "Build search and results flows on existing UI foundations"
+  default_prompt: "Use $frontend-search-builder to build search and results surfaces that follow the existing stack, tokens, and product UI DNA."
