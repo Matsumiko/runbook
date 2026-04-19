@@ -1,6 +1,6 @@
 ---
 name: frontend-polish-pass
-description: Refine existing frontend surfaces so they feel consistent, responsive, state-complete, and ready to ship without redesigning the product. Use when Codex needs to clean up spacing, hierarchy, component consistency, loading or empty states, responsive behavior, motion tone, or visual rough edges on an existing UI. Prefer this skill after the stack, theme, and main component structure already exist. If the main job is choosing the stack, use `frontend-foundation-builder`. If the theme still needs to be derived from design context, use `frontend-figma-to-theme`. If the main task is building a dedicated empty, blocked, or recovery state from scratch, use `frontend-empty-state-builder` first. If the main task is building a dedicated notification or alerting surface from scratch, use `frontend-notification-builder` first. If the main task is building the component itself, use `frontend-component-builder` first.
+description: Refine existing frontend surfaces so they feel consistent, responsive, state-complete, and ready to ship without redesigning the product. Use when Codex needs to clean up spacing, hierarchy, component consistency, loading or empty states, responsive behavior, motion tone, or visual rough edges on an existing UI. Prefer this skill after the stack, theme, and main component structure already exist. If the main job is choosing the stack, use `frontend-foundation-builder`. If the theme still needs to be derived from design context, use `frontend-figma-to-theme`. If the main task is building a dedicated empty, blocked, or recovery state from scratch, use `frontend-empty-state-builder` first. If the main task is building a dedicated notification or alerting surface from scratch, use `frontend-notification-builder` first. If the main task is building a dedicated upload or attachment surface from scratch, use `frontend-upload-builder` first. If the main task is building the component itself, use `frontend-component-builder` first.
 ---
 
 # Frontend Polish Pass
@@ -98,6 +98,7 @@ Check whichever states are relevant:
 - the main work is extracting a theme from design references
 - the main task is building a dedicated empty, blocked, or recovery state from scratch
 - the main task is building a dedicated notification or alerting surface from scratch
+- the main task is building a dedicated upload or attachment surface from scratch
 - the component does not exist yet and still needs to be built from scratch
 - the user explicitly wants a redesign rather than a polish pass
 

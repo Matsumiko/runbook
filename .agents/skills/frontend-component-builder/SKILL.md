@@ -1,6 +1,6 @@
 ---
 name: frontend-component-builder
-description: Build or refine frontend components, sections, and reusable UI surfaces on top of an existing stack, theme, and design rules. Use when Codex needs to implement a button, card, form, table, modal, navbar, page section, or similar UI work while preserving the current frontend DNA, tokens, and component family. Prefer this skill after the stack and theme direction are already established. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the design language still needs to be extracted from Figma or screenshots, use `frontend-figma-to-theme` first. If the main task is specifically alerts, toasts, banners, or notification-center surfaces, use `frontend-notification-builder` first.
+description: Build or refine frontend components, sections, and reusable UI surfaces on top of an existing stack, theme, and design rules. Use when Codex needs to implement a button, card, form, table, modal, navbar, page section, or similar UI work while preserving the current frontend DNA, tokens, and component family. Prefer this skill after the stack and theme direction are already established. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the design language still needs to be extracted from Figma or screenshots, use `frontend-figma-to-theme` first. If the main task is specifically alerts, toasts, banners, or notification-center surfaces, use `frontend-notification-builder` first. If the main task is specifically upload controls, dropzones, attachment lists, or file-ingestion surfaces, use `frontend-upload-builder` first.
 ---
 
 # Frontend Component Builder
@@ -91,6 +91,7 @@ If the request is vague, infer the smallest sensible contract and flag the assum
 - the main problem is choosing Chakra UI versus Tamagui
 - the main problem is extracting tokens from Figma or screenshots
 - the main task is specifically alerts, toasts, banners, or notification-center surfaces
+- the main task is specifically upload controls, dropzones, attachment lists, or file-ingestion surfaces
 - the repo already has a component that only needs a tiny copy or spacing fix
 
 ## Output Shape

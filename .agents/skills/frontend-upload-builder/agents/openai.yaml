@@ -1,0 +1,4 @@
+interface:
+  display_name: "Upload Builder"
+  short_description: "Build upload UI on existing foundations"
+  default_prompt: "Use frontend-upload-builder to build upload UI that follows the existing stack, tokens, and product UI DNA."
