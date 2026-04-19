@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dashboard Builder"
+  short_description: "Build dashboard surfaces on existing UI foundations"
+  default_prompt: "Use $frontend-dashboard-builder to build dashboard pages and analytics surfaces that follow the existing stack, tokens, and product UI DNA."
