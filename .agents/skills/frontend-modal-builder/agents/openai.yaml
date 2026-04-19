@@ -1,0 +1,4 @@
+interface:
+  display_name: "Modal Builder"
+  short_description: "Build modal UI on existing foundations"
+  default_prompt: "Use frontend-modal-builder to build modal and overlay UI that follows the existing stack, tokens, and product UI DNA."
