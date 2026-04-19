@@ -15,7 +15,7 @@
 
 <!-- Badges - Version & License -->
 <a href="https://www.npmjs.com/package/@matsumiko/runbook">
-  <img alt="npm" src="https://img.shields.io/npm/v/@matsumiko/runbook?style=for-the-badge&color=38bdf8&labelColor=0d1117&logo=npm&logoColor=white">
+  <img alt="npm" src="https://img.shields.io/npm/v/%40matsumiko%2Frunbook?style=for-the-badge&color=38bdf8&labelColor=0d1117&logo=npm&logoColor=white">
 </a>
 &nbsp;
 <a href="LICENSE">
@@ -26,7 +26,9 @@
   <img alt="GitHub" src="https://img.shields.io/badge/github-runbook-58a6ff?style=for-the-badge&logo=github&labelColor=0d1117">
 </a>
 &nbsp;
-<img alt="npm downloads" src="https://img.shields.io/npm/dm/@matsumiko/runbook?style=for-the-badge&color=34d399&labelColor=0d1117&label=unduhan%2Fbulan">
+<img
+  alt="npm downloads"
+  src="https://img.shields.io/npm/dm/%40matsumiko%2Frunbook?style=for-the-badge&color=34d399&labelColor=0d1117&label=unduhan%2Fbulan">
 
 <br/><br/>
 
