@@ -39,6 +39,7 @@ const skillDirectories = {
   "frontend-component-builder": ".agents/skills/frontend-component-builder",
   "frontend-polish-pass": ".agents/skills/frontend-polish-pass",
   "frontend-form-builder": ".agents/skills/frontend-form-builder",
+  "frontend-table-builder": ".agents/skills/frontend-table-builder",
 };
 
 const skillSummaries = {
@@ -47,6 +48,7 @@ const skillSummaries = {
   "frontend-component-builder": "build components that follow the existing stack, theme, and UI DNA",
   "frontend-polish-pass": "refine existing frontend surfaces without redesigning the product",
   "frontend-form-builder": "build forms with validation, states, and submit lifecycle discipline",
+  "frontend-table-builder": "build data tables with density, states, and action discipline",
 };
 
 const validAgents = Object.keys(variantFiles);
@@ -426,6 +428,7 @@ Examples:
   npx @matsumiko/runbook skill install frontend-component-builder
   npx @matsumiko/runbook skill install frontend-polish-pass
   npx @matsumiko/runbook skill install frontend-form-builder
+  npx @matsumiko/runbook skill install frontend-table-builder
   npx @matsumiko/runbook skill install frontend-foundation-builder ./my-app --dry-run
 
 Default behavior:
