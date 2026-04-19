@@ -1,6 +1,6 @@
 ---
 name: frontend-page-builder
-description: Build or refine full frontend pages, route-level surfaces, and multi-section flows on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement settings pages, detail pages, onboarding pages, or other route-level product surfaces that combine multiple sections into one coherent experience while preserving the current component family and handling hierarchy, entry points, page states, and responsive composition correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is primarily a dashboard, use `frontend-dashboard-builder`. If the task is auth-specific, use `frontend-auth-builder`. If the task is public-facing marketing, use `frontend-marketing-builder`. If the task is mostly one component, form, or table surface, use `frontend-component-builder`, `frontend-form-builder`, or `frontend-table-builder` first.
+description: Build or refine full frontend pages, route-level surfaces, and multi-section flows on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement detail pages, onboarding pages, or other route-level product surfaces that combine multiple sections into one coherent experience while preserving the current component family and handling hierarchy, entry points, page states, and responsive composition correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is primarily a dashboard, use `frontend-dashboard-builder`. If the task is auth-specific, use `frontend-auth-builder`. If the task is public-facing marketing, use `frontend-marketing-builder`. If the task is specifically a settings surface, use `frontend-settings-builder`. If the task is mostly one component, form, or table surface, use `frontend-component-builder`, `frontend-form-builder`, or `frontend-table-builder` first.
 ---
 
 # Frontend Page Builder
@@ -40,7 +40,7 @@ When used well, the output usually includes:
 ### 1. Audit before building
 
 - Inspect nearby route-level pages first.
-- Identify whether the task is a settings page, detail page, onboarding page, or internal content page.
+- Identify whether the task is a detail page, onboarding page, or internal content page.
 - Check whether there are existing page-shell conventions, section wrappers, breadcrumbs, tabs, or action bars in use.
 
 If a local page pattern already exists, extend it instead of introducing a parallel layout language.
@@ -96,6 +96,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the task is clearly a dashboard or analytics overview
 - the task is specifically an auth entry or access-state flow
 - the task is specifically a public-facing marketing or conversion page
+- the task is specifically a settings or preferences surface
 - the task is mostly one component, one form, or one table
 - the work is purely a tiny copy or spacing tweak on an existing page
 

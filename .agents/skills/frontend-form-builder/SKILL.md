@@ -1,6 +1,6 @@
 ---
 name: frontend-form-builder
-description: Build or refine frontend forms on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement a settings form, profile editor, search or filter form, wizard step, or other input-heavy surface while preserving the current component family and handling validation, field states, submission, and accessibility correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is mostly general component work rather than form behavior, use `frontend-component-builder`. If the task is specifically auth entry, account recovery, or identity verification, use `frontend-auth-builder` first. If the task is specifically checkout or billing-step UX, use `frontend-checkout-builder` first.
+description: Build or refine frontend forms on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement a profile editor, search or filter form, wizard step, or other input-heavy surface while preserving the current component family and handling validation, field states, submission, and accessibility correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is mostly general component work rather than form behavior, use `frontend-component-builder`. If the task is specifically auth entry, account recovery, or identity verification, use `frontend-auth-builder` first. If the task is specifically checkout or billing-step UX, use `frontend-checkout-builder` first. If the task is specifically a settings surface, use `frontend-settings-builder` first.
 ---
 
 # Frontend Form Builder
@@ -40,7 +40,7 @@ When used well, the output usually includes:
 ### 1. Audit before building
 
 - Inspect nearby forms or field patterns already in the repo.
-- Identify whether the request is a small form, settings surface, multi-step flow, or filter/search form.
+- Identify whether the request is a small form, multi-step flow, or filter/search form.
 - Check whether there is already a validation or form-state library in use.
 
 If a local pattern already exists, extend it instead of introducing a parallel form approach.
@@ -93,6 +93,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the theme still needs to be derived from design references
 - the task is specifically an auth entry or account recovery flow
 - the task is specifically a checkout or billing-step flow
+- the task is specifically a settings or preferences surface
 - the task is mostly a generic non-form component
 - the work is purely a tiny copy or spacing tweak on an existing form
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Settings Builder"
+  short_description: "Build settings surfaces on existing UI foundations"
+  default_prompt: "Use $frontend-settings-builder to build settings surfaces that follow the existing stack, tokens, and product UI DNA."
