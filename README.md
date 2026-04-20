@@ -1,45 +1,39 @@
 <div align="center">
 
-<img
-  src="https://capsule-render.vercel.app/api?type=waving&height=240&color=0:0D1117,40:0F2027,70:203A43,100:2C5364&text=RunBook&fontAlign=50&fontAlignY=40&fontColor=E8F4FD&fontSize=80&desc=Operational%20instruction%20kit%20for%20AI%20coding%20agents&descAlign=50&descAlignY=60&descSize=17&animation=fadeIn"
-  alt="RunBook banner"
-  width="100%"
-/>
+<br/>
+
+```
+██████╗ ██╗   ██╗███╗   ██╗██████╗  ██████╗  ██████╗ ██╗  ██╗
+██╔══██╗██║   ██║████╗  ██║██╔══██╗██╔═══██╗██╔═══██╗██║ ██╔╝
+██████╔╝██║   ██║██╔██╗ ██║██████╔╝██║   ██║██║   ██║█████╔╝ 
+██╔══██╗██║   ██║██║╚██╗██║██╔══██╗██║   ██║██║   ██║██╔═██╗ 
+██║  ██║╚██████╔╝██║ ╚████║██████╔╝╚██████╔╝╚██████╔╝██║  ██╗
+╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═════╝  ╚═════╝  ╚═════╝ ╚═╝  ╚═╝
+```
+
+### Operational instruction kit for AI coding agents
 
 <br/>
 
-<img
-  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Resumable+session+checkpoints+for+crashes+and+handoffs.;Bundled+Codex+skills+for+frontend+foundations%2C+specialized+UI+builders%2C+route-level+surfaces%2C+and+final+polish."
-  alt="RunBook typing banner"
-/>
+[![npm](https://img.shields.io/npm/v/%40matsumiko%2Frunbook?style=flat-square&color=0ea5e9&labelColor=0f172a&logo=npm&logoColor=white)](https://www.npmjs.com/package/@matsumiko/runbook)
+[![License](https://img.shields.io/badge/license-MIT-8b5cf6?style=flat-square&labelColor=0f172a)](LICENSE)
+[![GitHub](https://img.shields.io/badge/github-runbook-94a3b8?style=flat-square&logo=github&labelColor=0f172a)](https://github.com/Matsumiko/runbook)
 
-<br/><br/>
+<br/>
 
-<a href="https://www.npmjs.com/package/@matsumiko/runbook">
-  <img alt="npm" src="https://img.shields.io/npm/v/%40matsumiko%2Frunbook?style=for-the-badge&color=38bdf8&labelColor=0d1117&logo=npm&logoColor=white">
-</a>
-&nbsp;
-<a href="LICENSE">
-  <img alt="License" src="https://img.shields.io/badge/license-MIT-a78bfa?style=for-the-badge&labelColor=0d1117">
-</a>
-&nbsp;
-<a href="https://github.com/Matsumiko/runbook">
-  <img alt="GitHub" src="https://img.shields.io/badge/github-runbook-58a6ff?style=for-the-badge&logo=github&labelColor=0d1117">
-</a>
+![Codex](https://img.shields.io/badge/OpenAI%20Codex-ready-10a37f?style=flat-square&logo=openai&logoColor=white&labelColor=0f172a)
+![Claude](https://img.shields.io/badge/Claude%20Code-ready-cc785c?style=flat-square&labelColor=0f172a)
+![Cursor](https://img.shields.io/badge/Cursor-ready-e2e8f0?style=flat-square&labelColor=0f172a)
+![Copilot](https://img.shields.io/badge/GitHub%20Copilot-ready-2f81f7?style=flat-square&logo=githubcopilot&logoColor=white&labelColor=0f172a)
+![Node](https://img.shields.io/badge/node-%3E%3D18-22c55e?style=flat-square&logo=node.js&logoColor=white&labelColor=0f172a)
 
-<br/><br/>
+<br/>
 
-<img alt="Codex" src="https://img.shields.io/badge/OpenAI%20Codex-ready-10a37f?style=flat-square&logo=openai&logoColor=white">
-&nbsp;
-<img alt="Claude" src="https://img.shields.io/badge/Claude-ready-cc785c?style=flat-square">
-&nbsp;
-<img alt="Cursor" src="https://img.shields.io/badge/Cursor-ready-111111?style=flat-square">
-&nbsp;
-<img alt="Copilot" src="https://img.shields.io/badge/GitHub%20Copilot-ready-2f81f7?style=flat-square&logo=githubcopilot&logoColor=white">
-&nbsp;
-<img alt="Node" src="https://img.shields.io/badge/node-%3E%3D18-3fb950?style=flat-square&logo=node.js&logoColor=white">
+> **Audit first. Implement carefully. Verify honestly.**
 
-<br/><br/>
+<br/>
+
+</div>
 
 <p>
   <b>RunBook memberi AI coding agent lapisan kerja yang disiplin:</b><br/>
@@ -657,19 +651,18 @@ Ia cocok untuk proyek yang lebih mementingkan konsistensi, auditability, dan kea
 
 ---
 
-## Sumber Referensi
-
-- OpenAI Codex Skills: https://developers.openai.com/codex/skills
-- OpenAI Codex Plugins: https://developers.openai.com/codex/plugins/build
-- Chakra UI installation: https://chakra-ui.com/docs/get-started/installation
-- Chakra UI AI Rules: https://chakra-ui.com/docs/get-started/ai/rules
-- Chakra UI MCP Server: https://chakra-ui.com/docs/get-started/ai/mcp-server
-- Tamagui UI intro: https://tamagui.dev/ui/intro
-- Tamagui installation: https://tamagui.dev/docs/intro/installation
-- Tamagui LLM docs: https://tamagui.dev/llms.txt
-
+## Referensi
+ 
+- [OpenAI Codex Skills](https://developers.openai.com/codex/skills)
+- [OpenAI Codex Plugins](https://developers.openai.com/codex/plugins/build)
+- [Chakra UI Installation](https://chakra-ui.com/docs/get-started/installation)
+- [Chakra UI AI Rules](https://chakra-ui.com/docs/get-started/ai/rules)
+- [Chakra UI MCP Server](https://chakra-ui.com/docs/get-started/ai/mcp-server)
+- [Tamagui Intro](https://tamagui.dev/ui/intro)
+- [Tamagui Installation](https://tamagui.dev/docs/intro/installation)
+- [Tamagui LLM Docs](https://tamagui.dev/llms.txt)
 ---
-
+ 
 ## Kontribusi
 
 Issue dan pull request terbuka.
