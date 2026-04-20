@@ -14,6 +14,8 @@ This guide works as a system with the following files. Know where each one lives
 | File                              | Purpose                                                        |
 |-----------------------------------|----------------------------------------------------------------|
 | `AGENTS.md`                       | This file. Operating rules for all agents.                     |
+| `SESSION.md`                      | Session recovery protocol for resumable agent work             |
+| `SESSION-EXAMPLE.json`            | Example session checkpoint; never used as live state           |
 | `CODER.md`                        | Persistent project memory — commands, architecture, gotchas    |
 | `PLAN.md`                         | Active execution plan — survives session boundaries            |
 | `CHANGELOG.md`                    | Record of all completed meaningful changes                     |
@@ -23,11 +25,15 @@ This guide works as a system with the following files. Know where each one lives
 
 **At the start of every session, read in this order:**
 1. `CODER.md` — understand the project
-2. `PLAN.md` — understand the active plan
-3. `TODO.md` — understand what is prioritized
-4. `CHANGELOG.md` — understand recent changes and their risks
-5. `FRONTEND-DNA.md` — before any frontend work
-6. `BACKEND-SECURITY-CHECKLIST.md` — before any backend feature that touches sensitive surfaces
+2. `SESSION.md` — understand the session recovery rules
+3. `PLAN.md` — understand the active plan
+4. `TODO.md` — understand what is prioritized
+5. `CHANGELOG.md` — understand recent changes and their risks
+6. `FRONTEND-DNA.md` — before any frontend work
+7. `BACKEND-SECURITY-CHECKLIST.md` — before any backend feature that touches sensitive surfaces
+
+If the user sends `run:status`, `run:resume`, or `run:recap`, read `SESSION.md`
+first and follow its command protocol before doing anything else.
 
 ---
 
@@ -123,11 +129,39 @@ For complex or multi-step tasks:
 
 Agents operate without persistent memory across sessions. Compensate for this:
 1. Re-read key files at the start of each session. Do not rely on recalled context.
-2. Re-read CODER.md, TODO.md, and CHANGELOG.md before starting any task.
+2. Re-read CODER.md, SESSION.md, TODO.md, and CHANGELOG.md before starting any task.
 3. If picking up an incomplete task, audit the current state of the codebase first —
    do not assume the last session's work was applied correctly.
 4. When writing multi-step plans, write them to a file (e.g. `PLAN.md` or inline in CODER.md)
    so they survive session boundaries.
+
+---
+
+## Session Recovery Protocol
+
+If `SESSION.md` exists, use it as the source of truth for resumable task state.
+
+Use a runtime `SESSION-[YYYYMMDD]-[HHMM].json` file for meaningful work when:
+- the task is non-trivial, multi-step, risky, or likely to be interrupted
+- the task changes files, configuration, package metadata, deployment behavior, schemas, auth, billing, security, or public behavior
+- the user asks for continuity, resumability, status tracking, or a handoff-safe workflow
+
+For trivial low-risk work, a session file is optional unless the user asks for it.
+
+Session rules:
+- Create the runtime session file before implementation begins.
+- Keep `SESSION.md` and `SESSION-EXAMPLE.json` read-only during normal task execution.
+- Update the runtime session file before and after meaningful steps, after file edits, after decisions, after blockers, and after verification.
+- Keep `lastPosition.nextStep` concrete enough that another agent can continue without guessing.
+- Treat a stale `ACTIVE` session as potentially interrupted after a crash or power loss.
+- On `run:resume`, audit the workspace first, then continue from `lastPosition.nextStep` only if the current state matches the recorded state.
+- Never write secrets, tokens, passwords, cookies, private keys, raw auth headers, or sensitive payloads into session files; redact them.
+- Do not stage or commit runtime `SESSION-[YYYYMMDD]-[HHMM].json` files unless the user explicitly asks.
+
+Supported direct commands:
+- `run:status` — report the newest runtime session's status and next action.
+- `run:resume` — resume the newest recoverable runtime session after auditing the workspace.
+- `run:recap` — summarize what was done, changed, decided, and left unfinished.
 
 ---
 
@@ -137,6 +171,7 @@ Every non-trivial task must have a written plan before execution begins.
 
 - Write the plan to `PLAN.md` — not in your head, not in a comment, not in the chat.
 - Plans written only in chat do not survive session boundaries. `PLAN.md` does.
+- For resumable work, keep `SESSION-[YYYYMMDD]-[HHMM].json` updated as the real-time checkpoint and use `PLAN.md` as the durable task plan.
 - Use the status markers defined in `PLAN.md`: `[ ]` `[~]` `[x]` `[!]` `[-]` `[?]`
 - Update plan status in real time — do not batch-update at the end.
 - If the plan needs to change mid-execution, log the replan reason in `PLAN.md` before proceeding.
@@ -261,6 +296,8 @@ TODOs should help the agent and the human think ahead — not create noise.
 | File                            | When to read                              | When to update                                    |
 |---------------------------------|-------------------------------------------|---------------------------------------------------|
 | `CODER.md`                      | Every session start                       | When durable project knowledge changes            |
+| `SESSION.md`                    | Every session start, before resume commands | Never during normal task execution; it is protocol |
+| `SESSION-[YYYYMMDD]-[HHMM].json`| Meaningful active tasks and resume commands | In real time during resumable task execution     |
 | `PLAN.md`                       | Every session start, before any execution | During execution (status), after completion (archive) |
 | `CHANGELOG.md`                  | Every session start                       | After every completed meaningful task             |
 | `TODO.md`                       | Every session start                       | After completing items, when new follow-ups arise |
@@ -295,6 +332,7 @@ A task is not complete unless:
 - [ ] The implementation matches the real request (not just the surface symptom)
 - [ ] The result is aligned with the project's existing patterns and conventions
 - [ ] Verification was performed to the extent reasonably possible
+- [ ] Runtime session state was completed, paused, cancelled, or blocked if a session file was used
 - [ ] Changelog and TODO expectations were respected
 - [ ] Risks, limitations, and follow-up items are stated honestly
 
@@ -328,6 +366,7 @@ The following are never acceptable:
 ```
 Session start:
   □ Read CODER.md          — understand the project
+  □ Read SESSION.md        — understand resumable session rules
   □ Read PLAN.md           — pick up active plan or start fresh
   □ Read TODO.md           — understand priorities
   □ Read CHANGELOG.md      — understand recent changes and risks
@@ -338,17 +377,20 @@ Before starting a task:
   □ Audit affected surfaces
   □ Identify ambiguities — surface or assume+flag
   □ Write execution plan to PLAN.md
+  □ Create SESSION-[timestamp].json for meaningful/resumable work
   □ Assess risk and define rollback path
 
 During execution:
   □ One logical change at a time
   □ No unrelated refactors
   □ Update PLAN.md status markers in real time
+  □ Update SESSION-[timestamp].json before and after meaningful steps
   □ Stop and re-plan if unexpected results appear
   □ Surface blockers immediately — log in PLAN.md blocker log
 
 After completing:
   □ Verify: tests, lint, typecheck, manual trace
+  □ Mark runtime session COMPLETED, PAUSED, CANCELLED, or BLOCKED if used
   □ Update CHANGELOG.md with full entry
   □ Update TODO.md — close completed items, add follow-ups
   □ Archive completed plan in PLAN.md

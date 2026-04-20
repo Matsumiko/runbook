@@ -20,6 +20,7 @@ Use a hub-and-spoke model:
 2. Add thin native adapters for each agent.
 3. Keep always-on files short.
 4. Push deep context into the project docs instead of duplicating it everywhere.
+5. Let all adapters defer to `SESSION.md` for resumable session checkpoints.
 
 ## Variant matrix
 

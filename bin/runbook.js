@@ -9,6 +9,8 @@ const packageRoot = path.resolve(__dirname, "..");
 
 const coreFiles = [
   ["AGENTS.md", "AGENTS.md"],
+  ["SESSION.md", "SESSION.md"],
+  ["SESSION-EXAMPLE.json", "SESSION-EXAMPLE.json"],
   ["templates/core/CODER.md", "CODER.md"],
   ["templates/core/PLAN.md", "PLAN.md"],
   ["templates/core/TODO.md", "TODO.md"],
@@ -583,6 +585,7 @@ Examples:
 
 Default behavior:
   - copies the canonical RunBook markdown files
+  - includes session recovery protocol and example checkpoint files
   - uses Codex-compatible AGENTS.md by default
   - skips existing files unless --force is provided
   - installs bundled Codex skills into .agents/skills/

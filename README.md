@@ -9,7 +9,7 @@
 <br/>
 
 <img
-  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Durable+project+memory+for+AI+coding+agents.;Now+with+bundled+Codex+skills+for+frontend+foundations%2C+specialized+UI+builders%2C+route-level+surfaces%2C+and+final+polish."
+  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Resumable+session+checkpoints+for+crashes+and+handoffs.;Bundled+Codex+skills+for+frontend+foundations%2C+specialized+UI+builders%2C+route-level+surfaces%2C+and+final+polish."
   alt="RunBook typing banner"
 />
 
@@ -43,7 +43,7 @@
 
 <p>
   <b>RunBook memberi AI coding agent lapisan kerja yang disiplin:</b><br/>
-  memori proyek yang tahan lama, eksekusi yang terstruktur, aturan frontend dan backend yang jelas,
+  memori proyek yang tahan lama, session recovery yang bisa di-resume, aturan frontend dan backend yang jelas,
   serta verifikasi yang jujur sebelum pekerjaan dinyatakan selesai.
 </p>
 
@@ -224,6 +224,8 @@ Lokasi itu mengikuti dokumentasi Codex untuk repo-scoped skills, sehingga skill 
 ```text
 RunBook/
 |-- AGENTS.md
+|-- SESSION.md
+|-- SESSION-EXAMPLE.json
 |-- CODER.md
 |-- PLAN.md
 |-- TODO.md
@@ -236,6 +238,8 @@ RunBook/
 | File | Fungsi |
 | --- | --- |
 | `AGENTS.md` | Panduan operasi utama untuk AI coding agent. |
+| `SESSION.md` | Protokol recovery session agar agent bisa lanjut setelah crash, terminal tertutup, listrik padam, atau handoff. |
+| `SESSION-EXAMPLE.json` | Contoh checkpoint session yang valid; bukan session aktif. |
 | `CODER.md` | Memori proyek: perintah penting, arsitektur, gotcha, dan catatan environment. |
 | `PLAN.md` | Rencana eksekusi aktif yang bertahan antar sesi. |
 | `TODO.md` | Backlog strategis berdasarkan nilai dan dampak. |
@@ -243,6 +247,36 @@ RunBook/
 | `FRONTEND-DNA.md` | Aturan visual dan interaksi untuk pekerjaan frontend. |
 | `BACKEND-SECURITY-CHECKLIST.md` | Checklist keamanan untuk backend yang sensitif. |
 | `AGENT-VARIANTS.md` | Catatan kompatibilitas untuk berbagai AI coding agent. |
+
+---
+
+## Session Recovery
+
+RunBook menyertakan `SESSION.md` untuk membuat pekerjaan agent bisa dilanjutkan tanpa tebak-tebakan setelah listrik padam, komputer mati, terminal tertutup, atau model berhenti di tengah task.
+
+Untuk task non-trivial, agent membuat runtime checkpoint:
+
+```text
+SESSION-20260420-1430.json
+```
+
+File itu menyimpan prompt, goal, asumsi, plan, log, keputusan, file yang disentuh, posisi terakhir, kondisi sistem, dan langkah berikutnya.
+
+Command yang didukung:
+
+```text
+run:status
+run:resume
+run:recap
+```
+
+Aturan penting:
+
+1. `SESSION.md` adalah protocol file, bukan tempat menulis progress task.
+2. `SESSION-EXAMPLE.json` hanya contoh, bukan session aktif.
+3. Runtime `SESSION-[timestamp].json` adalah artefak lokal dan tidak boleh di-commit kecuali diminta eksplisit.
+4. Secret, token, cookie, private key, dan payload sensitif wajib direduksi sebagai `[REDACTED]`.
+5. Jika session lama masih `ACTIVE` karena crash, agent memperlakukannya sebagai recoverable dan audit workspace dulu sebelum lanjut.
 
 ---
 
@@ -457,14 +491,16 @@ runbook help
 Setelah instalasi:
 
 1. Isi `CODER.md` dengan perintah proyek, catatan arsitektur, environment variable, dan gotcha.
-2. Isi `FRONTEND-DNA.md` sebelum memberi pekerjaan frontend ke agent.
-3. Gunakan `TODO.md` untuk backlog strategis, bukan catatan sementara.
-4. Biarkan `PLAN.md` untuk rencana eksekusi spesifik per tugas.
-5. Gunakan `CHANGELOG.md` hanya untuk perubahan bermakna yang sudah benar-benar selesai.
-6. Tambahkan ini ke entry prompt agent:
+2. Pakai `SESSION.md` untuk task non-trivial yang perlu bisa di-resume.
+3. Isi `FRONTEND-DNA.md` sebelum memberi pekerjaan frontend ke agent.
+4. Gunakan `TODO.md` untuk backlog strategis, bukan catatan sementara.
+5. Biarkan `PLAN.md` untuk rencana eksekusi spesifik per tugas.
+6. Gunakan `CHANGELOG.md` hanya untuk perubahan bermakna yang sudah benar-benar selesai.
+7. Tambahkan ini ke entry prompt agent:
 
 ```text
 Baca AGENTS.md sebelum melakukan perubahan.
+Jika SESSION.md tersedia, gunakan run:status, run:resume, dan run:recap untuk recovery session.
 Ikuti panduan operasi dan pertahankan konvensi proyek yang sudah ada.
 ```
 
@@ -547,6 +583,8 @@ Ia cocok untuk proyek yang lebih mementingkan konsistensi, auditability, dan kea
 |-- variants/
 |-- AGENTS.md
 |-- AGENT-VARIANTS.md
+|-- SESSION.md
+|-- SESSION-EXAMPLE.json
 |-- FRONTEND-DNA.md
 |-- BACKEND-SECURITY-CHECKLIST.md
 |-- package.json

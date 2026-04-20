@@ -5,6 +5,7 @@ trigger: always_on
 # Windsurf Core Rules
 
 - Read `CODER.md`, `PLAN.md`, `TODO.md`, and `CHANGELOG.md` before non-trivial work.
+- If `SESSION.md` exists, use it for resumable checkpoints and `run:status`, `run:resume`, `run:recap`.
 - Audit first, then implement.
 - Plan non-trivial work in `PLAN.md`.
 - Preserve existing project DNA.
