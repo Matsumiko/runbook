@@ -1,0 +1,4 @@
+interface:
+  display_name: "Inbox Builder"
+  short_description: "Build inboxes and triage inbox surfaces"
+  default_prompt: "Use frontend-inbox-builder to build inbox UI that follows the existing stack, theme, and product UI DNA."

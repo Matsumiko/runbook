@@ -1,6 +1,6 @@
 ---
 name: frontend-detail-page-builder
-description: Build or refine frontend detail pages, entity views, product detail routes, admin drill-down screens, and other route-level detail surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement summary headers, key metadata, primary and secondary actions, status treatment, related sections, timelines, tabs, or drill-down states while preserving the current component family and handling hierarchy, scannability, and responsive composition correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is a generic multi-section page rather than a drill-down detail surface, use `frontend-page-builder`. If the task is really breadcrumb, timeline, org-chart, master-detail, audit-log, or another specialized surface, use the matching specialized skill instead.
+description: Build or refine frontend detail pages, entity views, product detail routes, drill-down screens, and detail surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement summary headers, key metadata, primary and secondary actions, status treatment, related sections, timelines, tabs, or drill-down states while preserving the current component family and handling hierarchy, scannability, and responsive composition correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is a generic multi-section page rather than a drill-down detail surface, use `frontend-page-builder`. If the task is really breadcrumb, timeline, org-chart, master-detail, audit-log, diff, review, inspector, or another specialized surface, use the matching specialized skill instead.
 ---
 
 # Frontend Detail Page Builder
@@ -99,6 +99,9 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the task is specifically breadcrumb, ancestry-path, or route-trail work
 - the task is specifically a timeline, milestone rail, or chronology feed surface
 - the task is specifically an audit-log or change-history surface
+- the task is specifically a review panel, approval pane, or moderation-decision surface
+- the task is specifically a diff viewer, revision-compare surface, or before-after change viewer
+- the task is specifically an inspector, property side panel, or metadata drawer
 - the task is specifically an org chart, reporting hierarchy, or department-structure surface
 - the task is clearly a dashboard or analytics overview
 - the task is specifically an auth entry or access-state flow

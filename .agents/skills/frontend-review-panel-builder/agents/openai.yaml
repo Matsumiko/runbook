@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Panel Builder"
+  short_description: "Build review and approval decision panels"
+  default_prompt: "Use frontend-review-panel-builder to build review-panel UI that follows the existing stack, theme, and product UI DNA."

@@ -1,6 +1,6 @@
 ---
 name: frontend-audit-log-builder
-description: Build or refine frontend audit logs, compliance event logs, and admin action trails on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement security history tables, entity change histories, access logs, or trace surfaces where actor, action, target, timestamps, and field-level changes must stay trustworthy while preserving the current component family and handling density, filtering, diff disclosure, immutable tone, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really a timeline or recent activity stream, use `frontend-timeline-builder` or `frontend-activity-feed-builder` first. If the log is one section of a broader detail page, use the broader surface skill first unless the audit log itself is the main job.
+description: Build or refine frontend audit logs, compliance event logs, and admin action trails on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement change histories, access logs, or trace surfaces where actor, action, target, timestamps, and field-level changes must stay trustworthy while preserving the current component family and handling density, filtering, diff disclosure, immutable tone, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really a timeline, recent activity stream, or dedicated diff viewer, use the matching specialized skill first. If the log is one section of a broader detail page, use the broader surface skill first unless the audit log itself is the main job.
 ---
 
 # Frontend Audit Log Builder
@@ -94,6 +94,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the theme still needs to be derived from design references
 - the task is really a generic recent-activity feed or social-style event stream
 - the task is really a milestone timeline or progress sequence
+- the task is really a dedicated diff viewer where before-and-after comparison is primary
 - the task is really a broader detail page where the audit log is only one supporting section
 - the work is purely a tiny spacing or copy tweak on an existing audit-log surface
 

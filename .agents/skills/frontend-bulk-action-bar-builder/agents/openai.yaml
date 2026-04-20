@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bulk Action Bar Builder"
+  short_description: "Build selection bars and bulk-action surfaces"
+  default_prompt: "Use frontend-bulk-action-bar-builder to build bulk-action-bar UI that follows the existing stack, theme, and product UI DNA."

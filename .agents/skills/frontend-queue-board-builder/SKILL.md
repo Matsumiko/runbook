@@ -1,6 +1,6 @@
 ---
 name: frontend-queue-board-builder
-description: Build or refine frontend queue boards, triage surfaces, review queues, moderation backlogs, and operational work lists on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement support queues, approval queues, moderation boards, dispatch worklists, or ordered backlogs where prioritization, SLA cues, bulk actions, and quick triage matter while preserving the current component family and handling queue status, ownership, density, selection, escalation cues, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really a generic table or kanban board, use `frontend-table-builder` or `frontend-kanban-builder` first. If the queue is only one section inside a broader dashboard, use `frontend-dashboard-builder` first.
+description: Build or refine frontend queue boards, triage surfaces, moderation backlogs, and operational work lists on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement support queues, approval queues, moderation boards, dispatch worklists, or ordered backlogs where priority, SLA cues, bulk actions, and quick triage matter while preserving the current component family and handling queue status, ownership, density, selection, escalation cues, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really a generic table, inbox, review panel, or kanban board, use the matching specialized skill first. If the queue is only one section inside a broader dashboard, use `frontend-dashboard-builder` first.
 ---
 
 # Frontend Queue Board Builder
@@ -93,6 +93,8 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is stack selection
 - the theme still needs to be derived from design references
 - the task is really a generic table or dense list without queue semantics
+- the task is really a personal or notification-style inbox with read-state semantics
+- the task is really a dedicated review panel where evidence and approval decisions are primary
 - the task is really a kanban workflow board organized by status lanes
 - the task is really a broader dashboard where the queue is only one panel
 - the work is purely a tiny spacing or copy tweak on an existing queue surface

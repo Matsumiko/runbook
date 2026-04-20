@@ -49,6 +49,7 @@ const skillDirectories = {
   "frontend-timeline-builder": ".agents/skills/frontend-timeline-builder",
   "frontend-activity-feed-builder": ".agents/skills/frontend-activity-feed-builder",
   "frontend-audit-log-builder": ".agents/skills/frontend-audit-log-builder",
+  "frontend-diff-viewer-builder": ".agents/skills/frontend-diff-viewer-builder",
   "frontend-chart-builder": ".agents/skills/frontend-chart-builder",
   "frontend-kpi-card-builder": ".agents/skills/frontend-kpi-card-builder",
   "frontend-metric-comparison-builder": ".agents/skills/frontend-metric-comparison-builder",
@@ -57,8 +58,10 @@ const skillDirectories = {
   "frontend-scheduler-builder": ".agents/skills/frontend-scheduler-builder",
   "frontend-kanban-builder": ".agents/skills/frontend-kanban-builder",
   "frontend-queue-board-builder": ".agents/skills/frontend-queue-board-builder",
+  "frontend-inbox-builder": ".agents/skills/frontend-inbox-builder",
   "frontend-sidebar-builder": ".agents/skills/frontend-sidebar-builder",
   "frontend-split-pane-builder": ".agents/skills/frontend-split-pane-builder",
+  "frontend-inspector-builder": ".agents/skills/frontend-inspector-builder",
   "frontend-master-detail-builder": ".agents/skills/frontend-master-detail-builder",
   "frontend-tree-view-builder": ".agents/skills/frontend-tree-view-builder",
   "frontend-org-chart-builder": ".agents/skills/frontend-org-chart-builder",
@@ -66,6 +69,7 @@ const skillDirectories = {
   "frontend-accordion-builder": ".agents/skills/frontend-accordion-builder",
   "frontend-command-palette-builder": ".agents/skills/frontend-command-palette-builder",
   "frontend-detail-page-builder": ".agents/skills/frontend-detail-page-builder",
+  "frontend-review-panel-builder": ".agents/skills/frontend-review-panel-builder",
   "frontend-page-builder": ".agents/skills/frontend-page-builder",
   "frontend-dashboard-builder": ".agents/skills/frontend-dashboard-builder",
   "frontend-auth-builder": ".agents/skills/frontend-auth-builder",
@@ -73,6 +77,7 @@ const skillDirectories = {
   "frontend-stepper-builder": ".agents/skills/frontend-stepper-builder",
   "frontend-search-builder": ".agents/skills/frontend-search-builder",
   "frontend-data-grid-toolbar-builder": ".agents/skills/frontend-data-grid-toolbar-builder",
+  "frontend-bulk-action-bar-builder": ".agents/skills/frontend-bulk-action-bar-builder",
   "frontend-pagination-builder": ".agents/skills/frontend-pagination-builder",
   "frontend-empty-state-builder": ".agents/skills/frontend-empty-state-builder",
   "frontend-notification-builder": ".agents/skills/frontend-notification-builder",
@@ -103,6 +108,7 @@ const skillSummaries = {
   "frontend-timeline-builder": "build timeline surfaces with chronology, grouping, and state discipline",
   "frontend-activity-feed-builder": "build activity feeds with grouping, unread state, and density discipline",
   "frontend-audit-log-builder": "build audit-log surfaces with filters, diffs, and trace-discipline",
+  "frontend-diff-viewer-builder": "build diff viewers with anchors, grouping, and comparison discipline",
   "frontend-chart-builder": "build charts with labels, comparison clarity, and no-data discipline",
   "frontend-kpi-card-builder": "build KPI cards with comparison clarity and metric-state discipline",
   "frontend-metric-comparison-builder": "build metric comparisons with baselines, deltas, and variance discipline",
@@ -111,8 +117,10 @@ const skillSummaries = {
   "frontend-scheduler-builder": "build schedulers with resources, slots, and overlap discipline",
   "frontend-kanban-builder": "build kanban boards with lanes, card density, and fallback discipline",
   "frontend-queue-board-builder": "build queue boards with priority, triage, and bulk-action discipline",
+  "frontend-inbox-builder": "build inbox surfaces with unread state, grouping, and triage discipline",
   "frontend-sidebar-builder": "build sidebar navigation shells with active-state and collapse discipline",
   "frontend-split-pane-builder": "build split panes with resizing, pane priority, and fallback discipline",
+  "frontend-inspector-builder": "build inspectors with grouped metadata, actions, and sync discipline",
   "frontend-master-detail-builder": "build master-detail surfaces with selection, preview, and drill-down discipline",
   "frontend-tree-view-builder": "build tree views with expansion, selection, and density discipline",
   "frontend-org-chart-builder": "build org charts with lineage, node density, and drill-down discipline",
@@ -120,6 +128,7 @@ const skillSummaries = {
   "frontend-accordion-builder": "build accordion and disclosure surfaces with expansion discipline",
   "frontend-command-palette-builder": "build command palettes with trigger, ranking, and keyboard discipline",
   "frontend-detail-page-builder": "build detail pages with summary, metadata, and related-section discipline",
+  "frontend-review-panel-builder": "build review panels with evidence, rationale, and decision discipline",
   "frontend-page-builder": "build full pages with route-level hierarchy, flow, and state discipline",
   "frontend-dashboard-builder": "build dashboard and analytics surfaces with hierarchy and state discipline",
   "frontend-auth-builder": "build auth flows with trust, recovery, and access-state discipline",
@@ -127,6 +136,7 @@ const skillSummaries = {
   "frontend-stepper-builder": "build stepper progress UI with gating and status discipline",
   "frontend-search-builder": "build search and discovery flows with query, refinement, and result-state discipline",
   "frontend-data-grid-toolbar-builder": "build data-grid toolbars with selection, control grouping, and overflow discipline",
+  "frontend-bulk-action-bar-builder": "build bulk-action bars with selection scope, safety, and overflow discipline",
   "frontend-pagination-builder": "build pagination controls with state-sync and boundary discipline",
   "frontend-empty-state-builder": "build empty and recovery states with clear next-action discipline",
   "frontend-notification-builder": "build notification surfaces with urgency, placement, and lifecycle discipline",
@@ -528,6 +538,7 @@ Examples:
   npx @matsumiko/runbook skill install frontend-timeline-builder
   npx @matsumiko/runbook skill install frontend-activity-feed-builder
   npx @matsumiko/runbook skill install frontend-audit-log-builder
+  npx @matsumiko/runbook skill install frontend-diff-viewer-builder
   npx @matsumiko/runbook skill install frontend-chart-builder
   npx @matsumiko/runbook skill install frontend-kpi-card-builder
   npx @matsumiko/runbook skill install frontend-metric-comparison-builder
@@ -536,8 +547,10 @@ Examples:
   npx @matsumiko/runbook skill install frontend-scheduler-builder
   npx @matsumiko/runbook skill install frontend-kanban-builder
   npx @matsumiko/runbook skill install frontend-queue-board-builder
+  npx @matsumiko/runbook skill install frontend-inbox-builder
   npx @matsumiko/runbook skill install frontend-sidebar-builder
   npx @matsumiko/runbook skill install frontend-split-pane-builder
+  npx @matsumiko/runbook skill install frontend-inspector-builder
   npx @matsumiko/runbook skill install frontend-master-detail-builder
   npx @matsumiko/runbook skill install frontend-tree-view-builder
   npx @matsumiko/runbook skill install frontend-org-chart-builder
@@ -545,6 +558,7 @@ Examples:
   npx @matsumiko/runbook skill install frontend-accordion-builder
   npx @matsumiko/runbook skill install frontend-command-palette-builder
   npx @matsumiko/runbook skill install frontend-detail-page-builder
+  npx @matsumiko/runbook skill install frontend-review-panel-builder
   npx @matsumiko/runbook skill install frontend-page-builder
   npx @matsumiko/runbook skill install frontend-dashboard-builder
   npx @matsumiko/runbook skill install frontend-auth-builder
@@ -552,6 +566,7 @@ Examples:
   npx @matsumiko/runbook skill install frontend-stepper-builder
   npx @matsumiko/runbook skill install frontend-search-builder
   npx @matsumiko/runbook skill install frontend-data-grid-toolbar-builder
+  npx @matsumiko/runbook skill install frontend-bulk-action-bar-builder
   npx @matsumiko/runbook skill install frontend-pagination-builder
   npx @matsumiko/runbook skill install frontend-empty-state-builder
   npx @matsumiko/runbook skill install frontend-notification-builder

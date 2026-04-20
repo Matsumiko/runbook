@@ -1,6 +1,6 @@
 ---
 name: frontend-master-detail-builder
-description: Build or refine frontend master-detail surfaces, list-detail workspaces, inbox-style drill-down layouts, and selection-driven record views on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement mailbox layouts, directory-plus-detail views, issue lists with persistent detail panes, or record explorers where list context and detail context must stay visible together while preserving the current component family and handling selection, preview fidelity, empty states, keyboard flow, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is mainly split-pane mechanics, use `frontend-split-pane-builder` first. If the task is a full detail route without a persistent master list, use `frontend-detail-page-builder` first.
+description: Build or refine frontend master-detail surfaces, list-detail workspaces, and selection-driven record views on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement directory-plus-detail views, issue lists with persistent detail panes, or record explorers where list context and detail context must stay visible together while preserving the current component family and handling selection, preview fidelity, empty states, keyboard flow, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is mainly split-pane mechanics or inbox-specific triage semantics, use `frontend-split-pane-builder` or `frontend-inbox-builder` first. If the task is a full detail route without a persistent master list, use `frontend-detail-page-builder` first.
 ---
 
 # Frontend Master Detail Builder
@@ -92,6 +92,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is stack selection
 - the theme still needs to be derived from design references
 - the task is really about split-pane resize mechanics rather than selection workflow
+- the task is really an inbox surface where unread state, grouping, and triage semantics are primary
 - the task is really a full detail route without a persistent master context
 - the task is mostly a generic list or table without meaningful detail interaction
 - the work is purely a tiny spacing or copy tweak on an existing master-detail surface

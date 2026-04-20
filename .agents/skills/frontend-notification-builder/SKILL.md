@@ -1,6 +1,6 @@
 ---
 name: frontend-notification-builder
-description: Build or refine frontend notifications, alerts, banners, toasts, snackbars, inline status messages, and notification-center surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement async success or error feedback, dismissible banners, announcement bars, persistent alerts, inbox-style notification lists, or status messaging while preserving the current component family and handling urgency, placement, timing, dismissal, stacking, and action clarity correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is notification preferences, use `frontend-settings-builder` first. If the task is a recent activity stream, use `frontend-activity-feed-builder` first. If the work is a tweak on an existing alert, use the nearest surface skill first.
+description: Build or refine frontend notifications, alerts, banners, toasts, inline status messages, and notification-center surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement async feedback, dismissible banners, announcement bars, notification-center lists, or status messaging while preserving the current component family and handling urgency, placement, timing, dismissal, stacking, and action clarity correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is notification preferences, use `frontend-settings-builder` first. If the task is a recent activity stream, use `frontend-activity-feed-builder` first. If the task is a full inbox workflow with read-state triage, use `frontend-inbox-builder` first.
 ---
 
 # Frontend Notification Builder
@@ -95,6 +95,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is stack selection
 - the theme still needs to be derived from design references
 - the task is mainly notification preferences or channel settings
+- the task is mainly an inbox workflow with sections, read state, and triage actions
 - the task is mainly a recent activity feed or collaboration stream rather than notification delivery
 - the task is mainly an empty or no-results surface without notification delivery behavior
 - the work is purely a tiny copy or spacing tweak on an existing alert

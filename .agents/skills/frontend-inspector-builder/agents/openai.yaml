@@ -1,0 +1,4 @@
+interface:
+  display_name: "Inspector Builder"
+  short_description: "Build inspectors and property side panels"
+  default_prompt: "Use frontend-inspector-builder to build inspector UI that follows the existing stack, theme, and product UI DNA."

@@ -1,6 +1,6 @@
 ---
 name: frontend-component-builder
-description: Build or refine frontend components, sections, and reusable UI surfaces on top of an existing stack, theme, and design rules. Use when Codex needs to implement a button, card, navbar, form section, table section, or similar UI work while preserving the current frontend DNA, tokens, and component family. Prefer this skill after the stack and theme direction are already established. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the design language still needs to be extracted from Figma or screenshots, use `frontend-figma-to-theme` first. If the main task is a specialized surface such as overlays, navigation shells, pickers, filters, data visualization, chronology, queue or workflow boards, analytics cards, maps, or planning views, use the matching specialized skill first.
+description: Build or refine frontend components, sections, and reusable UI surfaces on top of an existing stack, theme, and design rules. Use when Codex needs to implement a button, card, navbar, form section, table section, or similar UI work while preserving the current frontend DNA, tokens, and component family. Prefer this skill after the stack and theme direction are already established. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the design language still needs to be extracted from Figma or screenshots, use `frontend-figma-to-theme` first. If the main task is a specialized surface such as overlays, navigation shells, inboxes, review panels, diff viewers, inspectors, bulk-action bars, pickers, filters, data visualization, chronology, queue or workflow boards, analytics cards, maps, or planning views, use the matching specialized skill first.
 ---
 
 # Frontend Component Builder
@@ -112,8 +112,13 @@ If the request is vague, infer the smallest sensible contract and flag the assum
 - the main task is specifically queue boards, triage backlogs, or review worklists
 - the main task is specifically map surfaces, route previews, or geospatial result views
 - the main task is specifically gantt views, dependency planners, or task-span schedules
+- the main task is specifically inboxes, mailbox surfaces, or notification-triage work
+- the main task is specifically review panels, approval surfaces, or moderation-decision panes
+- the main task is specifically diff viewers, revision comparisons, or change-review surfaces
+- the main task is specifically inspectors, property side panels, or metadata drawers
 - the main task is specifically split panes, resizable workspaces, or dual-panel shells
 - the main task is specifically master-detail workspaces, list-detail views, or inbox-like drill-downs
+- the main task is specifically bulk-action bars, selection-action shelves, or multi-select action surfaces
 - the main task is specifically tree views, file explorers, or nested selectors
 - the main task is specifically org charts, reporting hierarchies, or department maps
 - the main task is specifically tabs, segmented controls, or tabbed panels

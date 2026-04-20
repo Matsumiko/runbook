@@ -1,6 +1,6 @@
 ---
 name: frontend-split-pane-builder
-description: Build or refine frontend split-pane surfaces, resizable workspaces, dual-panel editors, inspector layouts, and side-by-side shells on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement mail-style panes, editor-plus-preview layouts, navigator-plus-inspector shells, or resizable detail views while preserving the current component family and handling pane priority, resizing, collapse behavior, overflow, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is mainly a master-detail surface rather than pane layout behavior, use `frontend-master-detail-builder` first. If the split pane is only one part of a broader route, use the broader page skill first unless pane behavior itself is the main job.
+description: Build or refine frontend split-pane surfaces, resizable workspaces, dual-panel editors, inspector layouts, and side-by-side shells on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement mail-style panes, editor-plus-preview layouts, navigator-plus-inspector shells, or details while preserving the current component family and handling pane priority, resizing, collapse behavior, overflow, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is mainly a master-detail surface or inspector panel rather than pane layout behavior, use `frontend-master-detail-builder` or `frontend-inspector-builder` first. If the split pane is only one part of a broader route, use the broader page skill first unless pane behavior itself is the main job.
 ---
 
 # Frontend Split Pane Builder
@@ -92,6 +92,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is stack selection
 - the theme still needs to be derived from design references
 - the task is really a master-detail workflow rather than pane-layout mechanics
+- the task is really an inspector side panel or metadata drawer rather than pane-layout mechanics
 - the task is really a generic page with a simple sidebar and content column
 - the task is mostly a generic component or tiny divider tweak
 - the work is purely a tiny spacing or copy tweak on an existing split-pane surface

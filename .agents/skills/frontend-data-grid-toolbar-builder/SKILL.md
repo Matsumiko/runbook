@@ -1,6 +1,6 @@
 ---
 name: frontend-data-grid-toolbar-builder
-description: Build or refine frontend data-grid toolbars, table control bars, bulk-action headers, column-management bars, and result-control surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement search plus filter plus sort bars for tables, selection-action headers, export or view controls, column visibility menus, or dense result-management toolbars while preserving the current component family and handling selection state, active filters, overflow, reset behavior, and responsive collapse correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is a broader table or search surface, use the broader builder first unless the toolbar itself is the main job. If the task is only a dedicated filter panel, use `frontend-data-filter-builder` first.
+description: Build or refine frontend data-grid toolbars, table control bars, and result-control surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement search plus filter plus sort bars, export or view controls, column visibility menus, or dense result-management toolbars while preserving the current component family and handling selection state, active filters, overflow, reset behavior, and responsive collapse correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is a broader table or search surface, use the broader builder first unless the toolbar itself is the main job. If the task is a selection-triggered bulk-action bar, use `frontend-bulk-action-bar-builder` first. If the task is only a dedicated filter panel, use `frontend-data-filter-builder` first.
 ---
 
 # Frontend Data Grid Toolbar Builder
@@ -92,6 +92,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is stack selection
 - the theme still needs to be derived from design references
 - the task is really a broader table or search surface rather than the toolbar layer
+- the task is really a selection-triggered bulk-action bar rather than a persistent control toolbar
 - the task is really a dedicated filter panel or facet system rather than a compact toolbar
 - the task is mostly a generic button row without data-grid state
 - the work is purely a tiny spacing or copy tweak on an existing grid toolbar

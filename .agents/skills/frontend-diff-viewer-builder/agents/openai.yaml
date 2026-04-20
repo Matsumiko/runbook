@@ -1,0 +1,4 @@
+interface:
+  display_name: "Diff Viewer Builder"
+  short_description: "Build diff viewers and change-comparison UI"
+  default_prompt: "Use frontend-diff-viewer-builder to build diff-viewer UI that follows the existing stack, theme, and product UI DNA."
