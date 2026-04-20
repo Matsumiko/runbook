@@ -38,6 +38,7 @@ const skillDirectories = {
   "frontend-figma-to-theme": ".agents/skills/frontend-figma-to-theme",
   "frontend-component-builder": ".agents/skills/frontend-component-builder",
   "frontend-sidebar-builder": ".agents/skills/frontend-sidebar-builder",
+  "frontend-breadcrumb-builder": ".agents/skills/frontend-breadcrumb-builder",
   "frontend-accordion-builder": ".agents/skills/frontend-accordion-builder",
   "frontend-command-palette-builder": ".agents/skills/frontend-command-palette-builder",
   "frontend-detail-page-builder": ".agents/skills/frontend-detail-page-builder",
@@ -45,7 +46,9 @@ const skillDirectories = {
   "frontend-dashboard-builder": ".agents/skills/frontend-dashboard-builder",
   "frontend-auth-builder": ".agents/skills/frontend-auth-builder",
   "frontend-onboarding-builder": ".agents/skills/frontend-onboarding-builder",
+  "frontend-stepper-builder": ".agents/skills/frontend-stepper-builder",
   "frontend-search-builder": ".agents/skills/frontend-search-builder",
+  "frontend-pagination-builder": ".agents/skills/frontend-pagination-builder",
   "frontend-empty-state-builder": ".agents/skills/frontend-empty-state-builder",
   "frontend-notification-builder": ".agents/skills/frontend-notification-builder",
   "frontend-upload-builder": ".agents/skills/frontend-upload-builder",
@@ -64,6 +67,7 @@ const skillSummaries = {
   "frontend-figma-to-theme": "turn Figma design context into theme tokens and frontend DNA",
   "frontend-component-builder": "build components that follow the existing stack, theme, and UI DNA",
   "frontend-sidebar-builder": "build sidebar navigation shells with active-state and collapse discipline",
+  "frontend-breadcrumb-builder": "build breadcrumb trails with hierarchy and truncation discipline",
   "frontend-accordion-builder": "build accordion and disclosure surfaces with expansion discipline",
   "frontend-command-palette-builder": "build command palettes with trigger, ranking, and keyboard discipline",
   "frontend-detail-page-builder": "build detail pages with summary, metadata, and related-section discipline",
@@ -71,7 +75,9 @@ const skillSummaries = {
   "frontend-dashboard-builder": "build dashboard and analytics surfaces with hierarchy and state discipline",
   "frontend-auth-builder": "build auth flows with trust, recovery, and access-state discipline",
   "frontend-onboarding-builder": "build first-run onboarding flows with activation and progression discipline",
+  "frontend-stepper-builder": "build stepper progress UI with gating and status discipline",
   "frontend-search-builder": "build search and discovery flows with query, refinement, and result-state discipline",
+  "frontend-pagination-builder": "build pagination controls with state-sync and boundary discipline",
   "frontend-empty-state-builder": "build empty and recovery states with clear next-action discipline",
   "frontend-notification-builder": "build notification surfaces with urgency, placement, and lifecycle discipline",
   "frontend-upload-builder": "build upload surfaces with constraints, progress, and retry discipline",
@@ -461,6 +467,7 @@ Examples:
   npx @matsumiko/runbook skill install frontend-figma-to-theme
   npx @matsumiko/runbook skill install frontend-component-builder
   npx @matsumiko/runbook skill install frontend-sidebar-builder
+  npx @matsumiko/runbook skill install frontend-breadcrumb-builder
   npx @matsumiko/runbook skill install frontend-accordion-builder
   npx @matsumiko/runbook skill install frontend-command-palette-builder
   npx @matsumiko/runbook skill install frontend-detail-page-builder
@@ -468,7 +475,9 @@ Examples:
   npx @matsumiko/runbook skill install frontend-dashboard-builder
   npx @matsumiko/runbook skill install frontend-auth-builder
   npx @matsumiko/runbook skill install frontend-onboarding-builder
+  npx @matsumiko/runbook skill install frontend-stepper-builder
   npx @matsumiko/runbook skill install frontend-search-builder
+  npx @matsumiko/runbook skill install frontend-pagination-builder
   npx @matsumiko/runbook skill install frontend-empty-state-builder
   npx @matsumiko/runbook skill install frontend-notification-builder
   npx @matsumiko/runbook skill install frontend-upload-builder

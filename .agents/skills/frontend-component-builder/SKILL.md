@@ -1,6 +1,6 @@
 ---
 name: frontend-component-builder
-description: Build or refine frontend components, sections, and reusable UI surfaces on top of an existing stack, theme, and design rules. Use when Codex needs to implement a button, card, navbar, form section, table section, or similar UI work while preserving the current frontend DNA, tokens, and component family. Prefer this skill after the stack and theme direction are already established. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the design language still needs to be extracted from Figma or screenshots, use `frontend-figma-to-theme` first. If the main task is a specialized surface such as notifications, uploads, modals, tabs, sidebars, accordions, or command palettes, use the matching specialized skill first.
+description: Build or refine frontend components, sections, and reusable UI surfaces on top of an existing stack, theme, and design rules. Use when Codex needs to implement a button, card, navbar, form section, table section, or similar UI work while preserving the current frontend DNA, tokens, and component family. Prefer this skill after the stack and theme direction are already established. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the design language still needs to be extracted from Figma or screenshots, use `frontend-figma-to-theme` first. If the main task is a specialized surface such as notifications, uploads, modals, tabs, sidebars, accordions, command palettes, breadcrumbs, pagination, or steppers, use the matching specialized skill first.
 ---
 
 # Frontend Component Builder
@@ -97,6 +97,9 @@ If the request is vague, infer the smallest sensible contract and flag the assum
 - the main task is specifically sidebars, navigation rails, or app-shell nav surfaces
 - the main task is specifically accordions, disclosure stacks, or expandable sections
 - the main task is specifically command palettes, spotlight launchers, or quick-action overlays
+- the main task is specifically breadcrumbs, hierarchy trails, or route-ancestry indicators
+- the main task is specifically pagination, paged-result navigation, or load-more progression
+- the main task is specifically steppers, progress rails, or wizard-sequence indicators
 - the repo already has a component that only needs a tiny copy or spacing fix
 
 ## Output Shape

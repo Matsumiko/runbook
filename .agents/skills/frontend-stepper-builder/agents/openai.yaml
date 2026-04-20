@@ -1,0 +1,4 @@
+interface:
+  display_name: "Stepper Builder"
+  short_description: "Build multi-step progress surfaces"
+  default_prompt: "Use frontend-stepper-builder to build steppers and multi-step progress UI that follow the existing stack, theme, and product UI DNA."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Breadcrumb Builder"
+  short_description: "Build breadcrumb and hierarchy trails"
+  default_prompt: "Use frontend-breadcrumb-builder to build breadcrumb navigation that follows the existing stack, theme, and product UI DNA."

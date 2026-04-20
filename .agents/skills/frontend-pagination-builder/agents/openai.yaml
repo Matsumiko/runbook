@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pagination Builder"
+  short_description: "Build paginated list navigation"
+  default_prompt: "Use frontend-pagination-builder to build pagination controls and page-navigation behavior that follow the existing stack, theme, and product UI DNA."

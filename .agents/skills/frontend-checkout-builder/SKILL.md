@@ -1,6 +1,6 @@
 ---
 name: frontend-checkout-builder
-description: Build or refine frontend checkout pages, purchase flows, billing steps, and order-review surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement cart-to-payment flows, shipping and billing steps, order summaries, coupon or promo entry, payment-method selection, confirmation pages, or purchase-recovery states while preserving the current component family and handling trust, totals clarity, submit safety, async payment states, and conversion completion correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is a generic non-payment form, use `frontend-form-builder` first.
+description: Build or refine frontend checkout pages, purchase flows, billing steps, and order-review surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement cart-to-payment flows, shipping and billing steps, order summaries, coupon or promo entry, payment-method selection, confirmation pages, or purchase-recovery states while preserving the current component family and handling trust, totals clarity, submit safety, async payment states, and conversion completion correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is specifically stepper or progress-indicator work rather than the checkout flow as a whole, use `frontend-stepper-builder` first. If the task is a generic non-payment form, use `frontend-form-builder` first.
 ---
 
 # Frontend Checkout Builder
@@ -94,6 +94,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 
 - the main task is stack selection
 - the theme still needs to be derived from design references
+- the task is specifically stepper or progress-indicator work rather than the checkout flow as a whole
 - the task is a generic non-payment form
 - the work is purely a tiny copy or spacing tweak on an existing checkout screen
 

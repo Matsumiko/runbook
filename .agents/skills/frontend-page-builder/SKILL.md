@@ -1,6 +1,6 @@
 ---
 name: frontend-page-builder
-description: Build or refine full frontend pages, route-level surfaces, and multi-section flows on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement internal content pages or other route-level product surfaces that combine multiple sections into one coherent experience while preserving the current component family and handling hierarchy, entry points, page states, and responsive composition correctly. Prefer this skill after the frontend stack and visual direction are already established. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really a specialized surface such as detail pages, onboarding, search, empty states, sidebars, tabs, accordions, command palettes, dashboards, auth, marketing, or settings, use the matching specialized skill first. If the task is mostly one component, form, or table surface, use the matching builder first.
+description: Build or refine full frontend pages, route-level surfaces, and multi-section flows on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement internal content pages or other route-level surfaces that combine multiple sections into one coherent experience while preserving the current component family and handling hierarchy, entry points, states, and responsive composition correctly. Prefer this skill after the frontend stack and visual direction are already established. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is a specialized surface such as detail pages, onboarding, search, empty states, nav surfaces, tabs, accordions, command palettes, pagers, steppers, dashboards, auth, marketing, or settings, use the matching specialized skill first. If the task is mostly one component, form, or table surface, use the matching builder first.
 ---
 
 # Frontend Page Builder
@@ -98,9 +98,12 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the task is specifically a search or discovery surface
 - the task is specifically a dedicated empty, blocked, or no-data state surface
 - the task is specifically sidebar or navigation-rail work
+- the task is specifically breadcrumb or route-ancestry work
 - the task is specifically dedicated tabbed navigation or tabbed-panel work
 - the task is specifically accordion or disclosure-stack work
 - the task is specifically a command palette or spotlight launcher
+- the task is specifically pagination or paged-result navigation work
+- the task is specifically stepper or wizard-progress work
 - the task is clearly a dashboard or analytics overview
 - the task is specifically an auth entry or access-state flow
 - the task is specifically a public-facing marketing or conversion page

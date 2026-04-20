@@ -1,6 +1,6 @@
 ---
 name: frontend-onboarding-builder
-description: Build or refine frontend onboarding flows, first-run setup experiences, activation wizards, and guided empty-state journeys on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement welcome flows, first-workspace or first-project setup, profile completion, integration connection, import setup, initial preferences, or other post-signup activation sequences while preserving the current component family and handling step progression, motivation, and drop-off states correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is auth entry, use `frontend-auth-builder`. If the task is a generic route-level page, use `frontend-page-builder`. If the task is just one isolated form or settings screen, use `frontend-form-builder` or `frontend-settings-builder` first.
+description: Build or refine frontend onboarding flows, first-run setup experiences, activation wizards, and guided empty-state journeys on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement welcome flows, first-workspace or first-project setup, profile completion, integration connection, import setup, initial preferences, or other post-signup activation sequences while preserving the current component family and handling step progression, motivation, and drop-off states correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really stepper-only work, auth, a generic route page, or one isolated form/settings screen, use the matching specialized skill first.
 ---
 
 # Frontend Onboarding Builder
@@ -94,6 +94,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 
 - the main task is stack selection
 - the theme still needs to be derived from design references
+- the task is specifically stepper or progress-indicator work rather than the onboarding flow as a whole
 - the task is specifically an auth entry or identity verification flow
 - the task is a generic route-level page rather than an activation journey
 - the task is just one isolated form or one isolated settings screen
