@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit Log Builder"
+  short_description: "Build audit logs and change-history surfaces"
+  default_prompt: "Use frontend-audit-log-builder to build audit-log UI that follows the existing stack, theme, and product UI DNA."

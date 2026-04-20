@@ -1,0 +1,4 @@
+interface:
+  display_name: "Metric Comparison Builder"
+  short_description: "Build metric comparison surfaces and deltas"
+  default_prompt: "Use frontend-metric-comparison-builder to build metric-comparison UI that follows the existing stack, theme, and product UI DNA."

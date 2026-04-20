@@ -1,6 +1,6 @@
 ---
 name: frontend-kpi-card-builder
-description: Build or refine frontend KPI cards, stat cards, metric summary strips, target-vs-actual blocks, and compact analytics summary surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement revenue cards, growth stats, performance summaries, delta badges, sparkline summaries, or compact metric panels while preserving the current component family and handling number formatting, comparison clarity, threshold cues, loading states, and responsive clustering correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is a broader dashboard where KPI cards are only one section, use `frontend-dashboard-builder` first. If the task is really a chart or analytical graph, use `frontend-chart-builder` first.
+description: Build or refine frontend KPI cards, stat cards, metric summary strips, target-vs-actual blocks, and compact analytics summary surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement revenue cards, growth stats, performance summaries, delta badges, or compact metric panels while preserving the current component family and handling number formatting, comparison clarity, threshold cues, loading states, and responsive clustering correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is a broader dashboard, comparison panel, or chart, use `frontend-dashboard-builder`, `frontend-metric-comparison-builder`, or `frontend-chart-builder` first.
 ---
 
 # Frontend Kpi Card Builder
@@ -92,6 +92,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is stack selection
 - the theme still needs to be derived from design references
 - the task is really a broader dashboard where KPI cards are only one section
+- the task is really a metric-comparison, baseline-delta, or variance-summary surface
 - the task is really a chart, graph, or richer analytical visualization
 - the task is mostly a generic card component without metric semantics
 - the work is purely a tiny spacing or copy tweak on an existing KPI card

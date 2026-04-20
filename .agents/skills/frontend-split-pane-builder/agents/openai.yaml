@@ -1,0 +1,4 @@
+interface:
+  display_name: "Split Pane Builder"
+  short_description: "Build split-pane and resizable workspaces"
+  default_prompt: "Use frontend-split-pane-builder to build split-pane UI that follows the existing stack, theme, and product UI DNA."

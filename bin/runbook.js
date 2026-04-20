@@ -47,14 +47,19 @@ const skillDirectories = {
   "frontend-date-picker-builder": ".agents/skills/frontend-date-picker-builder",
   "frontend-calendar-builder": ".agents/skills/frontend-calendar-builder",
   "frontend-timeline-builder": ".agents/skills/frontend-timeline-builder",
+  "frontend-activity-feed-builder": ".agents/skills/frontend-activity-feed-builder",
+  "frontend-audit-log-builder": ".agents/skills/frontend-audit-log-builder",
   "frontend-chart-builder": ".agents/skills/frontend-chart-builder",
   "frontend-kpi-card-builder": ".agents/skills/frontend-kpi-card-builder",
-  "frontend-activity-feed-builder": ".agents/skills/frontend-activity-feed-builder",
+  "frontend-metric-comparison-builder": ".agents/skills/frontend-metric-comparison-builder",
   "frontend-map-builder": ".agents/skills/frontend-map-builder",
   "frontend-gantt-builder": ".agents/skills/frontend-gantt-builder",
   "frontend-scheduler-builder": ".agents/skills/frontend-scheduler-builder",
   "frontend-kanban-builder": ".agents/skills/frontend-kanban-builder",
+  "frontend-queue-board-builder": ".agents/skills/frontend-queue-board-builder",
   "frontend-sidebar-builder": ".agents/skills/frontend-sidebar-builder",
+  "frontend-split-pane-builder": ".agents/skills/frontend-split-pane-builder",
+  "frontend-master-detail-builder": ".agents/skills/frontend-master-detail-builder",
   "frontend-tree-view-builder": ".agents/skills/frontend-tree-view-builder",
   "frontend-org-chart-builder": ".agents/skills/frontend-org-chart-builder",
   "frontend-breadcrumb-builder": ".agents/skills/frontend-breadcrumb-builder",
@@ -96,14 +101,19 @@ const skillSummaries = {
   "frontend-date-picker-builder": "build date pickers with parsing, range, and mobile-fallback discipline",
   "frontend-calendar-builder": "build calendar surfaces with navigation, density, and fallback discipline",
   "frontend-timeline-builder": "build timeline surfaces with chronology, grouping, and state discipline",
+  "frontend-activity-feed-builder": "build activity feeds with grouping, unread state, and density discipline",
+  "frontend-audit-log-builder": "build audit-log surfaces with filters, diffs, and trace-discipline",
   "frontend-chart-builder": "build charts with labels, comparison clarity, and no-data discipline",
   "frontend-kpi-card-builder": "build KPI cards with comparison clarity and metric-state discipline",
-  "frontend-activity-feed-builder": "build activity feeds with grouping, unread state, and density discipline",
+  "frontend-metric-comparison-builder": "build metric comparisons with baselines, deltas, and variance discipline",
   "frontend-map-builder": "build maps with selection, density, and spatial-context discipline",
   "frontend-gantt-builder": "build gantt surfaces with scale, dependency, and fallback discipline",
   "frontend-scheduler-builder": "build schedulers with resources, slots, and overlap discipline",
   "frontend-kanban-builder": "build kanban boards with lanes, card density, and fallback discipline",
+  "frontend-queue-board-builder": "build queue boards with priority, triage, and bulk-action discipline",
   "frontend-sidebar-builder": "build sidebar navigation shells with active-state and collapse discipline",
+  "frontend-split-pane-builder": "build split panes with resizing, pane priority, and fallback discipline",
+  "frontend-master-detail-builder": "build master-detail surfaces with selection, preview, and drill-down discipline",
   "frontend-tree-view-builder": "build tree views with expansion, selection, and density discipline",
   "frontend-org-chart-builder": "build org charts with lineage, node density, and drill-down discipline",
   "frontend-breadcrumb-builder": "build breadcrumb trails with hierarchy and truncation discipline",
@@ -516,14 +526,19 @@ Examples:
   npx @matsumiko/runbook skill install frontend-date-picker-builder
   npx @matsumiko/runbook skill install frontend-calendar-builder
   npx @matsumiko/runbook skill install frontend-timeline-builder
+  npx @matsumiko/runbook skill install frontend-activity-feed-builder
+  npx @matsumiko/runbook skill install frontend-audit-log-builder
   npx @matsumiko/runbook skill install frontend-chart-builder
   npx @matsumiko/runbook skill install frontend-kpi-card-builder
-  npx @matsumiko/runbook skill install frontend-activity-feed-builder
+  npx @matsumiko/runbook skill install frontend-metric-comparison-builder
   npx @matsumiko/runbook skill install frontend-map-builder
   npx @matsumiko/runbook skill install frontend-gantt-builder
   npx @matsumiko/runbook skill install frontend-scheduler-builder
   npx @matsumiko/runbook skill install frontend-kanban-builder
+  npx @matsumiko/runbook skill install frontend-queue-board-builder
   npx @matsumiko/runbook skill install frontend-sidebar-builder
+  npx @matsumiko/runbook skill install frontend-split-pane-builder
+  npx @matsumiko/runbook skill install frontend-master-detail-builder
   npx @matsumiko/runbook skill install frontend-tree-view-builder
   npx @matsumiko/runbook skill install frontend-org-chart-builder
   npx @matsumiko/runbook skill install frontend-breadcrumb-builder

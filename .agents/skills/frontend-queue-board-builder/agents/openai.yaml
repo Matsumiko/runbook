@@ -1,0 +1,4 @@
+interface:
+  display_name: "Queue Board Builder"
+  short_description: "Build queue boards and triage surfaces"
+  default_prompt: "Use frontend-queue-board-builder to build queue-board UI that follows the existing stack, theme, and product UI DNA."

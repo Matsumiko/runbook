@@ -1,0 +1,4 @@
+interface:
+  display_name: "Master Detail Builder"
+  short_description: "Build master-detail and list-detail surfaces"
+  default_prompt: "Use frontend-master-detail-builder to build master-detail UI that follows the existing stack, theme, and product UI DNA."

@@ -1,6 +1,6 @@
 ---
 name: frontend-kanban-builder
-description: Build or refine frontend kanban boards, lane-based workflow surfaces, backlog columns, and status-driven task boards on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement work-in-progress boards, issue or ticket lanes, editorial boards, sprint backlogs, or grouped task-card workflow views while preserving the current component family and handling lane hierarchy, card density, drag affordances, empty lanes, status clarity, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the task is a broader dashboard or detail page and the board is only one sub-part, use the broader skill first unless the board itself is the main job.
+description: Build or refine frontend kanban boards, lane-based workflow surfaces, backlog columns, and status-driven task boards on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement work-in-progress boards, issue or ticket lanes, editorial boards, sprint backlogs, or grouped task-card workflow views while preserving the current component family and handling lane hierarchy, card density, drag affordances, empty lanes, status clarity, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the task is a broader dashboard or detail page and the board is only one sub-part, use the broader skill first unless the board itself is the main job. If the task is primarily operational triage or queue processing rather than status-lane workflow, use `frontend-queue-board-builder` first.
 ---
 
 # Frontend Kanban Builder
@@ -92,6 +92,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 
 - the main task is stack selection
 - the theme still needs to be derived from design references
+- the task is really a queue board, review queue, or triage worklist
 - the task is really a table, list, or detail route with only one board fragment
 - the task is really a calendar or schedule surface
 - the task is really a dependency or gantt planner

@@ -1,6 +1,6 @@
 ---
 name: frontend-activity-feed-builder
-description: Build or refine frontend activity feeds, recent-event streams, collaboration updates, and compact event-history surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement recent activity lists, collaboration feeds, audit-like update streams, workspace event panels, or unread recent-event surfaces while preserving the current component family and handling actor or action clarity, grouping, unread state, density, incremental loading, and responsive flow correctly. Prefer this skill after the frontend stack and visual direction already exist. If the task is really a milestone timeline or progress rail, use `frontend-timeline-builder`; if it is persistent alerts or inbox-style notifications, use `frontend-notification-builder`.
+description: Build or refine frontend activity feeds, recent-event streams, collaboration updates, and compact event-history surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement recent activity lists, collaboration feeds, workspace event panels, or unread recent-event surfaces while preserving the current component family and handling actor or action clarity, grouping, unread state, density, incremental loading, and responsive flow correctly. Prefer this skill after the frontend stack and visual direction already exist. If the task is really a milestone timeline or progress rail, use `frontend-timeline-builder`; if it is persistent alerts or inbox-style notifications, use `frontend-notification-builder`; if it is immutable auditability or change tracing, use `frontend-audit-log-builder`.
 ---
 
 # Frontend Activity Feed Builder
@@ -93,6 +93,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is stack selection
 - the theme still needs to be derived from design references
 - the task is really a milestone timeline, progress rail, or roadmap chronology
+- the task is really an audit log, compliance history, or immutable change trace
 - the task is really a notification delivery or alerting surface
 - the task is really a broader dashboard, detail page, or sidebar where the feed is only one sub-part
 - the work is purely a tiny spacing or copy tweak on an existing feed

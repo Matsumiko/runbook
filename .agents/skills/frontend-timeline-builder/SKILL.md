@@ -1,6 +1,6 @@
 ---
 name: frontend-timeline-builder
-description: Build or refine frontend timelines, milestone rails, audit trails, and ordered event-sequence surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement release timelines, incident histories, order or shipment progress, audit trails, or roadmap sequences while preserving the current component family and handling time grouping, status markers, chronology clarity, dense history states, and responsive flow correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the task is a broader detail page or onboarding flow and the timeline is only one sub-part, use the broader surface skill first unless the timeline itself is the main job. If the task is mainly a recent activity stream, use `frontend-activity-feed-builder`.
+description: Build or refine frontend timelines, milestone rails, and ordered event-sequence surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement release timelines, incident histories, order or shipment progress, or roadmap sequences while preserving the current component family and handling time grouping, status markers, chronology clarity, dense history states, and responsive flow correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the task is a broader detail page or onboarding flow and the timeline is only one sub-part, use the broader surface skill first unless the timeline itself is the main job. If the task is mainly a recent activity stream, use `frontend-activity-feed-builder`. If the task is mainly immutable trace history or auditability, use `frontend-audit-log-builder`.
 ---
 
 # Frontend Timeline Builder
@@ -17,7 +17,7 @@ description: Build or refine frontend timelines, milestone rails, audit trails, 
 ## Core Rules
 
 - Reuse the existing status language, icons, chips, metadata rows, and spacing rhythm.
-- Match the timeline type to the job: milestone rail, progress sequence, or audit trail.
+- Match the timeline type to the job: milestone rail, progress sequence, or ordered history.
 - Keep chronology unambiguous whether the view runs top-down, left-right, or grouped by date.
 - Make status markers, timestamps, and supporting metadata readable without turning every entry into a card wall.
 - Distinguish major milestones from routine events.
@@ -38,8 +38,8 @@ When used well, the output usually includes:
 
 ### 1. Audit before building
 
-- Inspect nearby timelines, order histories, progress rails, roadmap lists, audit trails, or recent-event surfaces already in the repo.
-- Identify whether the request is a horizontal milestone timeline, incident history, shipment progress, audit trail, or roadmap chronology.
+- Inspect nearby timelines, order histories, progress rails, roadmap lists, or recent-event surfaces already in the repo.
+- Identify whether the request is a horizontal milestone timeline, incident history, shipment progress, or roadmap chronology.
 - Check whether the product already uses status chips, timestamps, avatars, metadata rows, or section grouping that the timeline should inherit.
 
 If a local chronology pattern already exists, extend it instead of introducing a parallel timeline language.
@@ -92,6 +92,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is stack selection
 - the theme still needs to be derived from design references
 - the task is really a recent activity feed, collaboration update stream, or unread recent-events panel
+- the task is really an audit log, compliance trace, or immutable change-history surface
 - the task is really a full calendar or scheduler surface
 - the task is really a broader detail page, onboarding route, or dashboard where the timeline is only one sub-part
 - the task is really a gantt or dependency-planning surface
