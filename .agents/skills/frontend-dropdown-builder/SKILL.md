@@ -1,6 +1,6 @@
 ---
 name: frontend-dropdown-builder
-description: Build or refine frontend dropdown menus, action menus, overflow menus, and anchored select-like lists on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement kebab menus, profile menus, row-action menus, filter or sort menus, or compact option lists while preserving the current component family and handling trigger behavior, grouping, selection state, positioning, dismissal, and keyboard interaction correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task needs free typing, async search, or autocomplete, use `frontend-combobox-builder` instead.
+description: Build or refine frontend dropdown menus, action menus, overflow menus, and anchored option lists on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement kebab menus, profile menus, row-action menus, filter or sort menus, or compact option lists while preserving the current component family and handling trigger behavior, grouping, selection state, positioning, dismissal, and keyboard interaction correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the task needs free typing, async search, or autocomplete, use `frontend-combobox-builder`; if it is a field-level selector, use `frontend-select-builder`.
 ---
 
 # Frontend Dropdown Builder
@@ -94,6 +94,8 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is stack selection
 - the theme still needs to be derived from design references
 - the task requires typed search, autocomplete, or async option lookup
+- the task is specifically a field-level select control with label, helper, or validation treatment
+- the task is specifically a right-click or long-press context menu
 - the task requires rich content, inline forms, or a mini panel rather than a compact menu
 - the main task is really a tooltip-style explanatory hint
 - the main task is really a full page, table, search surface, or settings route where the dropdown is only one sub-part

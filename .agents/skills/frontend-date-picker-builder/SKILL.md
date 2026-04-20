@@ -1,6 +1,6 @@
 ---
 name: frontend-date-picker-builder
-description: Build or refine frontend date pickers, calendar inputs, date-range selectors, and scheduling-oriented date entry surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement single-date pickers, date-range fields, month or week selectors, booking or reporting range controls, or calendar-popover inputs while preserving the current component family and handling parsing, locale, range behavior, disabled dates, mobile fallback, and selection clarity correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is a broader form and date entry is only a small sub-part, use the broader surface skill first unless the date picker itself is the main job.
+description: Build or refine frontend date pickers, calendar inputs, date-range selectors, and scheduling-oriented date entry surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement single-date pickers, date-range fields, month or week selectors, booking or reporting range controls, or calendar-popover inputs while preserving the current component family and handling parsing, locale, range behavior, disabled dates, mobile fallback, and selection clarity correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is a broader form and date entry is only a small sub-part, use the broader surface skill first unless the date picker itself is the main job; use `frontend-calendar-builder` for full calendar views.
 ---
 
 # Frontend Date Picker Builder
@@ -95,6 +95,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the theme still needs to be derived from design references
 - the task is really a generic dropdown or menu
 - the task is really a popover only and not specifically date selection
+- the task is really a full calendar, scheduler, or agenda surface
 - the task is really a broader page, settings view, checkout flow, or form where the date input is only a tiny sub-part
 - the work is purely a tiny copy or spacing tweak on an existing date picker
 

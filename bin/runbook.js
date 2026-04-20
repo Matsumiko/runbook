@@ -41,7 +41,12 @@ const skillDirectories = {
   "frontend-dropdown-builder": ".agents/skills/frontend-dropdown-builder",
   "frontend-popover-builder": ".agents/skills/frontend-popover-builder",
   "frontend-combobox-builder": ".agents/skills/frontend-combobox-builder",
+  "frontend-select-builder": ".agents/skills/frontend-select-builder",
+  "frontend-context-menu-builder": ".agents/skills/frontend-context-menu-builder",
+  "frontend-data-filter-builder": ".agents/skills/frontend-data-filter-builder",
   "frontend-date-picker-builder": ".agents/skills/frontend-date-picker-builder",
+  "frontend-calendar-builder": ".agents/skills/frontend-calendar-builder",
+  "frontend-timeline-builder": ".agents/skills/frontend-timeline-builder",
   "frontend-sidebar-builder": ".agents/skills/frontend-sidebar-builder",
   "frontend-breadcrumb-builder": ".agents/skills/frontend-breadcrumb-builder",
   "frontend-accordion-builder": ".agents/skills/frontend-accordion-builder",
@@ -75,7 +80,12 @@ const skillSummaries = {
   "frontend-dropdown-builder": "build dropdown menus with grouping, selection, and dismissal discipline",
   "frontend-popover-builder": "build anchored popovers with lifecycle, density, and fallback discipline",
   "frontend-combobox-builder": "build comboboxes with query, selection, and async-state discipline",
+  "frontend-select-builder": "build select fields with labels, value clarity, and fallback discipline",
+  "frontend-context-menu-builder": "build context menus with trigger semantics and fallback discipline",
+  "frontend-data-filter-builder": "build data filters with active-state and reset discipline",
   "frontend-date-picker-builder": "build date pickers with parsing, range, and mobile-fallback discipline",
+  "frontend-calendar-builder": "build calendar surfaces with navigation, density, and fallback discipline",
+  "frontend-timeline-builder": "build timeline surfaces with chronology, grouping, and state discipline",
   "frontend-sidebar-builder": "build sidebar navigation shells with active-state and collapse discipline",
   "frontend-breadcrumb-builder": "build breadcrumb trails with hierarchy and truncation discipline",
   "frontend-accordion-builder": "build accordion and disclosure surfaces with expansion discipline",
@@ -480,7 +490,12 @@ Examples:
   npx @matsumiko/runbook skill install frontend-dropdown-builder
   npx @matsumiko/runbook skill install frontend-popover-builder
   npx @matsumiko/runbook skill install frontend-combobox-builder
+  npx @matsumiko/runbook skill install frontend-select-builder
+  npx @matsumiko/runbook skill install frontend-context-menu-builder
+  npx @matsumiko/runbook skill install frontend-data-filter-builder
   npx @matsumiko/runbook skill install frontend-date-picker-builder
+  npx @matsumiko/runbook skill install frontend-calendar-builder
+  npx @matsumiko/runbook skill install frontend-timeline-builder
   npx @matsumiko/runbook skill install frontend-sidebar-builder
   npx @matsumiko/runbook skill install frontend-breadcrumb-builder
   npx @matsumiko/runbook skill install frontend-accordion-builder

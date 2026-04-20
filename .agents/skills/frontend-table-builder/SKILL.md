@@ -1,6 +1,6 @@
 ---
 name: frontend-table-builder
-description: Build or refine frontend tables, data grids, list views, and dense data surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement admin tables, activity logs, invoices, directories, or other row-and-column surfaces while handling density, sorting, filtering affordances, row states, empty states, loading states, and responsive degradation correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really paginated-result navigation, a broader search surface, a recovery-first empty table state, or general component work, use the matching specialized skill first.
+description: Build or refine frontend tables, data grids, list views, and dense data surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement admin tables, activity logs, invoices, directories, or other row-and-column surfaces while handling density, sorting, filtering affordances, row states, empty states, loading states, and responsive degradation correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really paginated-result navigation, a broader search surface, a dedicated data-filter surface, a row context-menu surface, a recovery-first empty table state, or general component work, use the matching specialized skill first.
 ---
 
 # Frontend Table Builder
@@ -94,6 +94,8 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the theme still needs to be derived from design references
 - the task is specifically a paginated-result footer or page-navigation surface rather than the table as a whole
 - the task is specifically a search or discovery surface where query and refinement UX matter most
+- the task is specifically a filter bar, facet panel, or applied-filter system rather than the table as a whole
+- the task is specifically a row context menu or right-click action surface rather than the table as a whole
 - the main task is specifically an empty table, zero-row replacement, or recovery-first no-data surface
 - the task is mostly a generic non-data component
 - the work is purely a tiny copy or spacing tweak on an existing table

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Data Filter Builder"
+  short_description: "Build filter bars and data refinements"
+  default_prompt: "Use frontend-data-filter-builder to build data filter UI that follows the existing stack, theme, and product UI DNA."

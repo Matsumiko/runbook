@@ -1,6 +1,6 @@
 ---
 name: frontend-dashboard-builder
-description: Build or refine frontend dashboards, analytics pages, admin overviews, KPI surfaces, and operational home screens on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement metric cards, chart sections, filter bars, activity feeds, summary tables, or multi-panel overview layouts while preserving the current component family and handling density, hierarchy, loading states, empty states, and responsive composition correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really a sidebar-only surface, a dedicated empty or blocked state, or one isolated component, form, or table, use the matching specialized skill first.
+description: Build or refine frontend dashboards, analytics pages, admin overviews, KPI surfaces, and operational home screens on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement metric cards, chart sections, filter bars, activity feeds, summary tables, or multi-panel overview layouts while preserving the current component family and handling density, hierarchy, loading states, empty states, and responsive composition correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really a sidebar-only surface, a dedicated empty or blocked state, a dedicated data-filter surface, a dedicated calendar surface, a dedicated timeline surface, or one isolated component, form, or table, use the matching specialized skill first.
 ---
 
 # Frontend Dashboard Builder
@@ -95,6 +95,9 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the theme still needs to be derived from design references
 - the main task is specifically app-shell sidebar navigation rather than the dashboard as a whole
 - the main task is specifically a dashboard empty or blocked state rather than the dashboard as a whole
+- the main task is specifically a filter bar, facet panel, or applied-filter system rather than the dashboard as a whole
+- the main task is specifically a calendar or scheduler surface rather than the dashboard as a whole
+- the main task is specifically a timeline or chronology surface rather than the dashboard as a whole
 - the task is mostly one isolated component, form, or table
 - the work is purely a tiny spacing or copy tweak on an existing dashboard
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Context Menu Builder"
+  short_description: "Build context menus and row actions"
+  default_prompt: "Use frontend-context-menu-builder to build context menu UI that follows the existing stack, theme, and product UI DNA."

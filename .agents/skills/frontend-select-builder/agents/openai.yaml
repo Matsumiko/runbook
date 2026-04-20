@@ -1,0 +1,4 @@
+interface:
+  display_name: "Select Builder"
+  short_description: "Build field select controls"
+  default_prompt: "Use frontend-select-builder to build field select UI that follows the existing stack, theme, and product UI DNA."

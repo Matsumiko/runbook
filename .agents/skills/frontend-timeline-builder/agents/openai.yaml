@@ -1,0 +1,4 @@
+interface:
+  display_name: "Timeline Builder"
+  short_description: "Build timeline and chronology views"
+  default_prompt: "Use frontend-timeline-builder to build timeline UI that follows the existing stack, theme, and product UI DNA."

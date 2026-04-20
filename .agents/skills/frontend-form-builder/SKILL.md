@@ -1,6 +1,6 @@
 ---
 name: frontend-form-builder
-description: Build or refine frontend forms on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement a profile editor, filter form, wizard step, or other input-heavy surface while preserving the current component family and handling validation, field states, submission, and accessibility correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really stepper-only work, auth, onboarding, search, checkout, settings, upload, combobox, date-picker, or general component work, use the matching specialized skill first.
+description: Build or refine frontend forms on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement a profile editor, filter form, wizard step, or other input-heavy surface while preserving the current component family and handling validation, field states, submission, and accessibility correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really stepper-only work, auth, onboarding, search, checkout, settings, upload, combobox, select, date-picker, or general component work, use the matching specialized skill first.
 ---
 
 # Frontend Form Builder
@@ -99,6 +99,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the task is specifically a settings or preferences surface
 - the task is specifically upload, attachment, avatar, or import-file UX
 - the task is specifically a combobox, autocomplete, or typed selector surface
+- the task is specifically a select field or field-level picker surface
 - the task is specifically a date picker, range selector, or calendar input surface
 - the task is mostly a generic non-form component
 - the work is purely a tiny copy or spacing tweak on an existing form
