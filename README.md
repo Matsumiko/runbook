@@ -51,9 +51,97 @@
 
 ---
 
-## Instalasi Inti
+## Apa Itu RunBook
 
-Tambahkan RunBook ke proyek mana pun:
+RunBook adalah kit instruksi operasional untuk AI coding agents.
+
+Ia membantu repository punya:
+
+- aturan kerja utama lewat `AGENTS.md`
+- session recovery yang bisa di-resume lewat `SESSION.md` dan `.runbook/sessions/`
+- memori proyek, plan, backlog, dan changelog yang konsisten
+- guardrail frontend dan backend
+- adapter native untuk agent lain seperti Claude, Cursor, Copilot, Gemini, Windsurf, Cline, dan Aider
+- bundled Codex skills untuk greenfield frontend, component work, specialist UI surfaces, dan final polish
+
+Kalau kamu ingin agent bekerja lebih disiplin, lebih gampang di-handoff, dan tidak terlalu banyak tebak-tebakan antar sesi, RunBook dibuat untuk itu.
+
+---
+
+## Cara Menjalankan CLI
+
+Pertanyaan paling umum: **apakah harus `npm i` dulu sebelum bisa pakai?**
+
+Jawaban singkat: **tidak harus**.
+
+| Cara pakai | Cocok untuk | Command | Apakah `runbook` bisa dipanggil langsung? |
+| --- | --- | --- | --- |
+| Tanpa install, sekali pakai | Coba cepat, bootstrap repo baru, CI one-shot | `npx @matsumiko/runbook init` | Tidak. Jalankan lewat `npx @matsumiko/runbook ...` |
+| Install lokal ke project | Project yang ingin menyimpan dependency CLI di repo | `npm i -D @matsumiko/runbook` lalu `npx runbook init` | Tidak global. Pakai `npx runbook ...` atau npm script |
+| Install global | Kamu sering pakai RunBook di banyak project dari mesin yang sama | `npm i -g @matsumiko/runbook` lalu `runbook init` | Ya |
+
+### Aturan praktis
+
+- Kalau cuma mau pakai cepat: gunakan `npx @matsumiko/runbook ...`
+- Kalau ingin dependency tercatat di project: gunakan `npm i -D @matsumiko/runbook`, lalu jalankan dengan `npx runbook ...`
+- Kalau ingin command `runbook` tersedia langsung di terminal: install global dengan `npm i -g @matsumiko/runbook`
+
+### Contoh yang benar
+
+Tanpa install global:
+
+```bash
+npx @matsumiko/runbook init
+npx @matsumiko/runbook init --agent claude
+npx @matsumiko/runbook skill list
+```
+
+Dengan install lokal di project:
+
+```bash
+npm i -D @matsumiko/runbook
+npx runbook init --agent codex
+npx runbook session list
+```
+
+Dengan install global:
+
+```bash
+npm i -g @matsumiko/runbook
+runbook init --agent all
+runbook skill list
+```
+
+Kalau install lokal dan ingin command yang lebih enak dipakai tim:
+
+```json
+{
+  "scripts": {
+    "runbook:init": "runbook init --agent all",
+    "runbook:skills": "runbook skill list"
+  }
+}
+```
+
+Lalu jalankan:
+
+```bash
+npm run runbook:init
+npm run runbook:skills
+```
+
+Kalau kamu melihat command seperti `runbook init` di dokumentasi, anggap itu berarti salah satu dari dua hal:
+
+1. paket sudah di-install global, atau
+2. command itu dipanggil lewat npm script atau `npx runbook`
+
+---
+
+## Quick Start
+
+### 1. Bootstrap tercepat
+
+Tambahkan RunBook ke project aktif:
 
 ```bash
 npx @matsumiko/runbook init
@@ -81,132 +169,76 @@ npx @matsumiko/runbook init ./my-app --agent codex
 
 File yang sudah ada akan di-skip secara default. Gunakan `--force` hanya jika memang ingin menimpa file RunBook yang sudah ada.
 
+### 2. Flow penggunaan paling umum
+
+1. Jalankan `init` di root project.
+2. Isi `CODER.md` dengan command penting, arsitektur, env vars, dan gotcha project.
+3. Biarkan agent membaca `AGENTS.md` sebelum bekerja.
+4. Untuk task non-trivial, gunakan workflow session recovery lewat `SESSION.md`.
+5. Kalau repo butuh skill Codex tambahan, install hanya skill yang relevan.
+
+### 3. Contoh alur nyata
+
+Project baru untuk Codex saja:
+
+```bash
+npx @matsumiko/runbook init --agent codex
+```
+
+Project yang mau dipakai Codex + Claude + Cursor:
+
+```bash
+npx @matsumiko/runbook init --agent claude,cursor
+```
+
+Project yang ingin semua adapter non-Codex:
+
+```bash
+npx @matsumiko/runbook init --agent all
+```
+
+Project existing yang mau tambah RunBook ke folder lain:
+
+```bash
+npx @matsumiko/runbook init ./apps/admin --agent codex
+```
+
 ---
 
 ## Install Skill Codex Bawaan
 
-RunBook sekarang menyertakan skill Codex repo-scoped untuk memilih fondasi frontend, menerjemahkan konteks Figma menjadi theme tokens, membangun komponen umum, controls khusus seperti tooltip, dropdown, popover, combobox, select, context menu, data filter, data-grid toolbar, bulk-action bar, date picker, calendar, timeline, activity feed, audit log, diff viewer, chart, KPI card, metric comparison, map, gantt, scheduler, kanban, queue board, inbox, tree view, org chart, serta shell dan workflow surface seperti sidebar, split pane, inspector, master-detail, detail page, review panel, dashboard, auth, search, checkout, settings, sampai refinement akhir sebelum ship.
+RunBook menyertakan bundled Codex skills untuk:
 
-Install skill ke proyek aktif:
+- memilih fondasi frontend greenfield
+- menerjemahkan konteks Figma ke theme dan rules
+- membangun komponen umum
+- membangun specialist UI surfaces seperti chart, inbox, queue, search, table, audit log, review panel, dashboard, checkout, settings, dan banyak lagi
+
+Lihat daftar skill yang tersedia:
+
+```bash
+npx @matsumiko/runbook skill list
+```
+
+Install skill ke project aktif:
 
 ```bash
 npx @matsumiko/runbook skill install frontend-foundation-builder
 npx @matsumiko/runbook skill install frontend-figma-to-theme
-npx @matsumiko/runbook skill install frontend-component-builder
-npx @matsumiko/runbook skill install frontend-tooltip-builder
-npx @matsumiko/runbook skill install frontend-dropdown-builder
-npx @matsumiko/runbook skill install frontend-popover-builder
-npx @matsumiko/runbook skill install frontend-combobox-builder
-npx @matsumiko/runbook skill install frontend-select-builder
-npx @matsumiko/runbook skill install frontend-context-menu-builder
-npx @matsumiko/runbook skill install frontend-data-filter-builder
-npx @matsumiko/runbook skill install frontend-date-picker-builder
-npx @matsumiko/runbook skill install frontend-calendar-builder
-npx @matsumiko/runbook skill install frontend-timeline-builder
-npx @matsumiko/runbook skill install frontend-activity-feed-builder
-npx @matsumiko/runbook skill install frontend-audit-log-builder
-npx @matsumiko/runbook skill install frontend-diff-viewer-builder
-npx @matsumiko/runbook skill install frontend-chart-builder
-npx @matsumiko/runbook skill install frontend-kpi-card-builder
-npx @matsumiko/runbook skill install frontend-metric-comparison-builder
-npx @matsumiko/runbook skill install frontend-map-builder
-npx @matsumiko/runbook skill install frontend-gantt-builder
-npx @matsumiko/runbook skill install frontend-scheduler-builder
-npx @matsumiko/runbook skill install frontend-kanban-builder
-npx @matsumiko/runbook skill install frontend-queue-board-builder
-npx @matsumiko/runbook skill install frontend-inbox-builder
-npx @matsumiko/runbook skill install frontend-sidebar-builder
-npx @matsumiko/runbook skill install frontend-split-pane-builder
-npx @matsumiko/runbook skill install frontend-inspector-builder
-npx @matsumiko/runbook skill install frontend-master-detail-builder
-npx @matsumiko/runbook skill install frontend-tree-view-builder
-npx @matsumiko/runbook skill install frontend-org-chart-builder
-npx @matsumiko/runbook skill install frontend-breadcrumb-builder
-npx @matsumiko/runbook skill install frontend-accordion-builder
-npx @matsumiko/runbook skill install frontend-command-palette-builder
-npx @matsumiko/runbook skill install frontend-detail-page-builder
-npx @matsumiko/runbook skill install frontend-review-panel-builder
 npx @matsumiko/runbook skill install frontend-page-builder
-npx @matsumiko/runbook skill install frontend-dashboard-builder
-npx @matsumiko/runbook skill install frontend-auth-builder
-npx @matsumiko/runbook skill install frontend-onboarding-builder
-npx @matsumiko/runbook skill install frontend-stepper-builder
-npx @matsumiko/runbook skill install frontend-search-builder
-npx @matsumiko/runbook skill install frontend-data-grid-toolbar-builder
-npx @matsumiko/runbook skill install frontend-bulk-action-bar-builder
-npx @matsumiko/runbook skill install frontend-pagination-builder
-npx @matsumiko/runbook skill install frontend-empty-state-builder
-npx @matsumiko/runbook skill install frontend-notification-builder
-npx @matsumiko/runbook skill install frontend-upload-builder
-npx @matsumiko/runbook skill install frontend-modal-builder
-npx @matsumiko/runbook skill install frontend-tabs-builder
-npx @matsumiko/runbook skill install frontend-marketing-builder
-npx @matsumiko/runbook skill install frontend-checkout-builder
-npx @matsumiko/runbook skill install frontend-settings-builder
-npx @matsumiko/runbook skill install frontend-polish-pass
-npx @matsumiko/runbook skill install frontend-form-builder
-npx @matsumiko/runbook skill install frontend-table-builder
 ```
 
 Install ke direktori tertentu:
 
 ```bash
 npx @matsumiko/runbook skill install frontend-foundation-builder ./my-app
-npx @matsumiko/runbook skill install frontend-figma-to-theme ./my-app
-npx @matsumiko/runbook skill install frontend-component-builder ./my-app
-npx @matsumiko/runbook skill install frontend-tooltip-builder ./my-app
-npx @matsumiko/runbook skill install frontend-dropdown-builder ./my-app
-npx @matsumiko/runbook skill install frontend-popover-builder ./my-app
-npx @matsumiko/runbook skill install frontend-combobox-builder ./my-app
-npx @matsumiko/runbook skill install frontend-select-builder ./my-app
-npx @matsumiko/runbook skill install frontend-context-menu-builder ./my-app
-npx @matsumiko/runbook skill install frontend-data-filter-builder ./my-app
-npx @matsumiko/runbook skill install frontend-date-picker-builder ./my-app
-npx @matsumiko/runbook skill install frontend-calendar-builder ./my-app
-npx @matsumiko/runbook skill install frontend-timeline-builder ./my-app
-npx @matsumiko/runbook skill install frontend-activity-feed-builder ./my-app
-npx @matsumiko/runbook skill install frontend-audit-log-builder ./my-app
-npx @matsumiko/runbook skill install frontend-diff-viewer-builder ./my-app
-npx @matsumiko/runbook skill install frontend-chart-builder ./my-app
-npx @matsumiko/runbook skill install frontend-kpi-card-builder ./my-app
-npx @matsumiko/runbook skill install frontend-metric-comparison-builder ./my-app
-npx @matsumiko/runbook skill install frontend-map-builder ./my-app
-npx @matsumiko/runbook skill install frontend-gantt-builder ./my-app
-npx @matsumiko/runbook skill install frontend-scheduler-builder ./my-app
-npx @matsumiko/runbook skill install frontend-kanban-builder ./my-app
-npx @matsumiko/runbook skill install frontend-queue-board-builder ./my-app
-npx @matsumiko/runbook skill install frontend-inbox-builder ./my-app
-npx @matsumiko/runbook skill install frontend-sidebar-builder ./my-app
-npx @matsumiko/runbook skill install frontend-split-pane-builder ./my-app
-npx @matsumiko/runbook skill install frontend-inspector-builder ./my-app
-npx @matsumiko/runbook skill install frontend-master-detail-builder ./my-app
-npx @matsumiko/runbook skill install frontend-tree-view-builder ./my-app
-npx @matsumiko/runbook skill install frontend-org-chart-builder ./my-app
-npx @matsumiko/runbook skill install frontend-breadcrumb-builder ./my-app
-npx @matsumiko/runbook skill install frontend-accordion-builder ./my-app
-npx @matsumiko/runbook skill install frontend-command-palette-builder ./my-app
-npx @matsumiko/runbook skill install frontend-detail-page-builder ./my-app
-npx @matsumiko/runbook skill install frontend-review-panel-builder ./my-app
-npx @matsumiko/runbook skill install frontend-page-builder ./my-app
-npx @matsumiko/runbook skill install frontend-dashboard-builder ./my-app
-npx @matsumiko/runbook skill install frontend-auth-builder ./my-app
-npx @matsumiko/runbook skill install frontend-onboarding-builder ./my-app
-npx @matsumiko/runbook skill install frontend-stepper-builder ./my-app
 npx @matsumiko/runbook skill install frontend-search-builder ./my-app
-npx @matsumiko/runbook skill install frontend-data-grid-toolbar-builder ./my-app
-npx @matsumiko/runbook skill install frontend-bulk-action-bar-builder ./my-app
-npx @matsumiko/runbook skill install frontend-pagination-builder ./my-app
-npx @matsumiko/runbook skill install frontend-empty-state-builder ./my-app
-npx @matsumiko/runbook skill install frontend-notification-builder ./my-app
-npx @matsumiko/runbook skill install frontend-upload-builder ./my-app
-npx @matsumiko/runbook skill install frontend-modal-builder ./my-app
-npx @matsumiko/runbook skill install frontend-tabs-builder ./my-app
-npx @matsumiko/runbook skill install frontend-marketing-builder ./my-app
-npx @matsumiko/runbook skill install frontend-checkout-builder ./my-app
-npx @matsumiko/runbook skill install frontend-settings-builder ./my-app
-npx @matsumiko/runbook skill install frontend-polish-pass ./my-app
-npx @matsumiko/runbook skill install frontend-form-builder ./my-app
-npx @matsumiko/runbook skill install frontend-table-builder ./my-app
+```
+
+Preview tanpa menulis file:
+
+```bash
+npx @matsumiko/runbook skill install frontend-dashboard-builder ./my-app --dry-run
 ```
 
 Skill yang dipilih akan disalin ke:
@@ -215,7 +247,7 @@ Skill yang dipilih akan disalin ke:
 .agents/skills/<skill-name>/
 ```
 
-Lokasi itu mengikuti dokumentasi Codex untuk repo-scoped skills, sehingga skill dapat ditemukan langsung saat Codex dijalankan dari repository tersebut.
+Lokasi itu mengikuti dokumentasi Codex untuk repo-scoped skills, sehingga skill dapat ditemukan langsung saat Codex dijalankan dari repository tersebut. Daftar lengkap skill dan kegunaannya ada di bagian [Skill Bawaan](#skill-bawaan).
 
 ---
 
@@ -487,6 +519,12 @@ runbook skill list
 runbook skill install <name> [target] [--force] [--dry-run]
 runbook help
 ```
+
+Jika kamu belum install global, gunakan prefix yang sesuai:
+
+- `npx @matsumiko/runbook ...` untuk one-shot tanpa install
+- `npx runbook ...` setelah package di-install lokal di project
+- `runbook ...` setelah package di-install global
 
 | Opsi | Deskripsi |
 | --- | --- |
