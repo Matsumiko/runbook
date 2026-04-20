@@ -7,6 +7,12 @@
     "status": "ACTIVE",
     "agent": "openai-codex"
   },
+  "project": {
+    "name": "storefront-admin",
+    "root": "D:\\Github\\storefront-admin",
+    "gitRemote": "https://github.com/example/storefront-admin.git",
+    "gitBranch": "main"
+  },
   "prompt": {
     "original": "Add a CSV export button to the orders table. It should respect the active filters and show a loading state while exporting.",
     "understoodGoal": "Add a filtered CSV export flow to the existing orders table with honest loading and failure states.",
@@ -168,7 +174,7 @@
     "nextSessionMustKnow": [
       "Resume at Step 3.",
       "Audit the current working tree before continuing because the interrupted file may have changed.",
-      "Do not commit runtime SESSION-[timestamp].json files unless explicitly requested."
+      "Do not commit runtime .runbook/sessions/SESSION-[timestamp].json files unless explicitly requested."
     ]
   }
 }

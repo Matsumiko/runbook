@@ -6,11 +6,18 @@ const fs = require("fs");
 const path = require("path");
 
 const packageRoot = path.resolve(__dirname, "..");
+const sessionDirectory = path.join(".runbook", "sessions");
+const sessionFilePattern = /^SESSION-\d{8}-\d{4}\.json$/;
+const recoverableSessionStatuses = new Set(["ACTIVE", "PAUSED", "INTERRUPTED", "BLOCKED"]);
+const cleanupSessionStatuses = new Set(["COMPLETED", "CANCELLED"]);
+const defaultSessionKeepCount = 20;
+const defaultSessionOlderThanDays = 14;
 
 const coreFiles = [
   ["AGENTS.md", "AGENTS.md"],
   ["SESSION.md", "SESSION.md"],
   ["SESSION-EXAMPLE.json", "SESSION-EXAMPLE.json"],
+  [".runbook/sessions/.gitkeep", ".runbook/sessions/.gitkeep"],
   ["templates/core/CODER.md", "CODER.md"],
   ["templates/core/PLAN.md", "PLAN.md"],
   ["templates/core/TODO.md", "TODO.md"],
@@ -188,6 +195,25 @@ function main(argv) {
     fail(`Unknown skill command: ${args.subcommand}`);
   }
 
+  if (args.command === "session" || args.command === "sessions") {
+    if (!args.subcommand || args.subcommand === "list") {
+      listSessions(args);
+      return;
+    }
+
+    if (args.subcommand === "clear" || args.subcommand === "clean") {
+      clearSessions(args);
+      return;
+    }
+
+    if (args.subcommand === "help") {
+      printHelp();
+      return;
+    }
+
+    fail(`Unknown session command: ${args.subcommand}`);
+  }
+
   if (args.command === "init") {
     init(args);
     return;
@@ -205,6 +231,9 @@ function parseArgs(argv) {
     skillName: undefined,
     force: false,
     dryRun: false,
+    all: false,
+    keep: defaultSessionKeepCount,
+    olderThanDays: defaultSessionOlderThanDays,
     help: false,
   };
 
@@ -225,6 +254,39 @@ function parseArgs(argv) {
 
     if (value === "--dry-run") {
       args.dryRun = true;
+      continue;
+    }
+
+    if (value === "--all") {
+      args.all = true;
+      continue;
+    }
+
+    if (value === "--keep") {
+      index += 1;
+      if (!argv[index]) {
+        fail("Missing value for --keep.");
+      }
+      args.keep = parsePositiveInteger(argv[index], "--keep");
+      continue;
+    }
+
+    if (value.startsWith("--keep=")) {
+      args.keep = parsePositiveInteger(value.slice("--keep=".length), "--keep");
+      continue;
+    }
+
+    if (value === "--older-than") {
+      index += 1;
+      if (!argv[index]) {
+        fail("Missing value for --older-than.");
+      }
+      args.olderThanDays = parsePositiveInteger(argv[index], "--older-than");
+      continue;
+    }
+
+    if (value.startsWith("--older-than=")) {
+      args.olderThanDays = parsePositiveInteger(value.slice("--older-than=".length), "--older-than");
       continue;
     }
 
@@ -270,6 +332,10 @@ function parseArgs(argv) {
         fail('Missing skill name. Usage: runbook skill install <name> [target]');
       }
     }
+  } else if (first === "session" || first === "sessions") {
+    args.command = first;
+    args.subcommand = positional[1] || "list";
+    args.target = positional[2] || ".";
   } else {
     args.command = "init";
     args.target = first;
@@ -281,6 +347,16 @@ function parseArgs(argv) {
   }
 
   return args;
+}
+
+function parsePositiveInteger(value, optionName) {
+  const parsed = Number.parseInt(String(value), 10);
+
+  if (!Number.isFinite(parsed) || parsed < 0 || String(parsed) !== String(value).trim()) {
+    fail(`${optionName} must be a non-negative integer.`);
+  }
+
+  return parsed;
 }
 
 function init(args) {
@@ -295,6 +371,12 @@ function init(args) {
       label: destinationFile,
     });
   }
+
+  operations.push({
+    content: "*.json\n!.gitkeep\n",
+    destination: path.join(targetDir, ".runbook", "sessions", ".gitignore"),
+    label: ".runbook/sessions/.gitignore",
+  });
 
   for (const agent of agentSelection) {
     for (const file of variantFiles[agent]) {
@@ -354,6 +436,152 @@ function installSkill(args) {
     ],
     result,
   });
+}
+
+function listSessions(args) {
+  const targetDir = path.resolve(process.cwd(), args.target);
+  const sessions = readSessionSummaries(targetDir);
+  const sessionsDir = path.join(targetDir, sessionDirectory);
+
+  console.log(`RunBook sessions in ${sessionsDir}`);
+
+  if (sessions.length === 0) {
+    console.log("No runtime sessions found.");
+    return;
+  }
+
+  for (const item of sessions) {
+    const status = item.status.padEnd(11);
+    const project = item.projectName || "(unknown project)";
+    const branch = item.gitBranch ? ` ${item.gitBranch}` : "";
+    const marker = recoverableSessionStatuses.has(item.status) ? "recoverable" : "closed";
+    console.log(`  ${item.fileName}  ${status}  ${project}${branch}  ${marker}`);
+  }
+}
+
+function clearSessions(args) {
+  const targetDir = path.resolve(process.cwd(), args.target);
+  const sessions = readSessionSummaries(targetDir);
+  const sessionsDir = path.join(targetDir, sessionDirectory);
+
+  if (sessions.length === 0) {
+    console.log(`No runtime sessions found in ${sessionsDir}.`);
+    return;
+  }
+
+  if (args.all && !args.force) {
+    fail("Refusing to clear all sessions without --force.");
+  }
+
+  const cutoff = Date.now() - args.olderThanDays * 24 * 60 * 60 * 1000;
+  const keptByCount = new Set(
+    sessions
+      .slice(0, args.keep)
+      .map((item) => item.filePath),
+  );
+
+  const candidates = sessions.filter((item) => {
+    if (args.all) {
+      return true;
+    }
+
+    if (!cleanupSessionStatuses.has(item.status)) {
+      return false;
+    }
+
+    if (keptByCount.has(item.filePath)) {
+      return false;
+    }
+
+    return item.sessionTime.getTime() < cutoff;
+  });
+
+  if (candidates.length === 0) {
+    console.log(`No sessions eligible for cleanup in ${sessionsDir}.`);
+    console.log(`Policy: keep newest ${args.keep}, clear COMPLETED/CANCELLED older than ${args.olderThanDays} day(s) by filename timestamp.`);
+    return;
+  }
+
+  console.log(`${args.dryRun ? "Would remove" : "Removing"} ${candidates.length} session file(s) from ${sessionsDir}:`);
+  for (const item of candidates) {
+    console.log(`  ${args.dryRun ? "-" : "x"} ${item.fileName} (${item.status})`);
+
+    if (!args.dryRun) {
+      fs.unlinkSync(item.filePath);
+    }
+  }
+
+  if (args.dryRun) {
+    console.log("\nDry run only. Re-run without --dry-run to remove these files.");
+  }
+}
+
+function readSessionSummaries(targetDir) {
+  const sessionsDir = path.join(targetDir, sessionDirectory);
+
+  if (!fs.existsSync(sessionsDir)) {
+    return [];
+  }
+
+  return fs
+    .readdirSync(sessionsDir, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && sessionFilePattern.test(entry.name))
+    .map((entry) => {
+      const filePath = path.join(sessionsDir, entry.name);
+      const stats = fs.statSync(filePath);
+      const fallback = {
+        fileName: entry.name,
+        filePath,
+        status: "UNKNOWN",
+        projectName: "",
+        gitBranch: "",
+        sessionTime: parseSessionFileTime(entry.name) || stats.mtime,
+      };
+
+      try {
+        const parsed = parseJsonFile(filePath);
+        return {
+          ...fallback,
+          status: String(parsed.session?.status || "UNKNOWN").toUpperCase(),
+          projectName: String(parsed.project?.name || ""),
+          gitBranch: String(parsed.project?.gitBranch || ""),
+        };
+      } catch (error) {
+        return fallback;
+      }
+    })
+    .sort((left, right) => right.fileName.localeCompare(left.fileName));
+}
+
+function parseJsonFile(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, "utf8").replace(/^\uFEFF/, ""));
+}
+
+function parseSessionFileTime(fileName) {
+  const match = fileName.match(/^SESSION-(\d{4})(\d{2})(\d{2})-(\d{2})(\d{2})\.json$/);
+  if (!match) {
+    return null;
+  }
+
+  const [, yearValue, monthValue, dayValue, hourValue, minuteValue] = match;
+  const year = Number(yearValue);
+  const month = Number(monthValue);
+  const day = Number(dayValue);
+  const hour = Number(hourValue);
+  const minute = Number(minuteValue);
+  const parsed = new Date(year, month - 1, day, hour, minute);
+
+  if (
+    parsed.getFullYear() !== year ||
+    parsed.getMonth() !== month - 1 ||
+    parsed.getDate() !== day ||
+    parsed.getHours() !== hour ||
+    parsed.getMinutes() !== minute
+  ) {
+    return null;
+  }
+
+  return parsed;
 }
 
 function normalizeAgentSelection(value) {
@@ -430,7 +658,7 @@ function copyOperations(operations, options) {
   };
 
   for (const operation of operations) {
-    if (!fs.existsSync(operation.source)) {
+    if (typeof operation.content !== "string" && !fs.existsSync(operation.source)) {
       result.missing.push(operation.label);
       continue;
     }
@@ -444,7 +672,11 @@ function copyOperations(operations, options) {
 
     if (!options.dryRun) {
       fs.mkdirSync(path.dirname(operation.destination), { recursive: true });
-      fs.copyFileSync(operation.source, operation.destination);
+      if (typeof operation.content === "string") {
+        fs.writeFileSync(operation.destination, operation.content);
+      } else {
+        fs.copyFileSync(operation.source, operation.destination);
+      }
     }
 
     result.copied.push(operation.label);
@@ -516,6 +748,9 @@ function printHelp() {
 Usage:
   runbook init [target] [--agent <name|all|none>] [--force] [--dry-run]
   runbook list
+  runbook session list [target]
+  runbook session clear [target] [--keep <count>] [--older-than <days>] [--dry-run]
+  runbook session clear [target] --all --force
   runbook skill list
   runbook skill install <name> [target] [--force] [--dry-run]
   runbook help
@@ -524,6 +759,10 @@ Examples:
   npx @matsumiko/runbook init
   npx @matsumiko/runbook init --agent claude
   npx @matsumiko/runbook init ./my-app --agent cursor,copilot
+  npx @matsumiko/runbook session list
+  npx @matsumiko/runbook session clear --dry-run
+  npx @matsumiko/runbook session clear --keep 20 --older-than 14
+  npx @matsumiko/runbook session clear --all --force
   npx @matsumiko/runbook skill list
   npx @matsumiko/runbook skill install frontend-foundation-builder
   npx @matsumiko/runbook skill install frontend-figma-to-theme
@@ -585,7 +824,7 @@ Examples:
 
 Default behavior:
   - copies the canonical RunBook markdown files
-  - includes session recovery protocol and example checkpoint files
+  - includes session recovery protocol, example checkpoint, and .runbook/sessions/
   - uses Codex-compatible AGENTS.md by default
   - skips existing files unless --force is provided
   - installs bundled Codex skills into .agents/skills/

@@ -226,6 +226,10 @@ RunBook/
 |-- AGENTS.md
 |-- SESSION.md
 |-- SESSION-EXAMPLE.json
+|-- .runbook/
+|   `-- sessions/
+|       |-- .gitignore
+|       `-- .gitkeep
 |-- CODER.md
 |-- PLAN.md
 |-- TODO.md
@@ -240,6 +244,7 @@ RunBook/
 | `AGENTS.md` | Panduan operasi utama untuk AI coding agent. |
 | `SESSION.md` | Protokol recovery session agar agent bisa lanjut setelah crash, terminal tertutup, listrik padam, atau handoff. |
 | `SESSION-EXAMPLE.json` | Contoh checkpoint session yang valid; bukan session aktif. |
+| `.runbook/sessions/` | Folder project-local untuk runtime session checkpoint. |
 | `CODER.md` | Memori proyek: perintah penting, arsitektur, gotcha, dan catatan environment. |
 | `PLAN.md` | Rencana eksekusi aktif yang bertahan antar sesi. |
 | `TODO.md` | Backlog strategis berdasarkan nilai dan dampak. |
@@ -254,13 +259,13 @@ RunBook/
 
 RunBook menyertakan `SESSION.md` untuk membuat pekerjaan agent bisa dilanjutkan tanpa tebak-tebakan setelah listrik padam, komputer mati, terminal tertutup, atau model berhenti di tengah task.
 
-Untuk task non-trivial, agent membuat runtime checkpoint:
+Untuk task non-trivial, agent membuat runtime checkpoint di folder project-local:
 
 ```text
-SESSION-20260420-1430.json
+.runbook/sessions/SESSION-20260420-1430.json
 ```
 
-File itu menyimpan prompt, goal, asumsi, plan, log, keputusan, file yang disentuh, posisi terakhir, kondisi sistem, dan langkah berikutnya.
+File itu menyimpan prompt, metadata project, goal, asumsi, plan, log, keputusan, file yang disentuh, posisi terakhir, kondisi sistem, dan langkah berikutnya.
 
 Command yang didukung:
 
@@ -270,13 +275,24 @@ run:resume
 run:recap
 ```
 
+CLI helper untuk melihat dan membersihkan session lokal:
+
+```bash
+npx @matsumiko/runbook session list
+npx @matsumiko/runbook session clear --dry-run
+npx @matsumiko/runbook session clear
+npx @matsumiko/runbook session clear --all --force
+```
+
 Aturan penting:
 
 1. `SESSION.md` adalah protocol file, bukan tempat menulis progress task.
 2. `SESSION-EXAMPLE.json` hanya contoh, bukan session aktif.
-3. Runtime `SESSION-[timestamp].json` adalah artefak lokal dan tidak boleh di-commit kecuali diminta eksplisit.
-4. Secret, token, cookie, private key, dan payload sensitif wajib direduksi sebagai `[REDACTED]`.
-5. Jika session lama masih `ACTIVE` karena crash, agent memperlakukannya sebagai recoverable dan audit workspace dulu sebelum lanjut.
+3. Runtime `.runbook/sessions/SESSION-[timestamp].json` adalah artefak lokal dan tidak boleh di-commit kecuali diminta eksplisit.
+4. Setiap runtime session menyimpan `project.name`, `project.root`, `project.gitRemote`, dan `project.gitBranch`.
+5. Secret, token, cookie, private key, dan payload sensitif wajib direduksi sebagai `[REDACTED]`.
+6. Jika session lama masih `ACTIVE` karena crash, agent memperlakukannya sebagai recoverable dan audit workspace dulu sebelum lanjut.
+7. `session clear` default hanya menghapus session `COMPLETED` atau `CANCELLED` yang aman dibersihkan, memakai timestamp di filename sebagai basis umur; session recoverable tidak disentuh tanpa `--all --force`.
 
 ---
 
@@ -464,6 +480,9 @@ npx @matsumiko/runbook skill list
 ```text
 runbook init [target] [--agent <name|all|none>] [--force] [--dry-run]
 runbook list
+runbook session list [target]
+runbook session clear [target] [--keep <count>] [--older-than <days>] [--dry-run]
+runbook session clear [target] --all --force
 runbook skill list
 runbook skill install <name> [target] [--force] [--dry-run]
 runbook help
@@ -483,6 +502,9 @@ runbook help
 | `--agent none` | Install hanya file inti RunBook. |
 | `--force` | Timpa file yang sudah ada. |
 | `--dry-run` | Tampilkan operasi file tanpa menulis ke disk. |
+| `--keep <count>` | Untuk `session clear`, pertahankan sejumlah session terbaru. Default: `20`. |
+| `--older-than <days>` | Untuk `session clear`, hanya bersihkan kandidat yang timestamp filename-nya lebih lama dari jumlah hari ini. Default: `14`. |
+| `--all --force` | Untuk `session clear`, hapus semua runtime session project-local. |
 
 ---
 
@@ -585,6 +607,10 @@ Ia cocok untuk proyek yang lebih mementingkan konsistensi, auditability, dan kea
 |-- AGENT-VARIANTS.md
 |-- SESSION.md
 |-- SESSION-EXAMPLE.json
+|-- .runbook/
+|   `-- sessions/
+|       |-- .gitignore
+|       `-- .gitkeep
 |-- FRONTEND-DNA.md
 |-- BACKEND-SECURITY-CHECKLIST.md
 |-- package.json
