@@ -1,0 +1,4 @@
+interface:
+  display_name: "Map Builder"
+  short_description: "Build map and geospatial surfaces"
+  default_prompt: "Use frontend-map-builder to build map and geospatial UI that follows the existing stack, theme, and product UI DNA."

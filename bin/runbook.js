@@ -47,6 +47,11 @@ const skillDirectories = {
   "frontend-date-picker-builder": ".agents/skills/frontend-date-picker-builder",
   "frontend-calendar-builder": ".agents/skills/frontend-calendar-builder",
   "frontend-timeline-builder": ".agents/skills/frontend-timeline-builder",
+  "frontend-kanban-builder": ".agents/skills/frontend-kanban-builder",
+  "frontend-chart-builder": ".agents/skills/frontend-chart-builder",
+  "frontend-activity-feed-builder": ".agents/skills/frontend-activity-feed-builder",
+  "frontend-map-builder": ".agents/skills/frontend-map-builder",
+  "frontend-gantt-builder": ".agents/skills/frontend-gantt-builder",
   "frontend-sidebar-builder": ".agents/skills/frontend-sidebar-builder",
   "frontend-breadcrumb-builder": ".agents/skills/frontend-breadcrumb-builder",
   "frontend-accordion-builder": ".agents/skills/frontend-accordion-builder",
@@ -86,6 +91,11 @@ const skillSummaries = {
   "frontend-date-picker-builder": "build date pickers with parsing, range, and mobile-fallback discipline",
   "frontend-calendar-builder": "build calendar surfaces with navigation, density, and fallback discipline",
   "frontend-timeline-builder": "build timeline surfaces with chronology, grouping, and state discipline",
+  "frontend-kanban-builder": "build kanban boards with lanes, card density, and fallback discipline",
+  "frontend-chart-builder": "build charts with labels, comparison clarity, and no-data discipline",
+  "frontend-activity-feed-builder": "build activity feeds with grouping, unread state, and density discipline",
+  "frontend-map-builder": "build maps with selection, density, and spatial-context discipline",
+  "frontend-gantt-builder": "build gantt surfaces with scale, dependency, and fallback discipline",
   "frontend-sidebar-builder": "build sidebar navigation shells with active-state and collapse discipline",
   "frontend-breadcrumb-builder": "build breadcrumb trails with hierarchy and truncation discipline",
   "frontend-accordion-builder": "build accordion and disclosure surfaces with expansion discipline",
@@ -496,6 +506,11 @@ Examples:
   npx @matsumiko/runbook skill install frontend-date-picker-builder
   npx @matsumiko/runbook skill install frontend-calendar-builder
   npx @matsumiko/runbook skill install frontend-timeline-builder
+  npx @matsumiko/runbook skill install frontend-kanban-builder
+  npx @matsumiko/runbook skill install frontend-chart-builder
+  npx @matsumiko/runbook skill install frontend-activity-feed-builder
+  npx @matsumiko/runbook skill install frontend-map-builder
+  npx @matsumiko/runbook skill install frontend-gantt-builder
   npx @matsumiko/runbook skill install frontend-sidebar-builder
   npx @matsumiko/runbook skill install frontend-breadcrumb-builder
   npx @matsumiko/runbook skill install frontend-accordion-builder

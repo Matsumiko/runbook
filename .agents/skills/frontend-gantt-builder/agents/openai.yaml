@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gantt Builder"
+  short_description: "Build gantt and dependency timeline views"
+  default_prompt: "Use frontend-gantt-builder to build gantt-style planning UI that follows the existing stack, theme, and product UI DNA."

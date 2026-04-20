@@ -1,0 +1,4 @@
+interface:
+  display_name: "Chart Builder"
+  short_description: "Build charts and data visualizations"
+  default_prompt: "Use frontend-chart-builder to build chart and data-visualization UI that follows the existing stack, theme, and product UI DNA."

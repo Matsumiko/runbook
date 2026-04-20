@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kanban Builder"
+  short_description: "Build kanban boards and workflow lanes"
+  default_prompt: "Use frontend-kanban-builder to build kanban board UI that follows the existing stack, theme, and product UI DNA."

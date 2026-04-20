@@ -85,7 +85,7 @@ File yang sudah ada akan di-skip secara default. Gunakan `--force` hanya jika me
 
 ## Install Skill Codex Bawaan
 
-RunBook sekarang menyertakan skill Codex repo-scoped untuk memilih fondasi frontend, menerjemahkan konteks Figma menjadi theme tokens, membangun komponen umum, control khusus seperti tooltip, dropdown, popover, combobox, select, context menu, data filter, date picker, calendar, dan timeline, lalu melanjutkan ke surface yang lebih besar seperti sidebar, detail page, dashboard, auth, search, checkout, settings, sampai refinement akhir sebelum ship.
+RunBook sekarang menyertakan skill Codex repo-scoped untuk memilih fondasi frontend, menerjemahkan konteks Figma menjadi theme tokens, membangun komponen umum, control khusus seperti tooltip, dropdown, popover, combobox, select, context menu, data filter, date picker, calendar, timeline, chart, activity feed, map, gantt, dan kanban, lalu melanjutkan ke surface yang lebih besar seperti sidebar, detail page, dashboard, auth, search, checkout, settings, sampai refinement akhir sebelum ship.
 
 Install skill ke proyek aktif:
 
@@ -103,6 +103,11 @@ npx @matsumiko/runbook skill install frontend-data-filter-builder
 npx @matsumiko/runbook skill install frontend-date-picker-builder
 npx @matsumiko/runbook skill install frontend-calendar-builder
 npx @matsumiko/runbook skill install frontend-timeline-builder
+npx @matsumiko/runbook skill install frontend-activity-feed-builder
+npx @matsumiko/runbook skill install frontend-chart-builder
+npx @matsumiko/runbook skill install frontend-map-builder
+npx @matsumiko/runbook skill install frontend-gantt-builder
+npx @matsumiko/runbook skill install frontend-kanban-builder
 npx @matsumiko/runbook skill install frontend-sidebar-builder
 npx @matsumiko/runbook skill install frontend-breadcrumb-builder
 npx @matsumiko/runbook skill install frontend-accordion-builder
@@ -144,6 +149,11 @@ npx @matsumiko/runbook skill install frontend-data-filter-builder ./my-app
 npx @matsumiko/runbook skill install frontend-date-picker-builder ./my-app
 npx @matsumiko/runbook skill install frontend-calendar-builder ./my-app
 npx @matsumiko/runbook skill install frontend-timeline-builder ./my-app
+npx @matsumiko/runbook skill install frontend-activity-feed-builder ./my-app
+npx @matsumiko/runbook skill install frontend-chart-builder ./my-app
+npx @matsumiko/runbook skill install frontend-map-builder ./my-app
+npx @matsumiko/runbook skill install frontend-gantt-builder ./my-app
+npx @matsumiko/runbook skill install frontend-kanban-builder ./my-app
 npx @matsumiko/runbook skill install frontend-sidebar-builder ./my-app
 npx @matsumiko/runbook skill install frontend-breadcrumb-builder ./my-app
 npx @matsumiko/runbook skill install frontend-accordion-builder ./my-app
@@ -222,7 +232,12 @@ RunBook/
 | `frontend-data-filter-builder` | Saat surface utama berupa filter bar, facet panel, applied-filter chips, atau refinement controls lintas dataset | Membangun filter surface dengan contract yang jelas, active-filter model yang rapi, reset/apply behavior yang disiplin, dan responsive collapse yang jujur |
 | `frontend-date-picker-builder` | Saat surface utama berupa date picker, calendar input, range picker, report range control, atau scheduling date selector | Membangun date picker dengan contract yang jelas, parsing/selection model yang rapi, locale-boundary behavior yang disiplin, dan mobile fallback yang jujur |
 | `frontend-calendar-builder` | Saat surface utama berupa calendar view, schedule board, planner, agenda, atau event-driven chronology grid | Membangun calendar surface dengan contract yang jelas, navigation/view model yang rapi, event density treatment yang disiplin, dan fallback mobile yang jujur |
-| `frontend-timeline-builder` | Saat surface utama berupa milestone timeline, activity chronology, audit trail, shipment progress, atau history feed | Membangun timeline surface dengan contract yang jelas, chronology/grouping model yang rapi, status-marker treatment yang disiplin, dan dense-history fallback yang jujur |
+| `frontend-timeline-builder` | Saat surface utama berupa milestone timeline, audit chronology, shipment progress, roadmap rail, atau ordered history surface | Membangun timeline surface dengan contract yang jelas, chronology/grouping model yang rapi, status-marker treatment yang disiplin, dan dense-history fallback yang jujur |
+| `frontend-activity-feed-builder` | Saat surface utama berupa recent activity stream, collaboration feed, event inbox, comment log, atau unread-centered recent-events surface | Membangun activity feed dengan contract yang jelas, actor-action-object grouping yang rapi, unread/density treatment yang disiplin, dan pagination or grouping fallback yang jujur |
+| `frontend-chart-builder` | Saat surface utama berupa charts, KPI visualization, comparison graph, trend panel, atau data-visualization surface yang menuntut clarity tinggi | Membangun chart surface dengan contract yang jelas, chart-type and labeling decisions yang rapi, comparison clarity yang disiplin, dan no-data/mobile fallback yang jujur |
+| `frontend-map-builder` | Saat surface utama berupa map, geospatial result surface, location explorer, route map, atau marker-driven spatial interface | Membangun map surface dengan contract yang jelas, marker/selection model yang rapi, density and side-panel sync yang disiplin, dan mobile fallback yang jujur |
+| `frontend-gantt-builder` | Saat surface utama berupa gantt chart, dependency planner, delivery schedule, roadmap schedule, atau task-span planning surface | Membangun gantt surface dengan contract yang jelas, task-bar/dependency model yang rapi, zoom-density treatment yang disiplin, dan mobile fallback yang jujur |
+| `frontend-kanban-builder` | Saat surface utama berupa kanban board, workflow lanes, backlog board, sprint board, atau drag-oriented work management surface | Membangun kanban surface dengan contract yang jelas, lane/card model yang rapi, drag-density treatment yang disiplin, dan empty-lane/responsive fallback yang jujur |
 | `frontend-sidebar-builder` | Saat surface utama berupa sidebar, app-shell nav, admin side navigation, workspace nav, atau navigation rail | Membangun sidebar surface dengan contract yang jelas, nav hierarchy yang rapi, active/collapse behavior yang disiplin, dan responsive drawer fallback yang jujur |
 | `frontend-breadcrumb-builder` | Saat surface utama berupa breadcrumb trail, route ancestry path, hierarchy chips, atau back-to-parent trail | Membangun breadcrumb surface dengan contract yang jelas, hierarchy meaning yang rapi, truncation/overflow behavior yang disiplin, dan mobile fallback yang jujur |
 | `frontend-tabs-builder` | Saat surface utama berupa tabs, segmented control, tabbed subview, sticky tab bar, atau panelized view switcher | Membangun tabbed surface dengan contract yang jelas, active-state/overflow behavior yang rapi, dan panel retention/keyboard treatment yang jujur |
@@ -270,31 +285,36 @@ RunBook/
 10. Gunakan `frontend-data-filter-builder` saat permukaan utamanya berupa filter bar, facet panel, applied-filter chips, atau dataset refinement controls.
 11. Gunakan `frontend-date-picker-builder` saat permukaan utamanya berupa date picker, range selector, report-range input, atau calendar-driven date control.
 12. Gunakan `frontend-calendar-builder` saat permukaan utamanya berupa full calendar view, planner, scheduler, atau agenda surface.
-13. Gunakan `frontend-timeline-builder` saat permukaan utamanya berupa chronology feed, milestone rail, audit trail, atau progress history.
-14. Gunakan `frontend-sidebar-builder` saat permukaan utamanya berupa app-shell sidebar, navigation rail, admin sidebar, atau workspace navigation.
-15. Gunakan `frontend-breadcrumb-builder` saat permukaan utamanya berupa breadcrumb trail, path ancestry, atau hierarchy chips.
-16. Gunakan `frontend-tabs-builder` saat permukaan utamanya berupa tabs, segmented controls, atau tabbed panel switching.
-17. Gunakan `frontend-accordion-builder` saat permukaan utamanya berupa disclosure stack, FAQ accordion, filter accordion, atau expandable sections.
-18. Gunakan `frontend-modal-builder` saat permukaan utamanya berupa dialog, drawer, sheet, destructive confirm, atau overlay subflow.
-19. Gunakan `frontend-command-palette-builder` saat permukaan utamanya berupa spotlight launcher, quick-action palette, atau keyboard-first command surface.
-20. Gunakan `frontend-detail-page-builder` saat permukaan utamanya berupa detail page atau drill-down route untuk satu record utama.
-21. Gunakan `frontend-page-builder` saat permukaan utamanya berupa halaman produk non-dashboard non-detail dengan beberapa section.
-22. Gunakan `frontend-dashboard-builder` saat permukaan utamanya berupa dashboard atau analytics overview dengan banyak panel.
-23. Gunakan `frontend-auth-builder` saat permukaan utamanya berupa auth entry, account recovery, verification, atau access state.
-24. Gunakan `frontend-stepper-builder` saat permukaan utamanya berupa progress rails, multi-step indicators, atau wizard step headers.
-25. Gunakan `frontend-onboarding-builder` saat permukaan utamanya berupa first-run setup, activation flow, atau guided empty-state journey setelah user punya akses.
-26. Gunakan `frontend-search-builder` saat permukaan utamanya berupa search, discovery, filtered browsing, atau result exploration surface.
-27. Gunakan `frontend-pagination-builder` saat permukaan utamanya berupa paged-result navigation, cursor paging, atau load-more progression.
-28. Gunakan `frontend-empty-state-builder` saat permukaan utamanya berupa zero-data, no-results, blocked, atau recovery-first state.
-29. Gunakan `frontend-notification-builder` saat permukaan utamanya berupa toast, banner, inline alert, status feedback, atau notification center.
-30. Gunakan `frontend-upload-builder` saat permukaan utamanya berupa file picker, dropzone, attachment flow, avatar upload, atau media-ingestion surface.
-31. Gunakan `frontend-marketing-builder` saat permukaan utamanya berupa public marketing atau conversion page.
-32. Gunakan `frontend-checkout-builder` saat permukaan utamanya berupa checkout, order review, billing step, atau purchase completion flow.
-33. Gunakan `frontend-settings-builder` saat permukaan utamanya berupa settings, preferences, atau configuration surface.
-34. Gunakan `frontend-form-builder` saat permukaan utamanya berupa form atau flow input non-auth non-checkout non-settings.
-35. Gunakan `frontend-table-builder` saat permukaan utamanya berupa data table atau grid.
-36. Gunakan `frontend-polish-pass` sebagai refinement pass menjelang ship.
-37. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
+13. Gunakan `frontend-timeline-builder` saat permukaan utamanya berupa milestone rail, audit trail, shipment progress, atau ordered history surface.
+14. Gunakan `frontend-activity-feed-builder` saat permukaan utamanya berupa recent activity stream, collaboration feed, comment log, atau unread-centered recent-events surface.
+15. Gunakan `frontend-chart-builder` saat permukaan utamanya berupa charts, KPI visualization, comparison graph, atau data-visualization panel yang menuntut clarity tinggi.
+16. Gunakan `frontend-map-builder` saat permukaan utamanya berupa map, geospatial results, route map, location explorer, atau marker-driven spatial interface.
+17. Gunakan `frontend-gantt-builder` saat permukaan utamanya berupa gantt chart, dependency planner, delivery schedule, atau task-span planning surface.
+18. Gunakan `frontend-kanban-builder` saat permukaan utamanya berupa kanban board, workflow lanes, backlog board, atau drag-oriented work management surface.
+19. Gunakan `frontend-sidebar-builder` saat permukaan utamanya berupa app-shell sidebar, navigation rail, admin sidebar, atau workspace navigation.
+20. Gunakan `frontend-breadcrumb-builder` saat permukaan utamanya berupa breadcrumb trail, path ancestry, atau hierarchy chips.
+21. Gunakan `frontend-tabs-builder` saat permukaan utamanya berupa tabs, segmented controls, atau tabbed panel switching.
+22. Gunakan `frontend-accordion-builder` saat permukaan utamanya berupa disclosure stack, FAQ accordion, filter accordion, atau expandable sections.
+23. Gunakan `frontend-modal-builder` saat permukaan utamanya berupa dialog, drawer, sheet, destructive confirm, atau overlay subflow.
+24. Gunakan `frontend-command-palette-builder` saat permukaan utamanya berupa spotlight launcher, quick-action palette, atau keyboard-first command surface.
+25. Gunakan `frontend-detail-page-builder` saat permukaan utamanya berupa detail page atau drill-down route untuk satu record utama.
+26. Gunakan `frontend-page-builder` saat permukaan utamanya berupa halaman produk non-dashboard non-detail dengan beberapa section.
+27. Gunakan `frontend-dashboard-builder` saat permukaan utamanya berupa dashboard atau analytics overview dengan banyak panel.
+28. Gunakan `frontend-auth-builder` saat permukaan utamanya berupa auth entry, account recovery, verification, atau access state.
+29. Gunakan `frontend-stepper-builder` saat permukaan utamanya berupa progress rails, multi-step indicators, atau wizard step headers.
+30. Gunakan `frontend-onboarding-builder` saat permukaan utamanya berupa first-run setup, activation flow, atau guided empty-state journey setelah user punya akses.
+31. Gunakan `frontend-search-builder` saat permukaan utamanya berupa search, discovery, filtered browsing, atau result exploration surface.
+32. Gunakan `frontend-pagination-builder` saat permukaan utamanya berupa paged-result navigation, cursor paging, atau load-more progression.
+33. Gunakan `frontend-empty-state-builder` saat permukaan utamanya berupa zero-data, no-results, blocked, atau recovery-first state.
+34. Gunakan `frontend-notification-builder` saat permukaan utamanya berupa toast, banner, inline alert, status feedback, atau notification center.
+35. Gunakan `frontend-upload-builder` saat permukaan utamanya berupa file picker, dropzone, attachment flow, avatar upload, atau media-ingestion surface.
+36. Gunakan `frontend-marketing-builder` saat permukaan utamanya berupa public marketing atau conversion page.
+37. Gunakan `frontend-checkout-builder` saat permukaan utamanya berupa checkout, order review, billing step, atau purchase completion flow.
+38. Gunakan `frontend-settings-builder` saat permukaan utamanya berupa settings, preferences, atau configuration surface.
+39. Gunakan `frontend-form-builder` saat permukaan utamanya berupa form atau flow input non-auth non-checkout non-settings.
+40. Gunakan `frontend-table-builder` saat permukaan utamanya berupa data table atau grid.
+41. Gunakan `frontend-polish-pass` sebagai refinement pass menjelang ship.
+42. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
 
 ---
 
@@ -417,6 +437,11 @@ Ia cocok untuk proyek yang lebih mementingkan konsistensi, auditability, dan kea
 |       `-- frontend-date-picker-builder/
 |       `-- frontend-calendar-builder/
 |       `-- frontend-timeline-builder/
+|       `-- frontend-activity-feed-builder/
+|       `-- frontend-chart-builder/
+|       `-- frontend-map-builder/
+|       `-- frontend-gantt-builder/
+|       `-- frontend-kanban-builder/
 |       `-- frontend-sidebar-builder/
 |       `-- frontend-breadcrumb-builder/
 |       `-- frontend-tabs-builder/

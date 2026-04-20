@@ -1,0 +1,4 @@
+interface:
+  display_name: "Activity Feed Builder"
+  short_description: "Build activity feeds and recent-event streams"
+  default_prompt: "Use frontend-activity-feed-builder to build activity-feed UI that follows the existing stack, theme, and product UI DNA."

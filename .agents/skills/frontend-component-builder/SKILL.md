@@ -1,6 +1,6 @@
 ---
 name: frontend-component-builder
-description: Build or refine frontend components, sections, and reusable UI surfaces on top of an existing stack, theme, and design rules. Use when Codex needs to implement a button, card, navbar, form section, table section, or similar UI work while preserving the current frontend DNA, tokens, and component family. Prefer this skill after the stack and theme direction are already established. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the design language still needs to be extracted from Figma or screenshots, use `frontend-figma-to-theme` first. If the main task is a specialized surface such as notifications, uploads, modals, tabs, sidebars, accordions, command palettes, breadcrumbs, pagination, steppers, tooltips, dropdowns, popovers, comboboxes, selects, data filters, date pickers, calendars, context menus, or timelines, use the matching specialized skill first.
+description: Build or refine frontend components, sections, and reusable UI surfaces on top of an existing stack, theme, and design rules. Use when Codex needs to implement a button, card, navbar, form section, table section, or similar UI work while preserving the current frontend DNA, tokens, and component family. Prefer this skill after the stack and theme direction are already established. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the design language still needs to be extracted from Figma or screenshots, use `frontend-figma-to-theme` first. If the main task is a specialized surface such as notifications, uploads, modals, tabs, sidebars, accordions, command palettes, breadcrumbs, pagination, steppers, tooltips, dropdowns, popovers, comboboxes, selects, data filters, date pickers, calendars, context menus, timelines, kanban boards, charts, activity feeds, maps, or gantt views, use the matching specialized skill first.
 ---
 
 # Frontend Component Builder
@@ -103,6 +103,11 @@ If the request is vague, infer the smallest sensible contract and flag the assum
 - the main task is specifically date pickers, range selectors, or calendar inputs
 - the main task is specifically calendar views, schedulers, or agenda surfaces
 - the main task is specifically timelines, milestone rails, or chronology feeds
+- the main task is specifically kanban boards, workflow lanes, or backlog columns
+- the main task is specifically charts, graphs, or analytical visualization surfaces
+- the main task is specifically activity feeds, recent-event streams, or collaboration updates
+- the main task is specifically map surfaces, route previews, or geospatial result views
+- the main task is specifically gantt views, dependency planners, or task-span schedules
 - the main task is specifically tabs, segmented controls, or tabbed panels
 - the main task is specifically sidebars, navigation rails, or app-shell nav surfaces
 - the main task is specifically accordions, disclosure stacks, or expandable sections
