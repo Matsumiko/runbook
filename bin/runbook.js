@@ -37,6 +37,11 @@ const skillDirectories = {
   "frontend-foundation-builder": ".agents/skills/frontend-foundation-builder",
   "frontend-figma-to-theme": ".agents/skills/frontend-figma-to-theme",
   "frontend-component-builder": ".agents/skills/frontend-component-builder",
+  "frontend-tooltip-builder": ".agents/skills/frontend-tooltip-builder",
+  "frontend-dropdown-builder": ".agents/skills/frontend-dropdown-builder",
+  "frontend-popover-builder": ".agents/skills/frontend-popover-builder",
+  "frontend-combobox-builder": ".agents/skills/frontend-combobox-builder",
+  "frontend-date-picker-builder": ".agents/skills/frontend-date-picker-builder",
   "frontend-sidebar-builder": ".agents/skills/frontend-sidebar-builder",
   "frontend-breadcrumb-builder": ".agents/skills/frontend-breadcrumb-builder",
   "frontend-accordion-builder": ".agents/skills/frontend-accordion-builder",
@@ -66,6 +71,11 @@ const skillSummaries = {
   "frontend-foundation-builder": "choose Chakra UI or Tamagui for greenfield frontend work",
   "frontend-figma-to-theme": "turn Figma design context into theme tokens and frontend DNA",
   "frontend-component-builder": "build components that follow the existing stack, theme, and UI DNA",
+  "frontend-tooltip-builder": "build tooltip hints with trigger, placement, and fallback discipline",
+  "frontend-dropdown-builder": "build dropdown menus with grouping, selection, and dismissal discipline",
+  "frontend-popover-builder": "build anchored popovers with lifecycle, density, and fallback discipline",
+  "frontend-combobox-builder": "build comboboxes with query, selection, and async-state discipline",
+  "frontend-date-picker-builder": "build date pickers with parsing, range, and mobile-fallback discipline",
   "frontend-sidebar-builder": "build sidebar navigation shells with active-state and collapse discipline",
   "frontend-breadcrumb-builder": "build breadcrumb trails with hierarchy and truncation discipline",
   "frontend-accordion-builder": "build accordion and disclosure surfaces with expansion discipline",
@@ -466,6 +476,11 @@ Examples:
   npx @matsumiko/runbook skill install frontend-foundation-builder
   npx @matsumiko/runbook skill install frontend-figma-to-theme
   npx @matsumiko/runbook skill install frontend-component-builder
+  npx @matsumiko/runbook skill install frontend-tooltip-builder
+  npx @matsumiko/runbook skill install frontend-dropdown-builder
+  npx @matsumiko/runbook skill install frontend-popover-builder
+  npx @matsumiko/runbook skill install frontend-combobox-builder
+  npx @matsumiko/runbook skill install frontend-date-picker-builder
   npx @matsumiko/runbook skill install frontend-sidebar-builder
   npx @matsumiko/runbook skill install frontend-breadcrumb-builder
   npx @matsumiko/runbook skill install frontend-accordion-builder

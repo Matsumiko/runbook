@@ -1,0 +1,4 @@
+interface:
+  display_name: "Date Picker Builder"
+  short_description: "Build date picker and calendar inputs"
+  default_prompt: "Use frontend-date-picker-builder to build date picker and calendar input UI that follows the existing stack, theme, and product UI DNA."

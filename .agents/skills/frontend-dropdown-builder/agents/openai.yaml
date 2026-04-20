@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dropdown Builder"
+  short_description: "Build dropdown and action menus"
+  default_prompt: "Use frontend-dropdown-builder to build dropdown and action menu UI that follows the existing stack, theme, and product UI DNA."

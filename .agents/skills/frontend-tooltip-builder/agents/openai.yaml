@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tooltip Builder"
+  short_description: "Build tooltip and hint surfaces"
+  default_prompt: "Use frontend-tooltip-builder to build tooltip and hint UI that follows the existing stack, theme, and product UI DNA."

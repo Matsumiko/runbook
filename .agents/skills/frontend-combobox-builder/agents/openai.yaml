@@ -1,0 +1,4 @@
+interface:
+  display_name: "Combobox Builder"
+  short_description: "Build combobox and autocomplete selectors"
+  default_prompt: "Use frontend-combobox-builder to build combobox and autocomplete UI that follows the existing stack, theme, and product UI DNA."

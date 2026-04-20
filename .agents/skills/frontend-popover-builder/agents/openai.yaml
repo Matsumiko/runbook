@@ -1,0 +1,4 @@
+interface:
+  display_name: "Popover Builder"
+  short_description: "Build anchored popover surfaces"
+  default_prompt: "Use frontend-popover-builder to build anchored popover UI that follows the existing stack, theme, and product UI DNA."

@@ -9,7 +9,7 @@
 <br/>
 
 <img
-  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Durable+project+memory+for+AI+coding+agents.;Now+with+bundled+Codex+skills+for+frontend+foundations%2C+theme+translation%2C+components%2C+sidebars%2C+breadcrumbs%2C+tabs%2C+accordions%2C+modals%2C+command+palettes%2C+pagination%2C+steppers%2C+detail+pages%2C+pages%2C+dashboards%2C+auth%2C+onboarding%2C+search%2C+empty+states%2C+notifications%2C+uploads%2C+marketing%2C+checkout%2C+settings%2C+forms%2C+tables%2C+and+final+polish."
+  src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=15&duration=2600&pause=900&color=38BDF8&center=true&vCenter=true&width=920&lines=Audit+first.+Implement+carefully.+Verify+honestly.;Durable+project+memory+for+AI+coding+agents.;Now+with+bundled+Codex+skills+for+frontend+foundations%2C+specialized+UI+builders%2C+route-level+surfaces%2C+and+final+polish."
   alt="RunBook typing banner"
 />
 
@@ -85,7 +85,7 @@ File yang sudah ada akan di-skip secara default. Gunakan `--force` hanya jika me
 
 ## Install Skill Codex Bawaan
 
-RunBook sekarang menyertakan skill Codex repo-scoped untuk memilih fondasi frontend, menerjemahkan konteks Figma menjadi theme tokens, membangun komponen, sidebar/navigation shell, breadcrumb trails, tabs surface, accordion/disclosure surface, modal/overlay surface, command palette, pagination, steppers, detail page, generic page, dashboard, auth flow, onboarding flow, search/discovery flow, empty/recovery state, notification surface, upload surface, marketing page, checkout flow, dan settings surface, mengerjakan form dan data table, dan melakukan refinement akhir sebelum ship.
+RunBook sekarang menyertakan skill Codex repo-scoped untuk memilih fondasi frontend, menerjemahkan konteks Figma menjadi theme tokens, membangun komponen umum, control khusus seperti tooltip, dropdown, popover, combobox, dan date picker, lalu melanjutkan ke surface yang lebih besar seperti sidebar, detail page, dashboard, auth, search, checkout, settings, sampai refinement akhir sebelum ship.
 
 Install skill ke proyek aktif:
 
@@ -93,6 +93,11 @@ Install skill ke proyek aktif:
 npx @matsumiko/runbook skill install frontend-foundation-builder
 npx @matsumiko/runbook skill install frontend-figma-to-theme
 npx @matsumiko/runbook skill install frontend-component-builder
+npx @matsumiko/runbook skill install frontend-tooltip-builder
+npx @matsumiko/runbook skill install frontend-dropdown-builder
+npx @matsumiko/runbook skill install frontend-popover-builder
+npx @matsumiko/runbook skill install frontend-combobox-builder
+npx @matsumiko/runbook skill install frontend-date-picker-builder
 npx @matsumiko/runbook skill install frontend-sidebar-builder
 npx @matsumiko/runbook skill install frontend-breadcrumb-builder
 npx @matsumiko/runbook skill install frontend-accordion-builder
@@ -124,6 +129,11 @@ Install ke direktori tertentu:
 npx @matsumiko/runbook skill install frontend-foundation-builder ./my-app
 npx @matsumiko/runbook skill install frontend-figma-to-theme ./my-app
 npx @matsumiko/runbook skill install frontend-component-builder ./my-app
+npx @matsumiko/runbook skill install frontend-tooltip-builder ./my-app
+npx @matsumiko/runbook skill install frontend-dropdown-builder ./my-app
+npx @matsumiko/runbook skill install frontend-popover-builder ./my-app
+npx @matsumiko/runbook skill install frontend-combobox-builder ./my-app
+npx @matsumiko/runbook skill install frontend-date-picker-builder ./my-app
 npx @matsumiko/runbook skill install frontend-sidebar-builder ./my-app
 npx @matsumiko/runbook skill install frontend-breadcrumb-builder ./my-app
 npx @matsumiko/runbook skill install frontend-accordion-builder ./my-app
@@ -193,6 +203,11 @@ RunBook/
 | `frontend-foundation-builder` | Saat memulai frontend baru dari nol atau membuat surface frontend baru yang benar-benar greenfield | Memilih Chakra UI atau Tamagui, lalu menyiapkan provider, theme seed, starter surface, dan catatan keputusan stack |
 | `frontend-figma-to-theme` | Saat sudah ada Figma, Dev Mode details, variable export, style guide, atau screenshot yang perlu diterjemahkan ke implementasi frontend | Mengubah konteks desain menjadi tokens, theme config, dan update `FRONTEND-DNA.md` |
 | `frontend-component-builder` | Saat stack dan arah visual sudah ada, lalu komponen atau section perlu diimplementasikan dengan disiplin sistem | Membangun komponen, variants, states, dan proof surface yang mengikuti stack, theme, dan `FRONTEND-DNA.md` |
+| `frontend-tooltip-builder` | Saat surface utama berupa tooltip, icon help, hover hint, atau contextual explanation yang harus tetap ringan | Membangun tooltip dengan contract yang jelas, trigger/placement behavior yang rapi, dan fallback touch or keyboard yang jujur |
+| `frontend-dropdown-builder` | Saat surface utama berupa dropdown menu, kebab menu, profile menu, sort menu, atau compact anchored option list | Membangun dropdown dengan contract yang jelas, grouping/action hierarchy yang rapi, dan dismissal/selection behavior yang disiplin |
+| `frontend-popover-builder` | Saat surface utama berupa anchored mini-panel seperti filter popover, mini editor, reaction picker, atau contextual utility card | Membangun popover dengan contract yang jelas, anchoring/lifecycle behavior yang rapi, density yang terkontrol, dan fallback responsif yang jujur |
+| `frontend-combobox-builder` | Saat surface utama berupa autocomplete, typed selector, assignee picker, async search-select, atau creatable option field | Membangun combobox dengan contract yang jelas, query-selection model yang rapi, keyboard/async states yang disiplin, dan empty/loading behavior yang jujur |
+| `frontend-date-picker-builder` | Saat surface utama berupa date picker, calendar input, range picker, report range control, atau scheduling date selector | Membangun date picker dengan contract yang jelas, parsing/selection model yang rapi, locale-boundary behavior yang disiplin, dan mobile fallback yang jujur |
 | `frontend-sidebar-builder` | Saat surface utama berupa sidebar, app-shell nav, admin side navigation, workspace nav, atau navigation rail | Membangun sidebar surface dengan contract yang jelas, nav hierarchy yang rapi, active/collapse behavior yang disiplin, dan responsive drawer fallback yang jujur |
 | `frontend-breadcrumb-builder` | Saat surface utama berupa breadcrumb trail, route ancestry path, hierarchy chips, atau back-to-parent trail | Membangun breadcrumb surface dengan contract yang jelas, hierarchy meaning yang rapi, truncation/overflow behavior yang disiplin, dan mobile fallback yang jujur |
 | `frontend-tabs-builder` | Saat surface utama berupa tabs, segmented control, tabbed subview, sticky tab bar, atau panelized view switcher | Membangun tabbed surface dengan contract yang jelas, active-state/overflow behavior yang rapi, dan panel retention/keyboard treatment yang jujur |
@@ -231,30 +246,35 @@ RunBook/
 1. Gunakan `frontend-foundation-builder` jika stack frontend belum dipilih.
 2. Gunakan `frontend-figma-to-theme` setelah stack dipilih atau saat repo sudah punya stack aktif.
 3. Gunakan `frontend-component-builder` saat mulai membangun komponen atau section di atas fondasi itu.
-4. Gunakan `frontend-sidebar-builder` saat permukaan utamanya berupa app-shell sidebar, navigation rail, admin sidebar, atau workspace navigation.
-5. Gunakan `frontend-breadcrumb-builder` saat permukaan utamanya berupa breadcrumb trail, path ancestry, atau hierarchy chips.
-6. Gunakan `frontend-tabs-builder` saat permukaan utamanya berupa tabs, segmented controls, atau tabbed panel switching.
-7. Gunakan `frontend-accordion-builder` saat permukaan utamanya berupa disclosure stack, FAQ accordion, filter accordion, atau expandable sections.
-8. Gunakan `frontend-modal-builder` saat permukaan utamanya berupa dialog, drawer, sheet, destructive confirm, atau overlay subflow.
-9. Gunakan `frontend-command-palette-builder` saat permukaan utamanya berupa spotlight launcher, quick-action palette, atau keyboard-first command surface.
-10. Gunakan `frontend-detail-page-builder` saat permukaan utamanya berupa detail page atau drill-down route untuk satu record utama.
-11. Gunakan `frontend-page-builder` saat permukaan utamanya berupa halaman produk non-dashboard non-detail dengan beberapa section.
-12. Gunakan `frontend-dashboard-builder` saat permukaan utamanya berupa dashboard atau analytics overview dengan banyak panel.
-13. Gunakan `frontend-auth-builder` saat permukaan utamanya berupa auth entry, account recovery, verification, atau access state.
-14. Gunakan `frontend-stepper-builder` saat permukaan utamanya berupa progress rails, multi-step indicators, atau wizard step headers.
-15. Gunakan `frontend-onboarding-builder` saat permukaan utamanya berupa first-run setup, activation flow, atau guided empty-state journey setelah user punya akses.
-16. Gunakan `frontend-search-builder` saat permukaan utamanya berupa search, discovery, filtered browsing, atau result exploration surface.
-17. Gunakan `frontend-pagination-builder` saat permukaan utamanya berupa paged-result navigation, cursor paging, atau load-more progression.
-18. Gunakan `frontend-empty-state-builder` saat permukaan utamanya berupa zero-data, no-results, blocked, atau recovery-first state.
-19. Gunakan `frontend-notification-builder` saat permukaan utamanya berupa toast, banner, inline alert, status feedback, atau notification center.
-20. Gunakan `frontend-upload-builder` saat permukaan utamanya berupa file picker, dropzone, attachment flow, avatar upload, atau media-ingestion surface.
-21. Gunakan `frontend-marketing-builder` saat permukaan utamanya berupa public marketing atau conversion page.
-22. Gunakan `frontend-checkout-builder` saat permukaan utamanya berupa checkout, order review, billing step, atau purchase completion flow.
-23. Gunakan `frontend-settings-builder` saat permukaan utamanya berupa settings, preferences, atau configuration surface.
-24. Gunakan `frontend-form-builder` saat permukaan utamanya berupa form atau flow input non-auth non-checkout non-settings.
-25. Gunakan `frontend-table-builder` saat permukaan utamanya berupa data table atau grid.
-26. Gunakan `frontend-polish-pass` sebagai refinement pass menjelang ship.
-27. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
+4. Gunakan `frontend-tooltip-builder` saat permukaan utamanya berupa tooltip, hover hint, icon help, atau lightweight contextual explanation.
+5. Gunakan `frontend-dropdown-builder` saat permukaan utamanya berupa dropdown menu, action menu, profile menu, atau anchored option list.
+6. Gunakan `frontend-popover-builder` saat permukaan utamanya berupa anchored mini-panel, compact filter surface, inline editor, atau contextual utility card.
+7. Gunakan `frontend-combobox-builder` saat permukaan utamanya berupa autocomplete, typed selector, assignee picker, atau async search-select field.
+8. Gunakan `frontend-date-picker-builder` saat permukaan utamanya berupa date picker, range selector, report-range input, atau calendar-driven date control.
+9. Gunakan `frontend-sidebar-builder` saat permukaan utamanya berupa app-shell sidebar, navigation rail, admin sidebar, atau workspace navigation.
+10. Gunakan `frontend-breadcrumb-builder` saat permukaan utamanya berupa breadcrumb trail, path ancestry, atau hierarchy chips.
+11. Gunakan `frontend-tabs-builder` saat permukaan utamanya berupa tabs, segmented controls, atau tabbed panel switching.
+12. Gunakan `frontend-accordion-builder` saat permukaan utamanya berupa disclosure stack, FAQ accordion, filter accordion, atau expandable sections.
+13. Gunakan `frontend-modal-builder` saat permukaan utamanya berupa dialog, drawer, sheet, destructive confirm, atau overlay subflow.
+14. Gunakan `frontend-command-palette-builder` saat permukaan utamanya berupa spotlight launcher, quick-action palette, atau keyboard-first command surface.
+15. Gunakan `frontend-detail-page-builder` saat permukaan utamanya berupa detail page atau drill-down route untuk satu record utama.
+16. Gunakan `frontend-page-builder` saat permukaan utamanya berupa halaman produk non-dashboard non-detail dengan beberapa section.
+17. Gunakan `frontend-dashboard-builder` saat permukaan utamanya berupa dashboard atau analytics overview dengan banyak panel.
+18. Gunakan `frontend-auth-builder` saat permukaan utamanya berupa auth entry, account recovery, verification, atau access state.
+19. Gunakan `frontend-stepper-builder` saat permukaan utamanya berupa progress rails, multi-step indicators, atau wizard step headers.
+20. Gunakan `frontend-onboarding-builder` saat permukaan utamanya berupa first-run setup, activation flow, atau guided empty-state journey setelah user punya akses.
+21. Gunakan `frontend-search-builder` saat permukaan utamanya berupa search, discovery, filtered browsing, atau result exploration surface.
+22. Gunakan `frontend-pagination-builder` saat permukaan utamanya berupa paged-result navigation, cursor paging, atau load-more progression.
+23. Gunakan `frontend-empty-state-builder` saat permukaan utamanya berupa zero-data, no-results, blocked, atau recovery-first state.
+24. Gunakan `frontend-notification-builder` saat permukaan utamanya berupa toast, banner, inline alert, status feedback, atau notification center.
+25. Gunakan `frontend-upload-builder` saat permukaan utamanya berupa file picker, dropzone, attachment flow, avatar upload, atau media-ingestion surface.
+26. Gunakan `frontend-marketing-builder` saat permukaan utamanya berupa public marketing atau conversion page.
+27. Gunakan `frontend-checkout-builder` saat permukaan utamanya berupa checkout, order review, billing step, atau purchase completion flow.
+28. Gunakan `frontend-settings-builder` saat permukaan utamanya berupa settings, preferences, atau configuration surface.
+29. Gunakan `frontend-form-builder` saat permukaan utamanya berupa form atau flow input non-auth non-checkout non-settings.
+30. Gunakan `frontend-table-builder` saat permukaan utamanya berupa data table atau grid.
+31. Gunakan `frontend-polish-pass` sebagai refinement pass menjelang ship.
+32. Hasil skill kedua seharusnya memperkaya theme dan visual rules, bukan memilih ulang fondasi UI.
 
 ---
 
@@ -367,6 +387,11 @@ Ia cocok untuk proyek yang lebih mementingkan konsistensi, auditability, dan kea
 |       `-- frontend-foundation-builder/
 |       `-- frontend-figma-to-theme/
 |       `-- frontend-component-builder/
+|       `-- frontend-tooltip-builder/
+|       `-- frontend-dropdown-builder/
+|       `-- frontend-popover-builder/
+|       `-- frontend-combobox-builder/
+|       `-- frontend-date-picker-builder/
 |       `-- frontend-sidebar-builder/
 |       `-- frontend-breadcrumb-builder/
 |       `-- frontend-tabs-builder/

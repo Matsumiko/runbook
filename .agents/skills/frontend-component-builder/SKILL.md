@@ -1,6 +1,6 @@
 ---
 name: frontend-component-builder
-description: Build or refine frontend components, sections, and reusable UI surfaces on top of an existing stack, theme, and design rules. Use when Codex needs to implement a button, card, navbar, form section, table section, or similar UI work while preserving the current frontend DNA, tokens, and component family. Prefer this skill after the stack and theme direction are already established. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the design language still needs to be extracted from Figma or screenshots, use `frontend-figma-to-theme` first. If the main task is a specialized surface such as notifications, uploads, modals, tabs, sidebars, accordions, command palettes, breadcrumbs, pagination, or steppers, use the matching specialized skill first.
+description: Build or refine frontend components, sections, and reusable UI surfaces on top of an existing stack, theme, and design rules. Use when Codex needs to implement a button, card, navbar, form section, table section, or similar UI work while preserving the current frontend DNA, tokens, and component family. Prefer this skill after the stack and theme direction are already established. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the design language still needs to be extracted from Figma or screenshots, use `frontend-figma-to-theme` first. If the main task is a specialized surface such as notifications, uploads, modals, tabs, sidebars, accordions, command palettes, breadcrumbs, pagination, steppers, tooltips, dropdowns, popovers, comboboxes, or date pickers, use the matching specialized skill first.
 ---
 
 # Frontend Component Builder
@@ -93,6 +93,11 @@ If the request is vague, infer the smallest sensible contract and flag the assum
 - the main task is specifically alerts, toasts, banners, or notification-center surfaces
 - the main task is specifically upload controls, dropzones, attachment lists, or file-ingestion surfaces
 - the main task is specifically modals, drawers, dialogs, or overlay flows
+- the main task is specifically tooltips, hover hints, or lightweight help affordances
+- the main task is specifically dropdown menus, action menus, or anchored option lists
+- the main task is specifically anchored popovers or contextual mini-panels
+- the main task is specifically comboboxes, autocomplete fields, or typed selectors
+- the main task is specifically date pickers, range selectors, or calendar inputs
 - the main task is specifically tabs, segmented controls, or tabbed panels
 - the main task is specifically sidebars, navigation rails, or app-shell nav surfaces
 - the main task is specifically accordions, disclosure stacks, or expandable sections
