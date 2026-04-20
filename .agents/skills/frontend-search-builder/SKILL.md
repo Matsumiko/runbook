@@ -1,6 +1,6 @@
 ---
 name: frontend-search-builder
-description: Build or refine frontend search pages, discovery surfaces, filtered result views, and query-driven browse experiences on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement search bars, query chips, filter panels, sort controls, result summaries, recent searches, no-match states, or refinement flows while preserving the current component family and handling query clarity and result feedback well. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really a command palette, pagination, a combobox field, a data-filter surface, an empty state, one filter form, or a lightly filtered table, use the matching specialized skill first. If the task is a generic route-level page rather than a search or discovery experience, use `frontend-page-builder` first.
+description: Build or refine frontend search pages, discovery surfaces, filtered result views, and query-driven browse experiences on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement search bars, query chips, filter panels, sort controls, result summaries, recent searches, no-match states, or refinement flows while preserving the current component family and handling query clarity and result feedback well. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the task is really a command palette, pagination, a combobox field, a data-filter surface, a grid-toolbar surface, an empty state, one filter form, or a lightly filtered table, use the matching specialized skill first. If the task is a generic page rather than a search or discovery experience, use `frontend-page-builder` first.
 ---
 
 # Frontend Search Builder
@@ -98,6 +98,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is specifically paginated-result navigation rather than a broader search surface
 - the main task is specifically a field-level combobox, autocomplete, or typed selector rather than a broader search surface
 - the main task is specifically a filter bar, facet panel, or applied-filter system rather than the broader search surface
+- the main task is specifically a result toolbar, bulk-action header, or grid-control bar rather than the broader search surface
 - the main task is specifically a no-results, empty-index, or recovery-first search state rather than the search surface as a whole
 - the task is just one isolated filter form
 - the task is mostly a data table or grid with only light filtering

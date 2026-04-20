@@ -47,12 +47,16 @@ const skillDirectories = {
   "frontend-date-picker-builder": ".agents/skills/frontend-date-picker-builder",
   "frontend-calendar-builder": ".agents/skills/frontend-calendar-builder",
   "frontend-timeline-builder": ".agents/skills/frontend-timeline-builder",
-  "frontend-kanban-builder": ".agents/skills/frontend-kanban-builder",
   "frontend-chart-builder": ".agents/skills/frontend-chart-builder",
+  "frontend-kpi-card-builder": ".agents/skills/frontend-kpi-card-builder",
   "frontend-activity-feed-builder": ".agents/skills/frontend-activity-feed-builder",
   "frontend-map-builder": ".agents/skills/frontend-map-builder",
   "frontend-gantt-builder": ".agents/skills/frontend-gantt-builder",
+  "frontend-scheduler-builder": ".agents/skills/frontend-scheduler-builder",
+  "frontend-kanban-builder": ".agents/skills/frontend-kanban-builder",
   "frontend-sidebar-builder": ".agents/skills/frontend-sidebar-builder",
+  "frontend-tree-view-builder": ".agents/skills/frontend-tree-view-builder",
+  "frontend-org-chart-builder": ".agents/skills/frontend-org-chart-builder",
   "frontend-breadcrumb-builder": ".agents/skills/frontend-breadcrumb-builder",
   "frontend-accordion-builder": ".agents/skills/frontend-accordion-builder",
   "frontend-command-palette-builder": ".agents/skills/frontend-command-palette-builder",
@@ -63,6 +67,7 @@ const skillDirectories = {
   "frontend-onboarding-builder": ".agents/skills/frontend-onboarding-builder",
   "frontend-stepper-builder": ".agents/skills/frontend-stepper-builder",
   "frontend-search-builder": ".agents/skills/frontend-search-builder",
+  "frontend-data-grid-toolbar-builder": ".agents/skills/frontend-data-grid-toolbar-builder",
   "frontend-pagination-builder": ".agents/skills/frontend-pagination-builder",
   "frontend-empty-state-builder": ".agents/skills/frontend-empty-state-builder",
   "frontend-notification-builder": ".agents/skills/frontend-notification-builder",
@@ -91,12 +96,16 @@ const skillSummaries = {
   "frontend-date-picker-builder": "build date pickers with parsing, range, and mobile-fallback discipline",
   "frontend-calendar-builder": "build calendar surfaces with navigation, density, and fallback discipline",
   "frontend-timeline-builder": "build timeline surfaces with chronology, grouping, and state discipline",
-  "frontend-kanban-builder": "build kanban boards with lanes, card density, and fallback discipline",
   "frontend-chart-builder": "build charts with labels, comparison clarity, and no-data discipline",
+  "frontend-kpi-card-builder": "build KPI cards with comparison clarity and metric-state discipline",
   "frontend-activity-feed-builder": "build activity feeds with grouping, unread state, and density discipline",
   "frontend-map-builder": "build maps with selection, density, and spatial-context discipline",
   "frontend-gantt-builder": "build gantt surfaces with scale, dependency, and fallback discipline",
+  "frontend-scheduler-builder": "build schedulers with resources, slots, and overlap discipline",
+  "frontend-kanban-builder": "build kanban boards with lanes, card density, and fallback discipline",
   "frontend-sidebar-builder": "build sidebar navigation shells with active-state and collapse discipline",
+  "frontend-tree-view-builder": "build tree views with expansion, selection, and density discipline",
+  "frontend-org-chart-builder": "build org charts with lineage, node density, and drill-down discipline",
   "frontend-breadcrumb-builder": "build breadcrumb trails with hierarchy and truncation discipline",
   "frontend-accordion-builder": "build accordion and disclosure surfaces with expansion discipline",
   "frontend-command-palette-builder": "build command palettes with trigger, ranking, and keyboard discipline",
@@ -107,6 +116,7 @@ const skillSummaries = {
   "frontend-onboarding-builder": "build first-run onboarding flows with activation and progression discipline",
   "frontend-stepper-builder": "build stepper progress UI with gating and status discipline",
   "frontend-search-builder": "build search and discovery flows with query, refinement, and result-state discipline",
+  "frontend-data-grid-toolbar-builder": "build data-grid toolbars with selection, control grouping, and overflow discipline",
   "frontend-pagination-builder": "build pagination controls with state-sync and boundary discipline",
   "frontend-empty-state-builder": "build empty and recovery states with clear next-action discipline",
   "frontend-notification-builder": "build notification surfaces with urgency, placement, and lifecycle discipline",
@@ -506,12 +516,16 @@ Examples:
   npx @matsumiko/runbook skill install frontend-date-picker-builder
   npx @matsumiko/runbook skill install frontend-calendar-builder
   npx @matsumiko/runbook skill install frontend-timeline-builder
-  npx @matsumiko/runbook skill install frontend-kanban-builder
   npx @matsumiko/runbook skill install frontend-chart-builder
+  npx @matsumiko/runbook skill install frontend-kpi-card-builder
   npx @matsumiko/runbook skill install frontend-activity-feed-builder
   npx @matsumiko/runbook skill install frontend-map-builder
   npx @matsumiko/runbook skill install frontend-gantt-builder
+  npx @matsumiko/runbook skill install frontend-scheduler-builder
+  npx @matsumiko/runbook skill install frontend-kanban-builder
   npx @matsumiko/runbook skill install frontend-sidebar-builder
+  npx @matsumiko/runbook skill install frontend-tree-view-builder
+  npx @matsumiko/runbook skill install frontend-org-chart-builder
   npx @matsumiko/runbook skill install frontend-breadcrumb-builder
   npx @matsumiko/runbook skill install frontend-accordion-builder
   npx @matsumiko/runbook skill install frontend-command-palette-builder
@@ -522,6 +536,7 @@ Examples:
   npx @matsumiko/runbook skill install frontend-onboarding-builder
   npx @matsumiko/runbook skill install frontend-stepper-builder
   npx @matsumiko/runbook skill install frontend-search-builder
+  npx @matsumiko/runbook skill install frontend-data-grid-toolbar-builder
   npx @matsumiko/runbook skill install frontend-pagination-builder
   npx @matsumiko/runbook skill install frontend-empty-state-builder
   npx @matsumiko/runbook skill install frontend-notification-builder

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Data Grid Toolbar Builder"
+  short_description: "Build table and grid toolbars with controls"
+  default_prompt: "Use frontend-data-grid-toolbar-builder to build data-grid-toolbar UI that follows the existing stack, theme, and product UI DNA."

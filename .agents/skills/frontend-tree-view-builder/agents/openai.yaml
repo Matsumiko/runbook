@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tree View Builder"
+  short_description: "Build tree views and nested explorer surfaces"
+  default_prompt: "Use frontend-tree-view-builder to build tree-view UI that follows the existing stack, theme, and product UI DNA."

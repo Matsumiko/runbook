@@ -1,6 +1,6 @@
 ---
 name: frontend-chart-builder
-description: Build or refine frontend charts, data-visualization surfaces, trend panels, comparison graphs, and metric-series views on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement line, bar, area, donut, scatter, or sparkline visuals while preserving the current component family and handling axes, legends, units, no-data states, comparison clarity, tooltip behavior, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the task is a broader dashboard and the chart is only one sub-part, use `frontend-dashboard-builder` first unless the chart surface itself is the main job.
+description: Build or refine frontend charts, data-visualization surfaces, trend panels, comparison graphs, and metric-series views on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement line, bar, area, donut, scatter, or sparkline visuals while preserving the current component family and handling axes, legends, units, no-data states, comparison clarity, tooltip behavior, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the task is a broader dashboard and the chart is only one sub-part, use `frontend-dashboard-builder` first unless the chart surface itself is the main job. If the task is mainly KPI cards or stat tiles, use `frontend-kpi-card-builder` first.
 ---
 
 # Frontend Chart Builder
@@ -94,6 +94,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is stack selection
 - the theme still needs to be derived from design references
 - the task is really a broader dashboard or analytics route where charts are only one sub-part
+- the task is really a KPI-card, metric tile, or stat-summary surface
 - the task is really a map or geospatial surface
 - the task is really a kanban board, calendar, timeline, or gantt view
 - the work is purely a tiny spacing or copy tweak on an existing chart

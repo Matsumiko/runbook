@@ -1,6 +1,6 @@
 ---
 name: frontend-gantt-builder
-description: Build or refine frontend gantt views, task-span planners, dependency schedules, and project-bar planning surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement project timelines with start and end bars, milestone markers, grouped workstreams, task dependencies, zoomable date ranges, or resource planning lanes while preserving the current component family and handling horizontal density, sticky labels, dependency clarity, empty ranges, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the task is a broader project page and the gantt is only one sub-part, use the broader surface skill first unless the gantt itself is the main job.
+description: Build or refine frontend gantt views, task-span planners, dependency schedules, and project-bar planning surfaces on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement project timelines with start and end bars, milestone markers, grouped workstreams, task dependencies, zoomable date ranges, or resource planning lanes while preserving the current component family and handling horizontal density, sticky labels, dependency clarity, empty ranges, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the task is a broader project page and the gantt is only one sub-part, use the broader surface skill first unless the gantt itself is the main job. If the task is resource scheduling or slot booking rather than dependency planning, use `frontend-scheduler-builder` first.
 ---
 
 # Frontend Gantt Builder
@@ -94,6 +94,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the theme still needs to be derived from design references
 - the task is really a simple timeline, milestone feed, or activity chronology
 - the task is really a calendar planner or agenda view
+- the task is really a resource scheduler, dispatch board, or slot-booking surface
 - the task is really a broader project page where the gantt is only one sub-part
 - the work is purely a tiny spacing or copy tweak on an existing gantt
 

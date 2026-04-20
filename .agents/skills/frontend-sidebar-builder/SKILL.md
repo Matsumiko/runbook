@@ -1,6 +1,6 @@
 ---
 name: frontend-sidebar-builder
-description: Build or refine frontend sidebars, app-shell navigation rails, admin side navigation, and section nav panels on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement expanded or collapsed sidebars, grouped nav sections, project switchers, icon-label rails, or responsive nav drawers while preserving the current component family and handling information hierarchy, active state, collapse behavior, shell integration, overflow, and mobile fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the main task is a broader dashboard, settings page, or full route and the sidebar is only one sub-part, use the matching builder first unless the sidebar itself is the main job. If the work is only a tiny tweak on an existing sidebar, use the nearest surface skill first.
+description: Build or refine frontend sidebars, app-shell navigation rails, admin side navigation, and nav panels on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement expanded or collapsed sidebars, project switchers, icon-label rails, or nav drawers while preserving the current component family and handling information hierarchy, active state, collapse behavior, shell integration, overflow, and mobile fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the theme still needs to be derived from Figma or screenshots, use `frontend-figma-to-theme` first. If the sidebar is only one sub-part of a broader dashboard, settings page, or route, use the broader builder first. If the task is specifically a tree navigator or file explorer, use `frontend-tree-view-builder` first. If the work is a tiny tweak on an existing sidebar, use the nearest surface skill first.
 ---
 
 # Frontend Sidebar Builder
@@ -95,6 +95,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is stack selection
 - the theme still needs to be derived from design references
 - the main task is a broader dashboard, settings page, or route and the sidebar is only one sub-part
+- the task is specifically a tree navigator, file explorer, or nested selector rather than a broader sidebar shell
 - the task is mostly a generic component without navigation-shell behavior
 - the work is purely a tiny copy or spacing tweak on an existing sidebar
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "KPI Card Builder"
+  short_description: "Build KPI cards and metric summary surfaces"
+  default_prompt: "Use frontend-kpi-card-builder to build KPI-card UI that follows the existing stack, theme, and product UI DNA."

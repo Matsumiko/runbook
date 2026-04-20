@@ -1,6 +1,6 @@
 ---
 name: frontend-calendar-builder
-description: Build or refine frontend calendar views, scheduling boards, month/week/day planners, agenda surfaces, and event-based chronology layouts on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement team calendars, booking calendars, editorial schedules, operational planners, event grids, or agenda views while preserving the current component family and handling time navigation, event density, empty states, overlapping events, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the task is only a date-input control, use `frontend-date-picker-builder`; if it is dependency planning, use `frontend-gantt-builder`.
+description: Build or refine frontend calendar views, scheduling boards, month/week/day planners, agenda surfaces, and event-based chronology layouts on top of an existing stack, theme, and product UI DNA. Use when Codex needs to implement team calendars, booking calendars, editorial schedules, operational planners, event grids, or agenda views while preserving the current component family and handling time navigation, event density, empty states, overlapping events, and responsive fallback correctly. Prefer this skill after the frontend stack and visual direction already exist. If the stack is not chosen yet, use `frontend-foundation-builder` first. If the task is only a date-input control, use `frontend-date-picker-builder`; if it is a resource scheduler or slot board, use `frontend-scheduler-builder`; if it is dependency planning, use `frontend-gantt-builder`.
 ---
 
 # Frontend Calendar Builder
@@ -93,6 +93,7 @@ If the request is underspecified, infer the smallest sensible contract and flag 
 - the main task is stack selection
 - the theme still needs to be derived from design references
 - the task is really a date-input field, date picker, or range selector
+- the task is really a resource scheduler or slot-assignment board
 - the task is really a gantt or dependency-planning surface
 - the task is really a broader dashboard or detail page where the calendar is only one sub-part
 - the task is really a simple timeline or history feed rather than a scheduling grid or planner

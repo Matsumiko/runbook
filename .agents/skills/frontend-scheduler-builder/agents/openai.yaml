@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scheduler Builder"
+  short_description: "Build schedulers and resource planning surfaces"
+  default_prompt: "Use frontend-scheduler-builder to build scheduler UI that follows the existing stack, theme, and product UI DNA."

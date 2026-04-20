@@ -1,0 +1,4 @@
+interface:
+  display_name: "Org Chart Builder"
+  short_description: "Build org charts and reporting hierarchies"
+  default_prompt: "Use frontend-org-chart-builder to build org-chart UI that follows the existing stack, theme, and product UI DNA."
