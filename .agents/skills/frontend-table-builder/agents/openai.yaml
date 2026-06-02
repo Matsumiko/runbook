@@ -1,6 +1,0 @@
-interface:
-  display_name: "Table Builder"
-  short_description: "Build data tables on existing UI foundations"
-  default_prompt: "Use $frontend-table-builder to build frontend tables and data grids that follow the existing stack, tokens, and product UI DNA."
-policy:
-  allow_implicit_invocation: true

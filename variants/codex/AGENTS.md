@@ -1,7 +1,8 @@
 # Codex Project Instructions
 
-- Read `CODER.md`, `PLAN.md`, `TODO.md`, and `CHANGELOG.md` before non-trivial work.
+- Read root `AGENTS.md` first, then `CONTEXT.md` to choose task-specific files.
 - If `SESSION.md` exists, use it for resumable checkpoints and `run:status`, `run:resume`, `run:recap`.
+- Read `CODER.md` for project commands, architecture, tests, and gotchas.
 - Read `FRONTEND-DNA.md` for UI work and `BACKEND-SECURITY-CHECKLIST.md` for sensitive backend work.
 - Audit first, then plan, then implement.
 - Prefer the smallest effective change.

@@ -4,8 +4,10 @@
 
 const fs = require("fs");
 const path = require("path");
+const childProcess = require("child_process");
 
 const packageRoot = path.resolve(__dirname, "..");
+const packageMeta = require(path.join(packageRoot, "package.json"));
 const sessionDirectory = path.join(".runbook", "sessions");
 const sessionFilePattern = /^SESSION-\d{8}-\d{4}\.json$/;
 const recoverableSessionStatuses = new Set(["ACTIVE", "PAUSED", "INTERRUPTED", "BLOCKED"]);
@@ -15,6 +17,7 @@ const defaultSessionOlderThanDays = 14;
 
 const coreFiles = [
   ["AGENTS.md", "AGENTS.md"],
+  ["templates/context/CONTEXT.md", "CONTEXT.md"],
   ["SESSION.md", "SESSION.md"],
   ["SESSION-EXAMPLE.json", "SESSION-EXAMPLE.json"],
   [".runbook/sessions/.gitkeep", ".runbook/sessions/.gitkeep"],
@@ -26,6 +29,29 @@ const coreFiles = [
   ["BACKEND-SECURITY-CHECKLIST.md", "BACKEND-SECURITY-CHECKLIST.md"],
   ["AGENT-VARIANTS.md", "AGENT-VARIANTS.md"],
 ];
+
+const profileFiles = {
+  minimal: [
+    ["AGENTS.md", "AGENTS.md"],
+    ["templates/context/CONTEXT.md", "CONTEXT.md"],
+    ["templates/core/CODER.md", "CODER.md"],
+  ],
+  frontend: [
+    ["AGENTS.md", "AGENTS.md"],
+    ["templates/context/CONTEXT.md", "CONTEXT.md"],
+    ["templates/core/CODER.md", "CODER.md"],
+    ["FRONTEND-DNA.md", "FRONTEND-DNA.md"],
+  ],
+  backend: [
+    ["AGENTS.md", "AGENTS.md"],
+    ["templates/context/CONTEXT.md", "CONTEXT.md"],
+    ["templates/core/CODER.md", "CODER.md"],
+    ["BACKEND-SECURITY-CHECKLIST.md", "BACKEND-SECURITY-CHECKLIST.md"],
+  ],
+  full: coreFiles,
+};
+
+const validProfiles = Object.keys(profileFiles);
 
 const variantFiles = {
   codex: [],
@@ -42,126 +68,47 @@ const variantFiles = {
   aider: ["CONVENTIONS.md", ".aider.conf.yml"],
 };
 
-const skillDirectories = {
-  "frontend-foundation-builder": ".agents/skills/frontend-foundation-builder",
-  "frontend-figma-to-theme": ".agents/skills/frontend-figma-to-theme",
-  "frontend-component-builder": ".agents/skills/frontend-component-builder",
-  "frontend-tooltip-builder": ".agents/skills/frontend-tooltip-builder",
-  "frontend-dropdown-builder": ".agents/skills/frontend-dropdown-builder",
-  "frontend-popover-builder": ".agents/skills/frontend-popover-builder",
-  "frontend-combobox-builder": ".agents/skills/frontend-combobox-builder",
-  "frontend-select-builder": ".agents/skills/frontend-select-builder",
-  "frontend-context-menu-builder": ".agents/skills/frontend-context-menu-builder",
-  "frontend-data-filter-builder": ".agents/skills/frontend-data-filter-builder",
-  "frontend-date-picker-builder": ".agents/skills/frontend-date-picker-builder",
-  "frontend-calendar-builder": ".agents/skills/frontend-calendar-builder",
-  "frontend-timeline-builder": ".agents/skills/frontend-timeline-builder",
-  "frontend-activity-feed-builder": ".agents/skills/frontend-activity-feed-builder",
-  "frontend-audit-log-builder": ".agents/skills/frontend-audit-log-builder",
-  "frontend-diff-viewer-builder": ".agents/skills/frontend-diff-viewer-builder",
-  "frontend-chart-builder": ".agents/skills/frontend-chart-builder",
-  "frontend-kpi-card-builder": ".agents/skills/frontend-kpi-card-builder",
-  "frontend-metric-comparison-builder": ".agents/skills/frontend-metric-comparison-builder",
-  "frontend-map-builder": ".agents/skills/frontend-map-builder",
-  "frontend-gantt-builder": ".agents/skills/frontend-gantt-builder",
-  "frontend-scheduler-builder": ".agents/skills/frontend-scheduler-builder",
-  "frontend-kanban-builder": ".agents/skills/frontend-kanban-builder",
-  "frontend-queue-board-builder": ".agents/skills/frontend-queue-board-builder",
-  "frontend-inbox-builder": ".agents/skills/frontend-inbox-builder",
-  "frontend-sidebar-builder": ".agents/skills/frontend-sidebar-builder",
-  "frontend-split-pane-builder": ".agents/skills/frontend-split-pane-builder",
-  "frontend-inspector-builder": ".agents/skills/frontend-inspector-builder",
-  "frontend-master-detail-builder": ".agents/skills/frontend-master-detail-builder",
-  "frontend-tree-view-builder": ".agents/skills/frontend-tree-view-builder",
-  "frontend-org-chart-builder": ".agents/skills/frontend-org-chart-builder",
-  "frontend-breadcrumb-builder": ".agents/skills/frontend-breadcrumb-builder",
-  "frontend-accordion-builder": ".agents/skills/frontend-accordion-builder",
-  "frontend-command-palette-builder": ".agents/skills/frontend-command-palette-builder",
-  "frontend-detail-page-builder": ".agents/skills/frontend-detail-page-builder",
-  "frontend-review-panel-builder": ".agents/skills/frontend-review-panel-builder",
-  "frontend-page-builder": ".agents/skills/frontend-page-builder",
-  "frontend-dashboard-builder": ".agents/skills/frontend-dashboard-builder",
-  "frontend-auth-builder": ".agents/skills/frontend-auth-builder",
-  "frontend-onboarding-builder": ".agents/skills/frontend-onboarding-builder",
-  "frontend-stepper-builder": ".agents/skills/frontend-stepper-builder",
-  "frontend-search-builder": ".agents/skills/frontend-search-builder",
-  "frontend-data-grid-toolbar-builder": ".agents/skills/frontend-data-grid-toolbar-builder",
-  "frontend-bulk-action-bar-builder": ".agents/skills/frontend-bulk-action-bar-builder",
-  "frontend-pagination-builder": ".agents/skills/frontend-pagination-builder",
-  "frontend-empty-state-builder": ".agents/skills/frontend-empty-state-builder",
-  "frontend-notification-builder": ".agents/skills/frontend-notification-builder",
-  "frontend-upload-builder": ".agents/skills/frontend-upload-builder",
-  "frontend-modal-builder": ".agents/skills/frontend-modal-builder",
-  "frontend-tabs-builder": ".agents/skills/frontend-tabs-builder",
-  "frontend-marketing-builder": ".agents/skills/frontend-marketing-builder",
-  "frontend-checkout-builder": ".agents/skills/frontend-checkout-builder",
-  "frontend-settings-builder": ".agents/skills/frontend-settings-builder",
-  "frontend-polish-pass": ".agents/skills/frontend-polish-pass",
-  "frontend-form-builder": ".agents/skills/frontend-form-builder",
-  "frontend-table-builder": ".agents/skills/frontend-table-builder",
-};
-
-const skillSummaries = {
-  "frontend-foundation-builder": "choose Chakra UI or Tamagui for greenfield frontend work",
-  "frontend-figma-to-theme": "turn Figma design context into theme tokens and frontend DNA",
-  "frontend-component-builder": "build components that follow the existing stack, theme, and UI DNA",
-  "frontend-tooltip-builder": "build tooltip hints with trigger, placement, and fallback discipline",
-  "frontend-dropdown-builder": "build dropdown menus with grouping, selection, and dismissal discipline",
-  "frontend-popover-builder": "build anchored popovers with lifecycle, density, and fallback discipline",
-  "frontend-combobox-builder": "build comboboxes with query, selection, and async-state discipline",
-  "frontend-select-builder": "build select fields with labels, value clarity, and fallback discipline",
-  "frontend-context-menu-builder": "build context menus with trigger semantics and fallback discipline",
-  "frontend-data-filter-builder": "build data filters with active-state and reset discipline",
-  "frontend-date-picker-builder": "build date pickers with parsing, range, and mobile-fallback discipline",
-  "frontend-calendar-builder": "build calendar surfaces with navigation, density, and fallback discipline",
-  "frontend-timeline-builder": "build timeline surfaces with chronology, grouping, and state discipline",
-  "frontend-activity-feed-builder": "build activity feeds with grouping, unread state, and density discipline",
-  "frontend-audit-log-builder": "build audit-log surfaces with filters, diffs, and trace-discipline",
-  "frontend-diff-viewer-builder": "build diff viewers with anchors, grouping, and comparison discipline",
-  "frontend-chart-builder": "build charts with labels, comparison clarity, and no-data discipline",
-  "frontend-kpi-card-builder": "build KPI cards with comparison clarity and metric-state discipline",
-  "frontend-metric-comparison-builder": "build metric comparisons with baselines, deltas, and variance discipline",
-  "frontend-map-builder": "build maps with selection, density, and spatial-context discipline",
-  "frontend-gantt-builder": "build gantt surfaces with scale, dependency, and fallback discipline",
-  "frontend-scheduler-builder": "build schedulers with resources, slots, and overlap discipline",
-  "frontend-kanban-builder": "build kanban boards with lanes, card density, and fallback discipline",
-  "frontend-queue-board-builder": "build queue boards with priority, triage, and bulk-action discipline",
-  "frontend-inbox-builder": "build inbox surfaces with unread state, grouping, and triage discipline",
-  "frontend-sidebar-builder": "build sidebar navigation shells with active-state and collapse discipline",
-  "frontend-split-pane-builder": "build split panes with resizing, pane priority, and fallback discipline",
-  "frontend-inspector-builder": "build inspectors with grouped metadata, actions, and sync discipline",
-  "frontend-master-detail-builder": "build master-detail surfaces with selection, preview, and drill-down discipline",
-  "frontend-tree-view-builder": "build tree views with expansion, selection, and density discipline",
-  "frontend-org-chart-builder": "build org charts with lineage, node density, and drill-down discipline",
-  "frontend-breadcrumb-builder": "build breadcrumb trails with hierarchy and truncation discipline",
-  "frontend-accordion-builder": "build accordion and disclosure surfaces with expansion discipline",
-  "frontend-command-palette-builder": "build command palettes with trigger, ranking, and keyboard discipline",
-  "frontend-detail-page-builder": "build detail pages with summary, metadata, and related-section discipline",
-  "frontend-review-panel-builder": "build review panels with evidence, rationale, and decision discipline",
-  "frontend-page-builder": "build full pages with route-level hierarchy, flow, and state discipline",
-  "frontend-dashboard-builder": "build dashboard and analytics surfaces with hierarchy and state discipline",
-  "frontend-auth-builder": "build auth flows with trust, recovery, and access-state discipline",
-  "frontend-onboarding-builder": "build first-run onboarding flows with activation and progression discipline",
-  "frontend-stepper-builder": "build stepper progress UI with gating and status discipline",
-  "frontend-search-builder": "build search and discovery flows with query, refinement, and result-state discipline",
-  "frontend-data-grid-toolbar-builder": "build data-grid toolbars with selection, control grouping, and overflow discipline",
-  "frontend-bulk-action-bar-builder": "build bulk-action bars with selection scope, safety, and overflow discipline",
-  "frontend-pagination-builder": "build pagination controls with state-sync and boundary discipline",
-  "frontend-empty-state-builder": "build empty and recovery states with clear next-action discipline",
-  "frontend-notification-builder": "build notification surfaces with urgency, placement, and lifecycle discipline",
-  "frontend-upload-builder": "build upload surfaces with constraints, progress, and retry discipline",
-  "frontend-modal-builder": "build modal and overlay surfaces with focus, layering, and dismissal discipline",
-  "frontend-tabs-builder": "build tabs and segmented panels with active-state and overflow discipline",
-  "frontend-marketing-builder": "build marketing pages with narrative, CTA, and proof discipline",
-  "frontend-checkout-builder": "build checkout flows with totals, trust, and payment-state discipline",
-  "frontend-settings-builder": "build settings surfaces with grouping, persistence, and destructive-state discipline",
-  "frontend-polish-pass": "refine existing frontend surfaces without redesigning the product",
-  "frontend-form-builder": "build forms with validation, states, and submit lifecycle discipline",
-  "frontend-table-builder": "build data tables with density, states, and action discipline",
-};
-
 const validAgents = Object.keys(variantFiles);
-const validSkills = Object.keys(skillDirectories);
+
+const contextRoutes = {
+  list: {
+    title: "Available context routes",
+    files: [],
+    note: "Use: runbook context <general|frontend|backend|resume|planning|inspect>",
+  },
+  inspect: {
+    title: "Inspect installed RunBook context",
+    files: [],
+    note: "Use for checking whether the target project has the expected RunBook context files.",
+  },
+  general: {
+    title: "General code task",
+    files: ["AGENTS.md", "CONTEXT.md", "CODER.md"],
+    note: "Use for ordinary code tasks that need project commands, architecture, and gotchas.",
+  },
+  frontend: {
+    title: "Frontend work",
+    files: ["AGENTS.md", "CONTEXT.md", "CODER.md", "FRONTEND-DNA.md"],
+    note: "Use for UI, layout, visual, interaction, responsive, or design-system work.",
+  },
+  backend: {
+    title: "Backend or security-sensitive work",
+    files: ["AGENTS.md", "CONTEXT.md", "CODER.md", "BACKEND-SECURITY-CHECKLIST.md"],
+    note: "Use for backend changes, auth, billing, payments, uploads, webhooks, secrets, migrations, or sensitive data.",
+  },
+  resume: {
+    title: "Resumable work or handoff",
+    files: ["AGENTS.md", "CONTEXT.md", "SESSION.md", ".runbook/sessions/"],
+    note: "Use for run:status, run:resume, run:recap, interrupted work, or handoff.",
+  },
+  planning: {
+    title: "Planning or prioritization",
+    files: ["AGENTS.md", "CONTEXT.md", "CODER.md", "PLAN.md", "TODO.md"],
+    note: "Use for active task planning, backlog review, or prioritization.",
+  },
+};
+
+const validContextRoutes = Object.keys(contextRoutes);
 
 function main(argv) {
   const args = parseArgs(argv);
@@ -171,33 +118,59 @@ function main(argv) {
     return;
   }
 
-  if (args.command === "list") {
-    printAgentsAndSkills();
+  if (args.version || args.command === "version") {
+    printVersion(args);
     return;
   }
 
-  if (args.command === "skill" || args.command === "skills") {
-    if (!args.subcommand || args.subcommand === "list") {
-      printSkills();
+  if (args.command === "list") {
+    printAgents();
+    return;
+  }
+
+  if (args.command === "doctor") {
+    runDoctor(args);
+    return;
+  }
+
+  if (args.command === "context" || args.command === "contexts") {
+    if (args.subcommand === "inspect") {
+      inspectContext(args);
       return;
     }
 
-    if (args.subcommand === "install") {
-      installSkill(args);
-      return;
-    }
-
-    if (args.subcommand === "help") {
-      printHelp();
-      return;
-    }
-
-    fail(`Unknown skill command: ${args.subcommand}`);
+    printContextRoute(args.subcommand || "list", args.target, args);
+    return;
   }
 
   if (args.command === "session" || args.command === "sessions") {
     if (!args.subcommand || args.subcommand === "list") {
       listSessions(args);
+      return;
+    }
+
+    if (args.subcommand === "new") {
+      createSession(args);
+      return;
+    }
+
+    if (args.subcommand === "latest") {
+      printLatestSession(args);
+      return;
+    }
+
+    if (args.subcommand === "show") {
+      showLatestSession(args);
+      return;
+    }
+
+    if (args.subcommand === "close") {
+      closeLatestSession(args);
+      return;
+    }
+
+    if (["note", "step", "touch", "verify"].includes(args.subcommand)) {
+      updateLatestSession(args);
       return;
     }
 
@@ -219,6 +192,11 @@ function main(argv) {
     return;
   }
 
+  if (args.command === "upgrade") {
+    upgrade(args);
+    return;
+  }
+
   fail(`Unknown command: ${args.command}`);
 }
 
@@ -228,10 +206,14 @@ function parseArgs(argv) {
     subcommand: undefined,
     target: ".",
     agent: "codex",
-    skillName: undefined,
+    profile: "full",
+    status: "COMPLETED",
     force: false,
     dryRun: false,
     all: false,
+    strict: false,
+    json: false,
+    version: false,
     keep: defaultSessionKeepCount,
     olderThanDays: defaultSessionOlderThanDays,
     help: false,
@@ -247,6 +229,16 @@ function parseArgs(argv) {
       continue;
     }
 
+    if (value === "--version" || value === "-v") {
+      args.version = true;
+      continue;
+    }
+
+    if (value === "--json") {
+      args.json = true;
+      continue;
+    }
+
     if (value === "--force" || value === "-f") {
       args.force = true;
       continue;
@@ -259,6 +251,11 @@ function parseArgs(argv) {
 
     if (value === "--all") {
       args.all = true;
+      continue;
+    }
+
+    if (value === "--strict") {
+      args.strict = true;
       continue;
     }
 
@@ -304,6 +301,34 @@ function parseArgs(argv) {
       continue;
     }
 
+    if (value === "--profile" || value === "-p") {
+      index += 1;
+      if (!argv[index]) {
+        fail("Missing value for --profile.");
+      }
+      args.profile = argv[index];
+      continue;
+    }
+
+    if (value.startsWith("--profile=")) {
+      args.profile = value.slice("--profile=".length);
+      continue;
+    }
+
+    if (value === "--status") {
+      index += 1;
+      if (!argv[index]) {
+        fail("Missing value for --status.");
+      }
+      args.status = argv[index];
+      continue;
+    }
+
+    if (value.startsWith("--status=")) {
+      args.status = value.slice("--status=".length);
+      continue;
+    }
+
     if (value.startsWith("-")) {
       fail(`Unknown option: ${value}`);
     }
@@ -318,25 +343,21 @@ function parseArgs(argv) {
 
   const first = positional[0];
 
-  if (first === "help" || first === "list" || first === "init") {
+  if (first === "help" || first === "version" || first === "list" || first === "init" || first === "upgrade" || first === "doctor") {
     args.command = first;
-  } else if (first === "skill" || first === "skills") {
-    args.command = first;
-    args.subcommand = positional[1] || "list";
-
-    if (args.subcommand === "install") {
-      args.skillName = positional[2];
-      args.target = positional[3] || ".";
-
-      if (!args.skillName) {
-        fail('Missing skill name. Usage: runbook skill install <name> [target]');
-      }
-    }
-  } else if (first === "session" || first === "sessions") {
+  } else if (first === "context" || first === "contexts") {
     args.command = first;
     args.subcommand = positional[1] || "list";
     args.target = positional[2] || ".";
+  } else if (first === "session" || first === "sessions") {
+    args.command = first;
+    args.subcommand = positional[1] || "list";
+    parseSessionPositionals(args, positional);
   } else {
+    if (positional.length > 1) {
+      fail(`Unknown command: ${first}`);
+    }
+
     args.command = "init";
     args.target = first;
     return args;
@@ -346,7 +367,42 @@ function parseArgs(argv) {
     args.target = positional[1];
   }
 
+  if (args.command === "upgrade" && positional[1]) {
+    args.target = positional[1];
+  }
+
+  if (args.command === "doctor" && positional[1]) {
+    args.target = positional[1];
+  }
+
   return args;
+}
+
+function parseSessionPositionals(args, positional) {
+  const messageCommands = new Set(["note", "step", "touch", "verify"]);
+  const subcommand = positional[1] || "list";
+
+  if (!messageCommands.has(subcommand)) {
+    args.target = positional[2] || ".";
+    return;
+  }
+
+  const rest = positional.slice(2);
+  if (rest.length === 0) {
+    args.target = ".";
+    args.message = "";
+    return;
+  }
+
+  const possibleTarget = path.resolve(process.cwd(), rest[0]);
+  if (rest.length > 1 && fs.existsSync(possibleTarget) && fs.statSync(possibleTarget).isDirectory()) {
+    args.target = rest[0];
+    args.message = rest.slice(1).join(" ");
+    return;
+  }
+
+  args.target = ".";
+  args.message = rest.join(" ");
 }
 
 function parsePositiveInteger(value, optionName) {
@@ -360,11 +416,20 @@ function parsePositiveInteger(value, optionName) {
 }
 
 function init(args) {
+  installRunBook(args, args.dryRun ? "Dry run" : "Installed");
+}
+
+function upgrade(args) {
+  installRunBook(args, args.dryRun ? "Dry run" : "Upgraded");
+}
+
+function installRunBook(args, mode) {
   const targetDir = path.resolve(process.cwd(), args.target);
   const agentSelection = normalizeAgentSelection(args.agent);
+  const profile = normalizeProfile(args.profile);
   const operations = [];
 
-  for (const [sourceFile, destinationFile] of coreFiles) {
+  for (const [sourceFile, destinationFile] of profileFiles[profile]) {
     operations.push({
       source: path.join(packageRoot, sourceFile),
       destination: path.join(targetDir, destinationFile),
@@ -372,11 +437,13 @@ function init(args) {
     });
   }
 
-  operations.push({
-    content: "*.json\n!.gitkeep\n",
-    destination: path.join(targetDir, ".runbook", "sessions", ".gitignore"),
-    label: ".runbook/sessions/.gitignore",
-  });
+  if (profile === "full") {
+    operations.push({
+      content: "*.json\n!.gitkeep\n",
+      destination: path.join(targetDir, ".runbook", "sessions", ".gitignore"),
+      label: ".runbook/sessions/.gitignore",
+    });
+  }
 
   for (const agent of agentSelection) {
     for (const file of variantFiles[agent]) {
@@ -395,43 +462,11 @@ function init(args) {
 
   printSummary({
     title: "RunBook",
-    mode: args.dryRun ? "Dry run" : "Installed",
+    mode,
     targetDir,
     detailLines: [
       `Agents: ${agentSelection.length > 0 ? agentSelection.join(", ") : "none"}`,
-      `Overwrite existing files: ${args.force ? "yes" : "no"}`,
-    ],
-    result,
-  });
-}
-
-function installSkill(args) {
-  const skillName = normalizeSkillName(args.skillName);
-  const targetDir = path.resolve(process.cwd(), args.target);
-  const sourceDir = path.join(packageRoot, skillDirectories[skillName]);
-  const destinationDir = path.join(targetDir, ".agents", "skills", skillName);
-
-  if (!fs.existsSync(sourceDir)) {
-    fail(`Bundled skill "${skillName}" is missing from this package.`);
-  }
-
-  const operations = collectDirectoryOperations(
-    sourceDir,
-    destinationDir,
-    path.posix.join(".agents", "skills", skillName),
-  );
-
-  const result = copyOperations(operations, {
-    force: args.force,
-    dryRun: args.dryRun,
-  });
-
-  printSummary({
-    title: `skill ${skillName}`,
-    mode: args.dryRun ? "Dry run" : "Installed",
-    targetDir: destinationDir,
-    detailLines: [
-      `Project root: ${targetDir}`,
+      `Profile: ${profile}`,
       `Overwrite existing files: ${args.force ? "yes" : "no"}`,
     ],
     result,
@@ -457,6 +492,207 @@ function listSessions(args) {
     const marker = recoverableSessionStatuses.has(item.status) ? "recoverable" : "closed";
     console.log(`  ${item.fileName}  ${status}  ${project}${branch}  ${marker}`);
   }
+}
+
+function createSession(args) {
+  const targetDir = path.resolve(process.cwd(), args.target);
+  const sessionsDir = path.join(targetDir, sessionDirectory);
+  fs.mkdirSync(sessionsDir, { recursive: true });
+
+  const now = new Date();
+  const sessionId = nextSessionId(sessionsDir, now);
+  const sessionFile = path.join(sessionsDir, `${sessionId}.json`);
+  const metadata = readProjectMetadata(targetDir);
+  const timeLabel = formatTimeLabel(now);
+
+  const session = {
+    session: {
+      id: sessionId,
+      date: formatDate(now),
+      startedAt: timeLabel,
+      endedAt: null,
+      status: "ACTIVE",
+      agent: "unknown",
+    },
+    project: metadata,
+    prompt: {
+      original: "",
+      understoodGoal: "",
+      assumptions: [],
+      outOfScope: [],
+      blockers: [],
+    },
+    plan: [],
+    log: [],
+    lastPosition: {
+      time: timeLabel,
+      lastAction: "Session created.",
+      lastStepStatus: "not_started",
+      nextStep: "Record the task goal, assumptions, and execution plan before implementation.",
+      lastFileTouched: "",
+      systemCondition: "ready",
+      criticalContext: [],
+    },
+    blockers: [],
+    decisions: [],
+    summary: {
+      completed: [],
+      incomplete: [],
+      filesChanged: [],
+      verification: [],
+      nextSessionMustKnow: [],
+    },
+  };
+
+  fs.writeFileSync(sessionFile, `${JSON.stringify(session, null, 2)}\n`);
+  console.log(`Created ${sessionFile}`);
+}
+
+function printLatestSession(args) {
+  const targetDir = path.resolve(process.cwd(), args.target);
+  const sessions = readSessionSummaries(targetDir);
+
+  if (sessions.length === 0) {
+    console.log(`No runtime sessions found in ${path.join(targetDir, sessionDirectory)}.`);
+    return;
+  }
+
+  printSessionSummary(sessions[0]);
+}
+
+function showLatestSession(args) {
+  const targetDir = path.resolve(process.cwd(), args.target);
+  const sessions = readSessionSummaries(targetDir);
+
+  if (sessions.length === 0) {
+    console.log(`No runtime sessions found in ${path.join(targetDir, sessionDirectory)}.`);
+    return;
+  }
+
+  const parsed = parseJsonFile(sessions[0].filePath);
+  printSessionSummary(sessions[0]);
+
+  const lastPosition = parsed.lastPosition || {};
+  const summary = parsed.summary || {};
+  const blockers = Array.isArray(parsed.blockers) ? parsed.blockers : [];
+
+  console.log("\nLast position:");
+  console.log(`  Last action: ${lastPosition.lastAction || "(not recorded)"}`);
+  console.log(`  Next step: ${lastPosition.nextStep || "(not recorded)"}`);
+  console.log(`  System condition: ${lastPosition.systemCondition || "(not recorded)"}`);
+
+  if (Array.isArray(summary.filesChanged) && summary.filesChanged.length > 0) {
+    console.log("\nFiles changed:");
+    for (const file of summary.filesChanged) {
+      console.log(`  - ${file.path || "(unknown)"}${file.change ? ` - ${file.change}` : ""}`);
+    }
+  }
+
+  if (blockers.length > 0) {
+    console.log("\nBlockers:");
+    for (const blocker of blockers) {
+      console.log(`  - ${typeof blocker === "string" ? blocker : blocker.reason || JSON.stringify(blocker)}`);
+    }
+  }
+}
+
+function closeLatestSession(args) {
+  const targetDir = path.resolve(process.cwd(), args.target);
+  const sessions = readSessionSummaries(targetDir);
+  const status = normalizeCloseStatus(args.status);
+  const item = sessions.find((session) => recoverableSessionStatuses.has(session.status)) || sessions[0];
+
+  if (!item) {
+    console.log(`No runtime sessions found in ${path.join(targetDir, sessionDirectory)}.`);
+    return;
+  }
+
+  const parsed = parseJsonFile(item.filePath);
+  parsed.session = parsed.session || {};
+  parsed.session.status = status;
+  parsed.session.endedAt = formatTimeLabel(new Date());
+  parsed.lastPosition = {
+    ...(parsed.lastPosition || {}),
+    time: formatTimeLabel(new Date()),
+    lastStepStatus: status.toLowerCase(),
+    systemCondition: status === "COMPLETED" ? "closed" : "not active",
+  };
+
+  fs.writeFileSync(item.filePath, `${JSON.stringify(parsed, null, 2)}\n`);
+  console.log(`Closed ${item.filePath} as ${status}.`);
+}
+
+function updateLatestSession(args) {
+  const targetDir = path.resolve(process.cwd(), args.target);
+  const text = String(args.message || "").trim();
+
+  if (!text) {
+    fail(`Missing text for session ${args.subcommand}.`);
+  }
+
+  const item = findEditableSession(targetDir);
+  if (!item) {
+    fail(`No recoverable runtime sessions found in ${path.join(targetDir, sessionDirectory)}. Run "runbook session new" first.`);
+  }
+
+  const parsed = parseJsonFile(item.filePath);
+  const now = formatTimeLabel(new Date());
+
+  parsed.session = parsed.session || {};
+  if (!parsed.session.status || parsed.session.status === "UNKNOWN") {
+    parsed.session.status = "ACTIVE";
+  }
+
+  parsed.log = Array.isArray(parsed.log) ? parsed.log : [];
+  parsed.plan = Array.isArray(parsed.plan) ? parsed.plan : [];
+  parsed.summary = parsed.summary || {};
+  parsed.summary.filesChanged = Array.isArray(parsed.summary.filesChanged) ? parsed.summary.filesChanged : [];
+  parsed.summary.verification = Array.isArray(parsed.summary.verification) ? parsed.summary.verification : [];
+
+  if (args.subcommand === "note") {
+    parsed.log.push({ time: now, type: "note", message: text });
+    setLastPosition(parsed, now, `Note recorded: ${text}`, "in_progress", "Continue from the latest recorded note.");
+  }
+
+  if (args.subcommand === "step") {
+    parsed.plan.push({ status: "pending", step: text });
+    parsed.log.push({ time: now, type: "step", message: text });
+    setLastPosition(parsed, now, `Step added: ${text}`, "planned", text);
+  }
+
+  if (args.subcommand === "touch") {
+    const existing = parsed.summary.filesChanged.some((file) => file.path === text);
+    if (!existing) {
+      parsed.summary.filesChanged.push({ path: text, change: "touched during session" });
+    }
+    parsed.log.push({ time: now, type: "touch", message: text });
+    setLastPosition(parsed, now, `File touched: ${text}`, "in_progress", "Review touched files before closing the session.", text);
+  }
+
+  if (args.subcommand === "verify") {
+    parsed.summary.verification.push({ status: "recorded", command: text });
+    parsed.log.push({ time: now, type: "verify", message: text });
+    setLastPosition(parsed, now, `Verification recorded: ${text}`, "verified", "Close the session if no work remains.");
+  }
+
+  fs.writeFileSync(item.filePath, `${JSON.stringify(parsed, null, 2)}\n`);
+  console.log(`Updated ${item.filePath}`);
+}
+
+function findEditableSession(targetDir) {
+  const sessions = readSessionSummaries(targetDir);
+  return sessions.find((session) => recoverableSessionStatuses.has(session.status)) || null;
+}
+
+function setLastPosition(session, time, lastAction, lastStepStatus, nextStep, lastFileTouched = "") {
+  session.lastPosition = {
+    ...(session.lastPosition || {}),
+    time,
+    lastAction,
+    lastStepStatus,
+    nextStep,
+    lastFileTouched,
+  };
 }
 
 function clearSessions(args) {
@@ -607,47 +843,95 @@ function normalizeAgentSelection(value) {
   return normalized;
 }
 
-function normalizeSkillName(value) {
-  const skillName = String(value || "").trim().toLowerCase();
+function normalizeProfile(value) {
+  const profile = String(value || "full").trim().toLowerCase();
 
-  if (!validSkills.includes(skillName)) {
-    fail(`Unknown skill "${value}". Run "runbook skill list" to see bundled skills.`);
+  if (!validProfiles.includes(profile)) {
+    fail(`Unknown profile "${value}". Use one of: ${validProfiles.join(", ")}.`);
   }
 
-  return skillName;
+  return profile;
 }
 
-function collectDirectoryOperations(sourceDir, destinationDir, labelRoot) {
-  const operations = [];
+function normalizeCloseStatus(value) {
+  const status = String(value || "COMPLETED").trim().toUpperCase();
+  const allowed = new Set(["COMPLETED", "PAUSED", "CANCELLED", "BLOCKED"]);
 
-  walk(sourceDir);
-  return operations;
-
-  function walk(currentDir) {
-    const entries = fs.readdirSync(currentDir, { withFileTypes: true });
-
-    for (const entry of entries) {
-      const sourcePath = path.join(currentDir, entry.name);
-      const relativePath = path.relative(sourceDir, sourcePath);
-
-      if (entry.isDirectory()) {
-        walk(sourcePath);
-        continue;
-      }
-
-      if (!entry.isFile()) {
-        continue;
-      }
-
-      const relativeLabel = relativePath.split(path.sep).join("/");
-
-      operations.push({
-        source: sourcePath,
-        destination: path.join(destinationDir, relativePath),
-        label: path.posix.join(labelRoot, relativeLabel),
-      });
-    }
+  if (!allowed.has(status)) {
+    fail('Session close status must be one of: COMPLETED, PAUSED, CANCELLED, BLOCKED.');
   }
+
+  return status;
+}
+
+function nextSessionId(sessionsDir, date) {
+  let candidate = new Date(date.getTime());
+
+  for (let attempt = 0; attempt < 1440; attempt += 1) {
+    const id = `SESSION-${formatCompactDate(candidate)}-${formatCompactTime(candidate)}`;
+    if (!fs.existsSync(path.join(sessionsDir, `${id}.json`))) {
+      return id;
+    }
+    candidate = new Date(candidate.getTime() + 60 * 1000);
+  }
+
+  fail("Could not create a unique session id.");
+}
+
+function readProjectMetadata(targetDir) {
+  return {
+    name: path.basename(targetDir),
+    root: targetDir,
+    gitRemote: readGitValue(targetDir, ["config", "--get", "remote.origin.url"]),
+    gitBranch: readGitValue(targetDir, ["branch", "--show-current"]),
+  };
+}
+
+function readGitValue(targetDir, args) {
+  try {
+    return childProcess
+      .execFileSync("git", ["-C", targetDir, ...args], {
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      })
+      .trim();
+  } catch (error) {
+    return "";
+  }
+}
+
+function formatDate(date) {
+  return [
+    date.getFullYear(),
+    pad2(date.getMonth() + 1),
+    pad2(date.getDate()),
+  ].join("-");
+}
+
+function formatCompactDate(date) {
+  return `${date.getFullYear()}${pad2(date.getMonth() + 1)}${pad2(date.getDate())}`;
+}
+
+function formatCompactTime(date) {
+  return `${pad2(date.getHours())}${pad2(date.getMinutes())}`;
+}
+
+function formatTimeLabel(date) {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "local";
+  return `${pad2(date.getHours())}:${pad2(date.getMinutes())} ${timezone}`;
+}
+
+function pad2(value) {
+  return String(value).padStart(2, "0");
+}
+
+function printSessionSummary(item) {
+  console.log(`Session: ${item.fileName}`);
+  console.log(`Path: ${item.filePath}`);
+  console.log(`Status: ${item.status}`);
+  console.log(`Project: ${item.projectName || "(unknown project)"}`);
+  console.log(`Branch: ${item.gitBranch || "(unknown branch)"}`);
+  console.log(`Recoverable: ${recoverableSessionStatuses.has(item.status) ? "yes" : "no"}`);
 }
 
 function copyOperations(operations, options) {
@@ -716,12 +1000,6 @@ function printSummary({ title, mode, targetDir, detailLines, result }) {
   }
 }
 
-function printAgentsAndSkills() {
-  printAgents();
-  console.log("");
-  printSkills();
-}
-
 function printAgents() {
   console.log("Supported agents:");
   for (const agent of validAgents) {
@@ -733,101 +1011,505 @@ function printAgents() {
   console.log("  none     install only the core kit");
 }
 
-function printSkills() {
-  console.log("Bundled skills:");
-  for (const skillName of validSkills) {
-    console.log(`  ${skillName.padEnd(30)} ${skillSummaries[skillName]}`);
+function printVersion(args = {}) {
+  if (args.json) {
+    printJson({
+      name: packageMeta.name,
+      version: packageMeta.version,
+    });
+    return;
   }
-  console.log("\nInstall with:");
-  console.log("  runbook skill install <name> [target]");
+
+  console.log(`${packageMeta.name} ${packageMeta.version}`);
+}
+
+function printContextRoute(routeName, target = ".", args = {}) {
+  const normalized = String(routeName || "list").trim().toLowerCase();
+  const route = contextRoutes[normalized];
+  const customRoutes = readCustomContextRoutes(path.resolve(process.cwd(), target));
+
+  if (!route && !customRoutes[normalized]) {
+    fail(`Unknown context route "${routeName}". Run "runbook context list" to see available routes.`);
+  }
+
+  if (!route && customRoutes[normalized]) {
+    if (args.json) {
+      printJson({
+        route: normalized,
+        source: "custom",
+        ...customRoutes[normalized],
+      });
+      return;
+    }
+
+    printSingleContextRoute(customRoutes[normalized]);
+    return;
+  }
+
+  if (args.json) {
+    if (normalized === "list") {
+      printJson({
+        routes: Object.fromEntries(
+          Object.entries({
+            ...contextRoutes,
+            ...Object.fromEntries(Object.entries(customRoutes).map(([name, item]) => [name, { ...item, source: "custom" }])),
+          }).filter(([name]) => name !== "list" && name !== "inspect"),
+        ),
+      });
+      return;
+    }
+
+    printJson({
+      route: normalized,
+      source: "built-in",
+      ...route,
+    });
+    return;
+  }
+
+  console.log(route.title);
+
+  if (normalized === "list") {
+    for (const name of validContextRoutes.filter((item) => item !== "list" && item !== "inspect")) {
+      const item = contextRoutes[name];
+      console.log(`  ${name.padEnd(8)} ${item.title}`);
+    }
+    for (const [name, item] of Object.entries(customRoutes)) {
+      console.log(`  ${name.padEnd(8)} ${item.title} (custom)`);
+    }
+    console.log(`\n${route.note}`);
+    return;
+  }
+
+  printSingleContextRoute(route);
+}
+
+function printSingleContextRoute(route) {
+  console.log(route.title);
+  console.log("\nRead:");
+  for (const file of route.files) {
+    console.log(`  - ${file}`);
+  }
+
+  console.log(`\n${route.note}`);
+}
+
+function readCustomContextRoutes(targetDir) {
+  const filePath = path.join(targetDir, "CONTEXT.md");
+  if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
+    return {};
+  }
+
+  const content = fs.readFileSync(filePath, "utf8");
+  const lines = content.split(/\r?\n/);
+  const startIndex = lines.findIndex((line) => /^## Custom Routes\s*$/.test(line.trim()));
+  if (startIndex === -1) {
+    return {};
+  }
+
+  const sectionLines = [];
+  for (let index = startIndex + 1; index < lines.length; index += 1) {
+    if (/^##\s+/.test(lines[index])) {
+      break;
+    }
+    sectionLines.push(lines[index]);
+  }
+
+  const routes = {};
+  const rows = sectionLines
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith("|") && line.endsWith("|"));
+
+  for (const row of rows) {
+    const cells = row
+      .slice(1, -1)
+      .split("|")
+      .map((cell) => cell.trim());
+
+    if (cells.length < 2 || /^-+$/.test(cells[0]) || /^route$/i.test(cells[0]) || /\[[^\]]+\]/.test(cells[0])) {
+      continue;
+    }
+
+    const name = cells[0].toLowerCase().replace(/\s+/g, "-");
+    const files = cells[1]
+      .split(",")
+      .map((file) => file.trim().replace(/^`|`$/g, ""))
+      .filter(Boolean);
+
+    if (!name || files.length === 0 || contextRoutes[name]) {
+      continue;
+    }
+
+    routes[name] = {
+      title: cells[0],
+      files,
+      note: cells[2] || "Custom route from project CONTEXT.md.",
+    };
+  }
+
+  return routes;
+}
+
+function inspectContext(args) {
+  const targetDir = path.resolve(process.cwd(), args.target);
+  const checks = [
+    { label: "AGENTS.md", path: "AGENTS.md", required: true },
+    { label: "CONTEXT.md", path: "CONTEXT.md", required: true },
+    { label: "CODER.md", path: "CODER.md", required: true, templateCheck: true },
+    { label: "PLAN.md", path: "PLAN.md", required: false },
+    { label: "TODO.md", path: "TODO.md", required: false },
+    { label: "CHANGELOG.md", path: "CHANGELOG.md", required: false },
+    { label: "SESSION.md", path: "SESSION.md", required: false },
+    { label: ".runbook/sessions/", path: sessionDirectory, required: false, directory: true },
+    { label: "FRONTEND-DNA.md", path: "FRONTEND-DNA.md", required: false, templateCheck: true },
+    { label: "BACKEND-SECURITY-CHECKLIST.md", path: "BACKEND-SECURITY-CHECKLIST.md", required: false },
+    { label: "AGENT-VARIANTS.md", path: "AGENT-VARIANTS.md", required: false },
+  ];
+
+  const missingRequired = [];
+  const missingOptional = [];
+  const templateLike = [];
+
+  console.log(`RunBook context inspection for ${targetDir}`);
+
+  for (const check of checks) {
+    const filePath = path.join(targetDir, check.path);
+    const exists = fs.existsSync(filePath);
+    const typeOk = exists && (check.directory ? fs.statSync(filePath).isDirectory() : fs.statSync(filePath).isFile());
+
+    if (!typeOk) {
+      const marker = check.required ? "missing" : "optional missing";
+      console.log(`  ! ${check.label} (${marker})`);
+
+      if (check.required) {
+        missingRequired.push(check.label);
+      } else {
+        missingOptional.push(check.label);
+      }
+      continue;
+    }
+
+    if (check.templateCheck && looksLikeTemplate(filePath)) {
+      console.log(`  ? ${check.label} (present, still looks like template)`);
+      templateLike.push(check.label);
+      continue;
+    }
+
+    console.log(`  + ${check.label}`);
+  }
+
+  if (missingRequired.length > 0) {
+    console.log("\nMissing required context files:");
+    for (const file of missingRequired) {
+      console.log(`  - ${file}`);
+    }
+    console.log("\nRun `runbook init` in this project, or re-run with --force if you intend to restore core files.");
+    process.exitCode = 1;
+    return;
+  }
+
+  if (templateLike.length > 0) {
+    console.log("\nFiles that still need project-specific content:");
+    for (const file of templateLike) {
+      console.log(`  - ${file}`);
+    }
+  }
+
+  if (missingOptional.length > 0) {
+    console.log("\nOptional context files not found:");
+    for (const file of missingOptional) {
+      console.log(`  - ${file}`);
+    }
+  }
+
+  if (templateLike.length === 0 && missingOptional.length === 0) {
+    console.log("\nContext files look ready.");
+  }
+}
+
+function runDoctor(args) {
+  const targetDir = path.resolve(process.cwd(), args.target);
+  const results = [];
+
+  addDoctorCheck(results, {
+    label: "package.json is valid",
+    ok: canParseJson(path.join(packageRoot, "package.json")),
+  });
+
+  addDoctorCheck(results, {
+    label: "SESSION-EXAMPLE.json is valid",
+    ok: canParseJson(path.join(packageRoot, "SESSION-EXAMPLE.json")),
+  });
+
+  addDoctorCheck(results, {
+    label: "core context files are present",
+    ok: ["AGENTS.md", "CONTEXT.md", "CODER.md"].every((file) => fs.existsSync(path.join(targetDir, file))),
+    hint: "Run `runbook init --profile minimal` to install the minimum context files.",
+  });
+
+  addDoctorCheck(results, {
+    label: "CONTEXT.md references AGENTS.md",
+    ok: fileIncludes(path.join(targetDir, "CONTEXT.md"), "AGENTS.md"),
+    hint: "Refresh CONTEXT.md from the latest RunBook template.",
+  });
+
+  addDoctorCheck(results, {
+    label: "CODER.md has project-specific content",
+    ok: fs.existsSync(path.join(targetDir, "CODER.md")) && !looksLikeTemplate(path.join(targetDir, "CODER.md")),
+    warning: true,
+    hint: "Fill CODER.md with real commands, architecture notes, paths, environment notes, tests, and gotchas.",
+  });
+
+  addDoctorCheck(results, {
+    label: ".runbook/sessions/.gitignore protects runtime sessions",
+    ok: sessionGitignoreIsSafe(targetDir),
+    warning: true,
+    hint: "Run `runbook init --profile full` or add `.runbook/sessions/*.json` to .runbook/sessions/.gitignore.",
+  });
+
+  const trackedSessions = trackedRuntimeSessions(targetDir);
+  addDoctorCheck(results, {
+    label: "runtime session JSON files are not tracked",
+    ok: trackedSessions.length === 0,
+    hint: trackedSessions.length > 0
+      ? `Untrack runtime session files: ${trackedSessions.join(", ")}`
+      : "Runtime sessions should stay local.",
+  });
+
+  const staleAdapters = installedAdaptersWithoutContext(targetDir);
+  addDoctorCheck(results, {
+    label: "installed adapters route through CONTEXT.md",
+    ok: staleAdapters.length === 0,
+    hint: staleAdapters.length > 0
+      ? `Refresh adapter files: ${staleAdapters.join(", ")}`
+      : "Adapters are aligned with context routing.",
+  });
+
+  const missingCustomRouteFiles = customContextRouteMissingFiles(targetDir);
+  addDoctorCheck(results, {
+    label: "custom context route files exist",
+    ok: missingCustomRouteFiles.length === 0,
+    warning: true,
+    hint: missingCustomRouteFiles.length > 0
+      ? `Create or correct these custom route files: ${missingCustomRouteFiles.join(", ")}`
+      : "Custom context routes point to existing files.",
+  });
+
+  const failures = results.filter((result) => !result.ok && !result.warning);
+  const warnings = results.filter((result) => !result.ok && result.warning);
+  const strictFailure = args.strict && failures.length === 0 && warnings.length > 0;
+
+  if (args.json) {
+    printJson({
+      target: targetDir,
+      strict: args.strict,
+      ok: failures.length === 0 && !strictFailure,
+      failures: failures.length,
+      warnings: warnings.length,
+      checks: results,
+    });
+
+    if (failures.length > 0 || strictFailure) {
+      process.exitCode = 1;
+    }
+    return;
+  }
+
+  console.log(`RunBook doctor for ${targetDir}`);
+
+  for (const result of results) {
+    const marker = result.ok ? "+" : result.warning ? "?" : "!";
+    console.log(`  ${marker} ${result.label}`);
+    if (!result.ok && result.hint) {
+      console.log(`    Fix: ${result.hint}`);
+    }
+  }
+
+  if (failures.length > 0) {
+    console.log(`\nDoctor found ${failures.length} issue(s) and ${warnings.length} warning(s).`);
+    console.log("Run the listed Fix commands, then re-run `runbook doctor`.");
+    process.exitCode = 1;
+    return;
+  }
+
+  if (warnings.length > 0) {
+    if (args.strict) {
+      console.log(`\nDoctor strict mode failed on ${warnings.length} warning(s).`);
+      console.log("Resolve the listed Fix hints, then re-run `runbook doctor --strict`.");
+      process.exitCode = 1;
+      return;
+    }
+
+    console.log(`\nDoctor passed with ${warnings.length} warning(s).`);
+    console.log("Review the listed Fix hints when you want a cleaner RunBook setup.");
+    return;
+  }
+
+  console.log("\nDoctor passed.");
+}
+
+function addDoctorCheck(results, check) {
+  results.push({
+    label: check.label,
+    ok: Boolean(check.ok),
+    warning: Boolean(check.warning),
+    hint: check.hint || "",
+  });
+}
+
+function printJson(value) {
+  console.log(JSON.stringify(value, null, 2));
+}
+
+function canParseJson(filePath) {
+  try {
+    parseJsonFile(filePath);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+function fileIncludes(filePath, value) {
+  if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) {
+    return false;
+  }
+
+  return fs.readFileSync(filePath, "utf8").includes(value);
+}
+
+function sessionGitignoreIsSafe(targetDir) {
+  const filePath = path.join(targetDir, ".runbook", "sessions", ".gitignore");
+
+  if (!fs.existsSync(filePath)) {
+    return false;
+  }
+
+  const content = fs.readFileSync(filePath, "utf8");
+  return content.includes("*.json");
+}
+
+function trackedRuntimeSessions(targetDir) {
+  try {
+    const output = childProcess.execFileSync("git", ["-C", targetDir, "ls-files", ".runbook/sessions/*.json"], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    });
+
+    return output
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter(Boolean);
+  } catch (error) {
+    return [];
+  }
+}
+
+function installedAdaptersWithoutContext(targetDir) {
+  const adapterPaths = [
+    "CLAUDE.md",
+    ".cursor/rules/10-core.mdc",
+    ".github/copilot-instructions.md",
+    ".github/instructions/frontend.instructions.md",
+    ".github/instructions/backend-security.instructions.md",
+    "GEMINI.md",
+    ".windsurf/rules/10-core.md",
+    ".clinerules/core.md",
+    "CONVENTIONS.md",
+  ];
+
+  return adapterPaths.filter((file) => {
+    const filePath = path.join(targetDir, file);
+    return fs.existsSync(filePath) && fs.statSync(filePath).isFile() && !fileIncludes(filePath, "CONTEXT.md");
+  });
+}
+
+function customContextRouteMissingFiles(targetDir) {
+  const routes = readCustomContextRoutes(targetDir);
+  const missing = new Set();
+
+  for (const route of Object.values(routes)) {
+    for (const file of route.files) {
+      if (/^https?:\/\//i.test(file)) {
+        continue;
+      }
+
+      const normalized = file.replace(/^\.?\//, "");
+      const filePath = path.join(targetDir, normalized);
+      if (!fs.existsSync(filePath)) {
+        missing.add(normalized);
+      }
+    }
+  }
+
+  return Array.from(missing).sort();
+}
+
+function looksLikeTemplate(filePath) {
+  const content = fs.readFileSync(filePath, "utf8");
+  return /\[[^\]\n]+\]/.test(content);
 }
 
 function printHelp() {
   console.log(`RunBook
 
 Usage:
-  runbook init [target] [--agent <name|all|none>] [--force] [--dry-run]
+  runbook init [target] [--profile <minimal|frontend|backend|full>] [--agent <name|all|none>] [--force] [--dry-run]
+  runbook upgrade [target] [--profile <minimal|frontend|backend|full>] [--agent <name|all|none>] [--force] [--dry-run]
+  runbook version [--json]
+  runbook --version
   runbook list
+  runbook doctor [target] [--strict] [--json]
+  runbook context list [target] [--json]
+  runbook context <general|frontend|backend|resume|planning|custom-route> [target] [--json]
+  runbook context inspect [target]
+  runbook session new [target]
   runbook session list [target]
+  runbook session latest [target]
+  runbook session show [target]
+  runbook session note [target] <text>
+  runbook session step [target] <text>
+  runbook session touch [target] <path>
+  runbook session verify [target] <command-or-result>
+  runbook session close [target] [--status <completed|paused|cancelled|blocked>]
   runbook session clear [target] [--keep <count>] [--older-than <days>] [--dry-run]
   runbook session clear [target] --all --force
-  runbook skill list
-  runbook skill install <name> [target] [--force] [--dry-run]
   runbook help
 
 Examples:
   npx @matsumiko/runbook init
+  npx @matsumiko/runbook init --profile minimal
+  npx @matsumiko/runbook init ./my-app --profile frontend
+  npx @matsumiko/runbook upgrade --dry-run
+  npx @matsumiko/runbook --version
+  npx @matsumiko/runbook doctor
+  npx @matsumiko/runbook doctor --strict
+  npx @matsumiko/runbook doctor --json
   npx @matsumiko/runbook init --agent claude
   npx @matsumiko/runbook init ./my-app --agent cursor,copilot
+  npx @matsumiko/runbook context frontend
+  npx @matsumiko/runbook context frontend --json
+  npx @matsumiko/runbook context backend
+  npx @matsumiko/runbook context inspect
+  npx @matsumiko/runbook session new
   npx @matsumiko/runbook session list
+  npx @matsumiko/runbook session latest
+  npx @matsumiko/runbook session show
+  npx @matsumiko/runbook session note "Found failing auth test"
+  npx @matsumiko/runbook session step "Fix token refresh handling"
+  npx @matsumiko/runbook session touch src/auth.ts
+  npx @matsumiko/runbook session verify "npm test passed"
+  npx @matsumiko/runbook session close --status completed
   npx @matsumiko/runbook session clear --dry-run
   npx @matsumiko/runbook session clear --keep 20 --older-than 14
   npx @matsumiko/runbook session clear --all --force
-  npx @matsumiko/runbook skill list
-  npx @matsumiko/runbook skill install frontend-foundation-builder
-  npx @matsumiko/runbook skill install frontend-figma-to-theme
-  npx @matsumiko/runbook skill install frontend-component-builder
-  npx @matsumiko/runbook skill install frontend-tooltip-builder
-  npx @matsumiko/runbook skill install frontend-dropdown-builder
-  npx @matsumiko/runbook skill install frontend-popover-builder
-  npx @matsumiko/runbook skill install frontend-combobox-builder
-  npx @matsumiko/runbook skill install frontend-select-builder
-  npx @matsumiko/runbook skill install frontend-context-menu-builder
-  npx @matsumiko/runbook skill install frontend-data-filter-builder
-  npx @matsumiko/runbook skill install frontend-date-picker-builder
-  npx @matsumiko/runbook skill install frontend-calendar-builder
-  npx @matsumiko/runbook skill install frontend-timeline-builder
-  npx @matsumiko/runbook skill install frontend-activity-feed-builder
-  npx @matsumiko/runbook skill install frontend-audit-log-builder
-  npx @matsumiko/runbook skill install frontend-diff-viewer-builder
-  npx @matsumiko/runbook skill install frontend-chart-builder
-  npx @matsumiko/runbook skill install frontend-kpi-card-builder
-  npx @matsumiko/runbook skill install frontend-metric-comparison-builder
-  npx @matsumiko/runbook skill install frontend-map-builder
-  npx @matsumiko/runbook skill install frontend-gantt-builder
-  npx @matsumiko/runbook skill install frontend-scheduler-builder
-  npx @matsumiko/runbook skill install frontend-kanban-builder
-  npx @matsumiko/runbook skill install frontend-queue-board-builder
-  npx @matsumiko/runbook skill install frontend-inbox-builder
-  npx @matsumiko/runbook skill install frontend-sidebar-builder
-  npx @matsumiko/runbook skill install frontend-split-pane-builder
-  npx @matsumiko/runbook skill install frontend-inspector-builder
-  npx @matsumiko/runbook skill install frontend-master-detail-builder
-  npx @matsumiko/runbook skill install frontend-tree-view-builder
-  npx @matsumiko/runbook skill install frontend-org-chart-builder
-  npx @matsumiko/runbook skill install frontend-breadcrumb-builder
-  npx @matsumiko/runbook skill install frontend-accordion-builder
-  npx @matsumiko/runbook skill install frontend-command-palette-builder
-  npx @matsumiko/runbook skill install frontend-detail-page-builder
-  npx @matsumiko/runbook skill install frontend-review-panel-builder
-  npx @matsumiko/runbook skill install frontend-page-builder
-  npx @matsumiko/runbook skill install frontend-dashboard-builder
-  npx @matsumiko/runbook skill install frontend-auth-builder
-  npx @matsumiko/runbook skill install frontend-onboarding-builder
-  npx @matsumiko/runbook skill install frontend-stepper-builder
-  npx @matsumiko/runbook skill install frontend-search-builder
-  npx @matsumiko/runbook skill install frontend-data-grid-toolbar-builder
-  npx @matsumiko/runbook skill install frontend-bulk-action-bar-builder
-  npx @matsumiko/runbook skill install frontend-pagination-builder
-  npx @matsumiko/runbook skill install frontend-empty-state-builder
-  npx @matsumiko/runbook skill install frontend-notification-builder
-  npx @matsumiko/runbook skill install frontend-upload-builder
-  npx @matsumiko/runbook skill install frontend-modal-builder
-  npx @matsumiko/runbook skill install frontend-tabs-builder
-  npx @matsumiko/runbook skill install frontend-marketing-builder
-  npx @matsumiko/runbook skill install frontend-checkout-builder
-  npx @matsumiko/runbook skill install frontend-settings-builder
-  npx @matsumiko/runbook skill install frontend-polish-pass
-  npx @matsumiko/runbook skill install frontend-form-builder
-  npx @matsumiko/runbook skill install frontend-table-builder
-  npx @matsumiko/runbook skill install frontend-foundation-builder ./my-app --dry-run
 
 Default behavior:
   - copies the canonical RunBook markdown files
+  - includes CONTEXT.md for task-based context routing
   - includes session recovery protocol, example checkpoint, and .runbook/sessions/
   - uses Codex-compatible AGENTS.md by default
   - skips existing files unless --force is provided
-  - installs bundled Codex skills into .agents/skills/
 `);
 }
 

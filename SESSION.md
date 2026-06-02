@@ -214,7 +214,11 @@ the command first.
 CLI helpers:
 
 ```text
+runbook session new [target]
 runbook session list [target]
+runbook session latest [target]
+runbook session show [target]
+runbook session close [target] [--status <completed|paused|cancelled|blocked>]
 runbook session clear [target] [--keep <count>] [--older-than <days>] [--dry-run]
 runbook session clear [target] --all --force
 ```
