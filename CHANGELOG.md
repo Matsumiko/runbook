@@ -85,6 +85,7 @@ medium
 - Added migration guidance for users coming from skill-based RunBook releases.
 - Added CI usage documentation for `runbook doctor --strict`.
 - Added example output documentation and a release checklist.
+- Replaced the README ASCII header with a branded RunBook logo asset and refreshed adapter badges with LobeHub icons.
 - Moved CLI smoke coverage into `test/smoke.js`.
 - Bumped package version to `0.32.0`.
 
@@ -99,6 +100,7 @@ medium
 - `SESSION.md` - documented new session helper commands.
 - `variants/` - aligned agent adapters with `CONTEXT.md`.
 - `README.md` - updated product narrative, CLI reference, profiles, session flow, and example workflow.
+- `assets/runbook-logo.png` - added branded README logo asset.
 - `docs/` - added focused guides for CLI usage, context routing, session recovery, adapters, and upgrading.
 - `package.json` - added package metadata, updated tests, and bumped version.
 - `.agents/skills/` - removed bundled Codex skill files.

@@ -2,14 +2,7 @@
 
 <br/>
 
-```text
-██████╗ ██╗   ██╗███╗   ██╗██████╗  ██████╗  ██████╗ ██╗  ██╗
-██╔══██╗██║   ██║████╗  ██║██╔══██╗██╔═══██╗██╔═══██╗██║ ██╔╝
-██████╔╝██║   ██║██╔██╗ ██║██████╔╝██║   ██║██║   ██║█████╔╝
-██╔══██╗██║   ██║██║╚██╗██║██╔══██╗██║   ██║██║   ██║██╔═██╗
-██║  ██║╚██████╔╝██║ ╚████║██████╔╝╚██████╔╝╚██████╔╝██║  ██╗
-╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═════╝  ╚═════╝  ╚═════╝ ╚═╝  ╚═╝
-```
+<img src="assets/runbook-logo.png" alt="RunBook" width="720"/>
 
 ### Operational instruction kit for AI coding agents
 
@@ -21,11 +14,7 @@
 
 <br/>
 
-![Codex](https://img.shields.io/badge/OpenAI%20Codex-ready-10a37f?style=flat-square&logo=openai&logoColor=white&labelColor=0f172a)
-![Claude](https://img.shields.io/badge/Claude%20Code-ready-cc785c?style=flat-square&labelColor=0f172a)
-![Cursor](https://img.shields.io/badge/Cursor-ready-e2e8f0?style=flat-square&labelColor=0f172a)
-![Copilot](https://img.shields.io/badge/GitHub%20Copilot-ready-2f81f7?style=flat-square&logo=githubcopilot&logoColor=white&labelColor=0f172a)
-![Node](https://img.shields.io/badge/node-%3E%3D18-22c55e?style=flat-square&logo=node.js&logoColor=white&labelColor=0f172a)
+<img src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/openai.svg" alt="" width="15" height="15"/> ![Codex](https://img.shields.io/badge/OpenAI%20Codex-ready-10a37f?style=flat-square&labelColor=0f172a) <img src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/claude-color.svg" alt="" width="15" height="15"/> ![Claude](https://img.shields.io/badge/Claude%20Code-ready-cc785c?style=flat-square&labelColor=0f172a) <img src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/cursor.svg" alt="" width="15" height="15"/> ![Cursor](https://img.shields.io/badge/Cursor-ready-e2e8f0?style=flat-square&labelColor=0f172a) <img src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/githubcopilot.svg" alt="" width="15" height="15"/> ![Copilot](https://img.shields.io/badge/GitHub%20Copilot-ready-2f81f7?style=flat-square&labelColor=0f172a) ![Node](https://img.shields.io/badge/node-%3E%3D18-22c55e?style=flat-square&logo=node.js&logoColor=white&labelColor=0f172a)
 
 <br/>
 

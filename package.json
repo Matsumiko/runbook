@@ -16,6 +16,7 @@
   },
   "files": [
     ".runbook/",
+    "assets/",
     "bin/",
     "docs/",
     "test/",
