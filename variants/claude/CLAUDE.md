@@ -9,6 +9,7 @@
 - If a recoverable session exists, stop and ask the user to type exactly `I will fight` to resume. Do not continue until that exact phrase is received.
 - After `I will fight`, run `runbook session resume` when available, or inspect the latest recoverable session manually, audit the workspace, and continue from the recorded next step.
 - If no recoverable session exists, create a runtime session before the first repository edit. Use `runbook session new` when available. Do not create runtime session JSON by hand when the CLI works.
+- When `runbook` or `npx @matsumiko/runbook` works, session CLI commands are mandatory. Do not hand-write `.runbook/sessions/*.json`; use `runbook session new`, `step`, `touch`, `verify`, `close`, and `validate`.
 - If the CLI is unavailable or fails after a real attempt, manually create `.runbook/sessions/SESSION-[YYYYMMDD]-[HHMM].json` using the full schema from `SESSION.md`. Never create a short ad-hoc session object with only `name`, `status`, and `summary`.
 - Update runtime sessions at meaningful milestones with step, touched files, verification, decisions, last position, and status. Close finished work as `COMPLETED`.
 - Use an atomic checkpoint loop: before a meaningful edit, record the next action; immediately after each file change, record the touched file and update `lastPosition`; before moving to the next implementation step, make sure the previous file change is checkpointed.
@@ -17,10 +18,14 @@
 - For project bootstrap from only RunBook files, update `PROJECT.md` after verification with real commands, architecture, paths, environment, tests, and gotchas. Remove every bracket placeholder such as `[command]`, `[name]`, or `[VAR_NAME]`; use `none` or `n/a` where a field does not apply. Checkpoint each created project file before creating the next file, and checkpoint `PROJECT.md` before closing the session.
 - Read `FRONTEND.md` before UI work. For frontend bootstrap or meaningful frontend changes, update `FRONTEND.md` after verification with actual project-specific frontend decisions: tone, palette, typography, layout, component patterns, responsive breakpoints, accessibility expectations, and preview/test commands. If it is still a generic template, replace or add a project-specific baseline near the top before closing. Checkpoint `FRONTEND.md` before closing the session.
 - Before closing frontend work, run a placeholder audit such as `rg "\\[e\\.g\\.|#______|___px|\\[font name\\]|\\[describe\\]|\\[value\\]" PROJECT.md FRONTEND.md`. If it finds placeholders in sections that describe the implemented project, replace them with verified facts, `none`, or `n/a`.
+- Before closing any repository-changing task, run the long-term memory checkpoint from `AGENTS.md`: update `PROJECT.md`, `MODULE-MAP.md`, `DECISIONS.md`, `BUG-HISTORY.md`, `FRONTEND.md`, or `SECURITY.md` when the task created durable facts. This is required. If a relevant memory file does not need changes, say so in the final report instead of silently skipping it.
+- When creating or changing a module, feature area, entrypoint, or important file path, update `MODULE-MAP.md` before closing and checkpoint it with `runbook session touch MODULE-MAP.md`.
+- Preserve durable memory file structure. Append or edit concrete entries under the right section; do not replace the whole file with a terse summary.
 - Read `SECURITY.md` before backend or security-sensitive work.
 - Use `ACTIVE-PLAN.md` only for large, multi-phase, cross-file, or risky active work. Use `BACKLOG.md` only for deferred follow-ups. Use `CHANGELOG.md` only for meaningful completed milestones.
 - Preserve existing patterns and naming.
 - Verify changes before claiming completion.
+- Do not send the final response for repository-changing work until these commands pass after closing the runtime session: `runbook session pending`, `runbook session validate`, `runbook doctor --strict-live`, and `runbook finish`. If using `npx`, run the same commands as `npx @matsumiko/runbook ...`.
 - Before final response, check for disposable artifacts created during the task and remove them or explicitly document why they remain.
 - Before the final response, run `runbook session pending` when available. Finished work should report no recoverable runtime sessions; if a session is still `ACTIVE`, finish the bookkeeping or report the work as incomplete.
 - Keep the file lean and link deeper project docs instead of duplicating them.

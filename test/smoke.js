@@ -22,10 +22,10 @@ function main() {
       "runbook session note [target] <text>",
     ],
   });
-  run(["--version"], { includes: "@matsumiko/runbook 0.32.0" });
+  run(["--version"], { includes: "@matsumiko/runbook 0.33.0" });
   assertJson(run(["version", "--json"], { quiet: true }), {
     name: "@matsumiko/runbook",
-    version: "0.32.0",
+    version: "0.33.0",
   });
   run(["list"], { includes: "Supported agents:" });
   run(["doctor"], { includes: "RunBook doctor for" });
@@ -108,17 +108,28 @@ function main() {
     assertFileIncludes(adapterDir, "CLAUDE.md", "atomic checkpoint loop");
     assertFileIncludes(adapterDir, "CLAUDE.md", "runbook session pending");
     assertFileIncludes(adapterDir, "CLAUDE.md", "Never create a short ad-hoc session object");
+    assertFileIncludes(adapterDir, "CLAUDE.md", "session CLI commands are mandatory");
+    assertFileIncludes(adapterDir, "CLAUDE.md", "runbook session validate");
     assertFileIncludes(adapterDir, "CLAUDE.md", "Temporary pentest output");
     assertFileIncludes(adapterDir, "CLAUDE.md", "delete them before final verification");
+    assertFileIncludes(adapterDir, "CLAUDE.md", "long-term memory checkpoint");
+    assertFileIncludes(adapterDir, "CLAUDE.md", "update `MODULE-MAP.md` before closing");
+    assertFileIncludes(adapterDir, "CLAUDE.md", "Preserve durable memory file structure");
     assertFileIncludes(adapterDir, ".cursor/rules/10-core.mdc", "CONTEXT.md");
     assertFileIncludes(adapterDir, ".cursor/rules/10-core.mdc", "PROJECT.md");
+    assertFileIncludes(adapterDir, ".cursor/rules/10-core.mdc", "update durable memory");
     assertFileIncludes(adapterDir, ".cursor/rules/10-core.mdc", "Remove disposable artifacts");
     assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "CONTEXT.md");
     assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "atomic checkpoint loop");
     assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "runbook session pending");
     assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "Never create a short ad-hoc session object");
+    assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "session CLI commands are mandatory");
+    assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "runbook session validate");
     assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "Temporary pentest output");
     assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "delete them before final verification");
+    assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "long-term memory checkpoint");
+    assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "update `MODULE-MAP.md` before closing");
+    assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "Preserve durable memory file structure");
     assertJsonFileIncludes(adapterDir, "opencode.json", {
       default_agent: "runbook",
       instructions: ["AGENTS.md", "CONTEXT.md", "SESSION.md"],

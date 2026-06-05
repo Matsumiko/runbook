@@ -77,6 +77,20 @@ If the user explicitly chooses to start fresh instead, create a new session with
 
 If no recoverable session exists, create a new runtime session before the first repository edit. Use `runbook session new` when available. If the CLI is unavailable, manually create `.runbook/sessions/SESSION-[YYYYMMDD]-[HHMM].json` using the schema in `SESSION.md`, set `session.status` to `ACTIVE`, record the prompt and plan, and keep updating that file during work.
 
+When the CLI is available, these session commands are mandatory. Do not hand-write `.runbook/sessions/*.json` unless both `runbook` and `npx @matsumiko/runbook` failed after a real attempt:
+
+```bash
+runbook session pending
+runbook session new
+runbook session step "<action>"
+runbook session touch <path>
+runbook session verify "<command/result>"
+runbook session close --status completed
+runbook session validate
+```
+
+If you must use `npx`, run the same commands as `npx @matsumiko/runbook ...`.
+
 If the user sends `run:status`, `run:resume`, or `run:recap`, read `SESSION.md` first and follow its protocol.
 
 Use runtime session files in `.runbook/sessions/` for implementation, debugging, refactoring, audits, multi-step work, risky work, work likely to be interrupted, or explicitly requested handoff.
@@ -129,6 +143,26 @@ Do not leave `PROJECT.md` as a placeholder after bootstrapping a real project. R
 
 ---
 
+## Long-Term Memory Checkpoint
+
+Before closing any repository-changing task, review durable project memory and update it when the task created or verified reusable facts.
+
+This is required; do not treat memory files as optional decoration.
+
+- Update `PROJECT.md` when commands, architecture, important paths, environment notes, tests, gotchas, or do-not-touch areas changed.
+- Update `MODULE-MAP.md` when a module, feature area, entrypoint, responsibility, first file to inspect, related rule, common task, or module-specific pitfall was created or changed.
+- Update `DECISIONS.md` when the user accepts a product, business, architecture, security, data, or UX direction that future agents must not undo accidentally.
+- Update `BUG-HISTORY.md` after a verified bugfix or regression fix with the problem, cause, fix, changed files, and regression check.
+- Update `FRONTEND.md` for frontend bootstrap or meaningful frontend changes.
+- Update `SECURITY.md` for new security-sensitive rules, auth/authorization constraints, secret handling, abuse protection, or sensitive data behavior.
+- If a memory file is relevant but no durable fact changed, state that in the final report. Do not silently skip the review.
+
+When updating durable memory, preserve the file's existing structure and instructions. Append or edit concrete entries under the right section; do not replace the whole memory file with a terse summary.
+
+Checkpoint every memory file update with `runbook session touch <file>` before closing the runtime session.
+
+---
+
 ## Frontend Work
 
 Before frontend work, read `FRONTEND.md`.
@@ -159,6 +193,17 @@ Run the most relevant available checks:
 - manual trace when no automated check exists
 
 Before reporting completion, check for disposable artifacts created during the task and clean them up or explicitly report why they remain.
+
+For repository-changing work, do not send the final response until these RunBook proof commands pass after the runtime session is closed:
+
+```bash
+runbook session pending
+runbook session validate
+runbook doctor --strict-live
+runbook finish
+```
+
+The final report must state the result of those checks. If any command fails, fix the RunBook/session state or report the work as incomplete.
 
 If a check cannot be run, say why. Do not replace verification with confidence.
 
