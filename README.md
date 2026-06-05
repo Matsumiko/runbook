@@ -30,10 +30,10 @@ It gives a repository:
 
 - `AGENTS.md` as the agent operating entry point
 - `CONTEXT.md` as a routing map so agents read the right files for the task
-- `CODER.md` as durable project memory for commands, architecture, paths, environment, tests, and gotchas
+- `PROJECT.md` as durable project memory for commands, architecture, paths, environment, tests, and gotchas
 - `SESSION.md` plus `.runbook/sessions/` for resumable work
 - frontend and backend guardrails
-- native adapters for Claude, Cursor, Copilot, Gemini, Windsurf, Cline, and Aider
+- native adapters for opencode, Claude, Cursor, Copilot, Gemini, Windsurf, Cline, and Aider
 
 The focus is the core workflow: project memory, context routing, recovery, adapters, and honest verification.
 
@@ -58,6 +58,7 @@ Add adapter files:
 
 ```bash
 npx @matsumiko/runbook init --agent claude
+npx @matsumiko/runbook init --agent opencode
 npx @matsumiko/runbook init --agent cursor,copilot
 npx @matsumiko/runbook init --agent all
 ```
@@ -76,7 +77,9 @@ npx @matsumiko/runbook upgrade
 npx @matsumiko/runbook --version
 npx @matsumiko/runbook doctor
 npx @matsumiko/runbook doctor --strict
+npx @matsumiko/runbook doctor --strict-live
 npx @matsumiko/runbook doctor --json
+npx @matsumiko/runbook finish
 ```
 
 ## Install Options
@@ -93,15 +96,15 @@ Default `runbook init` uses `--profile full`.
 
 | Profile | Installs | Best for |
 | --- | --- | --- |
-| `minimal` | `AGENTS.md`, `CONTEXT.md`, `CODER.md` | Small repos that only need operating rules and project memory. |
-| `frontend` | Minimal + `FRONTEND-DNA.md` | UI, visual consistency, interaction, and design-system work. |
-| `backend` | Minimal + `BACKEND-SECURITY-CHECKLIST.md` | API, auth, data, billing, uploads, webhooks, or migrations. |
-| `full` | All RunBook files | Teams that want planning, sessions, backlog, changelog, guardrails, and adapters. |
+| `minimal` | `AGENTS.md`, `CONTEXT.md`, `PROJECT.md` | Small repos that only need operating rules and project memory. |
+| `frontend` | Minimal + `FRONTEND.md` | UI, visual consistency, interaction, and design-system work. |
+| `backend` | Minimal + `SECURITY.md` | API, auth, data, billing, uploads, webhooks, or migrations. |
+| `full` | All RunBook files | Teams that want decisions, bug history, module maps, planning, sessions, backlog, changelog, guardrails, and adapters. |
 
 ## Core Workflow
 
 1. Run `runbook init` in the project root.
-2. Fill `CODER.md` with real commands, architecture, important paths, environment notes, tests, and gotchas.
+2. Fill `PROJECT.md` with real commands, architecture, important paths, environment notes, tests, and gotchas.
 3. Have the agent read `AGENTS.md`.
 4. Have the agent read `CONTEXT.md` and choose task-specific files.
 5. For long work, create a checkpoint with `runbook session new`.
@@ -116,6 +119,10 @@ RunBook uses `CONTEXT.md` so agents do not need to load every file by default.
 npx @matsumiko/runbook context list
 npx @matsumiko/runbook context frontend
 npx @matsumiko/runbook context backend
+npx @matsumiko/runbook context architecture
+npx @matsumiko/runbook context bugfix
+npx @matsumiko/runbook context module-work
+npx @matsumiko/runbook context security-audit
 npx @matsumiko/runbook context resume
 npx @matsumiko/runbook context planning
 npx @matsumiko/runbook context inspect
@@ -128,7 +135,10 @@ Read more: [docs/context-routing.md](docs/context-routing.md)
 For non-trivial work, RunBook can create project-local runtime sessions:
 
 ```bash
+npx @matsumiko/runbook session pending
 npx @matsumiko/runbook session new
+npx @matsumiko/runbook session resume
+npx @matsumiko/runbook session validate
 npx @matsumiko/runbook session note "Found failing auth test"
 npx @matsumiko/runbook session step "Fix token refresh handling"
 npx @matsumiko/runbook session verify "npm test passed"
@@ -137,17 +147,21 @@ npx @matsumiko/runbook session show
 npx @matsumiko/runbook session close --status completed
 ```
 
+Agents should check `session pending` before repository-changing task work. If a recoverable session exists, they should wait for the user to type exactly `I will fight` before resuming. Completed/cancelled runtime sessions are kept to the newest 5 by default; recoverable sessions are not auto-deleted.
+
 Read more: [docs/session-recovery.md](docs/session-recovery.md)
 
 ## Example: Fixing A Bug With RunBook
 
 1. `runbook init --agent codex`
-2. Fill `CODER.md` with project commands and gotchas.
+2. Fill `PROJECT.md` with project commands and gotchas.
 3. Agent reads `AGENTS.md`, then `CONTEXT.md`.
-4. For a frontend bug, agent uses `runbook context frontend` and reads `FRONTEND-DNA.md`.
-5. For a backend or auth bug, agent uses `runbook context backend` and reads `BACKEND-SECURITY-CHECKLIST.md`.
-6. For a long task, agent creates a checkpoint with `runbook session new`.
-7. Agent verifies the fix and closes the session.
+4. For a frontend bug, agent uses `runbook context frontend` and reads `FRONTEND.md`.
+5. For a backend or auth bug, agent uses `runbook context backend` and reads `SECURITY.md`.
+6. For a regression, agent uses `runbook context bugfix` and reads `BUG-HISTORY.md`.
+7. For module-specific work, agent uses `runbook context module-work` and reads `MODULE-MAP.md`.
+8. For a long task, agent creates a checkpoint with `runbook session new`.
+9. Agent verifies the fix and closes the session.
 
 ## Docs
 
@@ -172,10 +186,10 @@ Read more: [docs/session-recovery.md](docs/session-recovery.md)
 |-- variants/
 |-- AGENTS.md
 |-- CONTEXT.md
-|-- CODER.md
+|-- PROJECT.md
 |-- SESSION.md
-|-- FRONTEND-DNA.md
-|-- BACKEND-SECURITY-CHECKLIST.md
+|-- FRONTEND.md
+|-- SECURITY.md
 `-- package.json
 ```
 

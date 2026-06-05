@@ -44,7 +44,7 @@ jobs:
 
 Use strict mode when your team wants warnings to block a pull request, such as:
 
-- `CODER.md` still looks like a placeholder template
+- `PROJECT.md` still looks like a placeholder template
 - runtime session JSON files are tracked by git
 - adapter files do not route through `CONTEXT.md`
 - custom context routes point to missing files

@@ -13,7 +13,15 @@ const bin = path.join(root, "bin", "runbook.js");
 function main() {
   parseJson("SESSION-EXAMPLE.json");
 
-  run(["--help"], { includes: ["runbook version [--json]", "runbook doctor [target] [--strict] [--json]", "runbook session note [target] <text>"] });
+  run(["--help"], {
+    includes: [
+      "runbook version [--json]",
+      "runbook doctor [target] [--strict] [--strict-live] [--json]",
+      "runbook finish [target] [--json]",
+      "runbook session validate [target] [--json]",
+      "runbook session note [target] <text>",
+    ],
+  });
   run(["--version"], { includes: "@matsumiko/runbook 0.32.0" });
   assertJson(run(["version", "--json"], { quiet: true }), {
     name: "@matsumiko/runbook",
@@ -23,11 +31,11 @@ function main() {
   run(["doctor"], { includes: "RunBook doctor for" });
   assertJson(run(["doctor", "--json"], { quiet: true }), {
     strict: false,
-    warnings: 1,
+    warnings: 0,
   });
 
   run(["context", "list"], { includes: "Available context routes" });
-  run(["context", "general"], { includes: "CODER.md" });
+  run(["context", "general"], { includes: "PROJECT.md" });
   assertJson(run(["context", "frontend", "--json"], { quiet: true }), {
     route: "frontend",
     source: "built-in",
@@ -37,31 +45,35 @@ function main() {
     routeKey: "frontend",
     missingRouteKey: "list",
   });
-  run(["context", "frontend"], { includes: "FRONTEND-DNA.md" });
-  run(["context", "backend"], { includes: "BACKEND-SECURITY-CHECKLIST.md" });
+  run(["context", "frontend"], { includes: "FRONTEND.md" });
+  run(["context", "backend"], { includes: "SECURITY.md" });
+  run(["context", "architecture"], { includes: ["Architecture or product decision work", "DECISIONS.md", "MODULE-MAP.md"] });
+  run(["context", "bugfix"], { includes: ["Bugfix or regression work", "BUG-HISTORY.md", "MODULE-MAP.md"] });
+  run(["context", "module-work"], { includes: ["Module-specific implementation work", "MODULE-MAP.md", "DECISIONS.md"] });
+  run(["context", "security-audit"], { includes: ["Security audit or pentest", "SECURITY.md", "POLICIES.md"] });
   run(["context", "resume"], { includes: ".runbook/sessions/" });
-  run(["context", "planning"], { includes: "PLAN.md" });
+  run(["context", "planning"], { includes: "ACTIVE-PLAN.md" });
   run(["context", "inspect"], { includes: "RunBook context inspection" });
   run(["context", "list"], { excludes: "database-migration" });
 
   run(["init", "./tmp-runbook-smoke", "--agent", "all", "--dry-run"], {
-    includes: ["Profile: full", "CONTEXT.md", "CLAUDE.md"],
+    includes: ["Profile: full", "CONTEXT.md", "DECISIONS.md", "BUG-HISTORY.md", "MODULE-MAP.md", "CLAUDE.md"],
   });
   run(["init", "./tmp-runbook-minimal", "--profile", "minimal", "--dry-run"], {
-    includes: ["Profile: minimal", "CODER.md"],
-    excludes: ["FRONTEND-DNA.md"],
+    includes: ["Profile: minimal", "PROJECT.md"],
+    excludes: ["FRONTEND.md"],
   });
   run(["init", "./tmp-runbook-frontend", "--profile", "frontend", "--dry-run"], {
-    includes: ["Profile: frontend", "FRONTEND-DNA.md"],
+    includes: ["Profile: frontend", "FRONTEND.md"],
   });
   run(["init", "./tmp-runbook-backend", "--profile", "backend", "--dry-run"], {
-    includes: ["Profile: backend", "BACKEND-SECURITY-CHECKLIST.md"],
+    includes: ["Profile: backend", "SECURITY.md"],
   });
   run(["upgrade", "./tmp-runbook-upgrade", "--dry-run"], {
     includes: ["Dry run RunBook", "Profile: full", "CONTEXT.md"],
   });
   run(["upgrade", "./tmp-runbook-upgrade", "--profile", "minimal", "--dry-run"], {
-    includes: ["Profile: minimal", "CODER.md"],
+    includes: ["Profile: minimal", "PROJECT.md"],
     excludes: ["SESSION.md"],
   });
 
@@ -72,7 +84,11 @@ function main() {
     });
     assertFile(initDir, "AGENTS.md");
     assertFile(initDir, "CONTEXT.md");
-    assertFile(initDir, "CODER.md");
+    assertFile(initDir, "PROJECT.md");
+    assertFile(initDir, "DECISIONS.md");
+    assertFile(initDir, "BUG-HISTORY.md");
+    assertFile(initDir, "MODULE-MAP.md");
+    assertFile(initDir, "POLICIES.md");
     assertFile(initDir, ".runbook/sessions/.gitkeep");
     assertFileIncludes(initDir, ".runbook/sessions/.gitignore", "*.json");
   } finally {
@@ -81,26 +97,83 @@ function main() {
 
   const adapterDir = fs.mkdtempSync(path.join(os.tmpdir(), "runbook-adapters-"));
   try {
-    run(["init", adapterDir, "--profile", "minimal", "--agent", "claude,cursor"], {
-      includes: ["CLAUDE.md", ".cursor/rules/10-core.mdc"],
+    run(["init", adapterDir, "--profile", "minimal", "--agent", "claude,cursor,opencode"], {
+      includes: ["CLAUDE.md", ".cursor/rules/10-core.mdc", ".opencode/agents/runbook.md", "opencode.json"],
     });
     assertFile(adapterDir, "CLAUDE.md");
     assertFile(adapterDir, ".cursor/rules/10-core.mdc");
+    assertFile(adapterDir, ".opencode/agents/runbook.md");
+    assertFile(adapterDir, "opencode.json");
     assertFileIncludes(adapterDir, "CLAUDE.md", "CONTEXT.md");
+    assertFileIncludes(adapterDir, "CLAUDE.md", "atomic checkpoint loop");
+    assertFileIncludes(adapterDir, "CLAUDE.md", "runbook session pending");
+    assertFileIncludes(adapterDir, "CLAUDE.md", "Never create a short ad-hoc session object");
+    assertFileIncludes(adapterDir, "CLAUDE.md", "Temporary pentest output");
+    assertFileIncludes(adapterDir, "CLAUDE.md", "delete them before final verification");
     assertFileIncludes(adapterDir, ".cursor/rules/10-core.mdc", "CONTEXT.md");
+    assertFileIncludes(adapterDir, ".cursor/rules/10-core.mdc", "PROJECT.md");
+    assertFileIncludes(adapterDir, ".cursor/rules/10-core.mdc", "Remove disposable artifacts");
+    assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "CONTEXT.md");
+    assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "atomic checkpoint loop");
+    assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "runbook session pending");
+    assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "Never create a short ad-hoc session object");
+    assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "Temporary pentest output");
+    assertFileIncludes(adapterDir, ".opencode/agents/runbook.md", "delete them before final verification");
+    assertJsonFileIncludes(adapterDir, "opencode.json", {
+      default_agent: "runbook",
+      instructions: ["AGENTS.md", "CONTEXT.md", "SESSION.md"],
+    });
   } finally {
     fs.rmSync(adapterDir, { recursive: true, force: true });
+  }
+
+  const opencodeMergeDir = fs.mkdtempSync(path.join(os.tmpdir(), "runbook-opencode-merge-"));
+  try {
+    fs.writeFileSync(
+      path.join(opencodeMergeDir, "opencode.json"),
+      `${JSON.stringify({
+        default_agent: "existing",
+        theme: "system",
+        instructions: ["docs/local.md"],
+      }, null, 2)}\n`,
+    );
+    run(["init", opencodeMergeDir, "--profile", "minimal", "--agent", "opencode"], {
+      includes: ["opencode.json (merged)", ".opencode/agents/runbook.md"],
+    });
+
+    const merged = JSON.parse(fs.readFileSync(path.join(opencodeMergeDir, "opencode.json"), "utf8"));
+    if (merged.default_agent !== "existing") {
+      throw new Error("Expected opencode default_agent to be preserved without --force.");
+    }
+    if (merged.theme !== "system") {
+      throw new Error("Expected existing opencode config keys to be preserved.");
+    }
+    for (const item of ["docs/local.md", "AGENTS.md", "CONTEXT.md", "SESSION.md"]) {
+      if (!merged.instructions.includes(item)) {
+        throw new Error(`Expected opencode instructions to include ${item}.`);
+      }
+    }
+
+    run(["upgrade", opencodeMergeDir, "--profile", "minimal", "--agent", "opencode", "--force"], {
+      includes: "opencode.json (merged)",
+    });
+    const forced = JSON.parse(fs.readFileSync(path.join(opencodeMergeDir, "opencode.json"), "utf8"));
+    if (forced.default_agent !== "runbook") {
+      throw new Error("Expected --force to set opencode default_agent to runbook.");
+    }
+  } finally {
+    fs.rmSync(opencodeMergeDir, { recursive: true, force: true });
   }
 
   const upgradeDir = fs.mkdtempSync(path.join(os.tmpdir(), "runbook-upgrade-"));
   try {
     fs.writeFileSync(path.join(upgradeDir, "AGENTS.md"), "custom agents\n");
     run(["upgrade", upgradeDir, "--profile", "minimal"], {
-      includes: ["Skipped existing files", "CONTEXT.md", "CODER.md"],
+      includes: ["Skipped existing files", "CONTEXT.md", "PROJECT.md"],
     });
     assertFileIncludes(upgradeDir, "AGENTS.md", "custom agents");
     assertFile(upgradeDir, "CONTEXT.md");
-    assertFile(upgradeDir, "CODER.md");
+    assertFile(upgradeDir, "PROJECT.md");
     run(["upgrade", upgradeDir, "--profile", "minimal", "--force"], {
       includes: ["Upgraded RunBook", "AGENTS.md"],
     });
@@ -120,7 +193,7 @@ function main() {
         "",
         "| Route | Read these files | Why |",
         "| --- | --- | --- |",
-        "| payment review | `CODER.md`, `docs/payments.md` | Use for payment risk checks. |",
+        "| payment review | `PROJECT.md`, `docs/payments.md` | Use for payment risk checks. |",
         "",
         "## Reading Rules",
       ].join("\n"),
@@ -147,8 +220,8 @@ function main() {
       fs
         .readFileSync(contextPath, "utf8")
         .replace(
-          "| [route name] | `CODER.md`, `docs/example.md` | [When agents should use this route.] |",
-          "| payment review | `CODER.md`, `docs/payments.md` | Use for payment risk checks. |",
+          "| [route name] | `PROJECT.md`, `docs/example.md` | [When agents should use this route.] |",
+          "| payment review | `PROJECT.md`, `docs/payments.md` | Use for payment risk checks. |",
         ),
     );
     run(["doctor", customRouteDoctorDir], {
@@ -171,11 +244,15 @@ function main() {
 
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "runbook-smoke-"));
   try {
+    run(["session", "pending", tempDir], { includes: "No recoverable runtime sessions found" });
     run(["session", "new", tempDir], { includes: "Created" });
     run(["session", "note", tempDir, "Found failing auth test"], { includes: "Updated" });
     run(["session", "step", tempDir, "Fix token refresh handling"], { includes: "Updated" });
     run(["session", "touch", tempDir, "src/auth.ts"], { includes: "Updated" });
     run(["session", "verify", tempDir, "npm test passed"], { includes: "Updated" });
+    run(["session", "pending", tempDir], { includes: ["Recoverable RunBook session found", "I will fight"] });
+    run(["session", "resume", tempDir], { includes: ["Resume confirmation", "I will fight", "Close the session if no work remains"] });
+    runFails(["session", "new", tempDir], { includes: "Recoverable runtime session exists" });
     run(["session", "latest", tempDir], { includes: ["Status: ACTIVE", "Recoverable: yes"] });
     run(["session", "show", tempDir], { includes: "Last position:" });
     assertLatestSessionIncludes(tempDir, {
@@ -183,14 +260,71 @@ function main() {
       step: "Fix token refresh handling",
       touchedFile: "src/auth.ts",
       verification: "npm test passed",
+      artifactRegistry: true,
     });
+    run(["session", "validate", tempDir], { includes: "Session validation passed" });
+    runFails(["doctor", tempDir, "--strict-live"], { includes: "no recoverable runtime sessions remain" });
     run(["session", "close", tempDir, "--status", "completed"], { includes: "as COMPLETED" });
+    run(["session", "pending", tempDir], { includes: "No recoverable runtime sessions found" });
+    run(["session", "validate", tempDir, "--json"], { includes: '"ok": true' });
   } finally {
     fs.rmSync(tempDir, { recursive: true, force: true });
   }
 
-  run(["session", "list"], { includes: "RunBook sessions in" });
-  run(["session", "clear", "--dry-run"], { includes: "No runtime sessions found" });
+  const invalidSessionDir = fs.mkdtempSync(path.join(os.tmpdir(), "runbook-invalid-session-"));
+  try {
+    const sessionsDir = path.join(invalidSessionDir, ".runbook", "sessions");
+    fs.mkdirSync(sessionsDir, { recursive: true });
+    fs.writeFileSync(path.join(sessionsDir, "SESSION-20260605-0101.json"), `${JSON.stringify({ name: "short", status: "ACTIVE" }, null, 2)}\n`);
+    runFails(["session", "validate", invalidSessionDir], { includes: "short ad-hoc schema" });
+  } finally {
+    fs.rmSync(invalidSessionDir, { recursive: true, force: true });
+  }
+
+  const finishFailDir = fs.mkdtempSync(path.join(os.tmpdir(), "runbook-finish-fail-"));
+  try {
+    run(["init", finishFailDir, "--profile", "full"], { quiet: true });
+    runFails(["finish", finishFailDir], { includes: ["Finish gate failed", "placeholder audit"] });
+  } finally {
+    fs.rmSync(finishFailDir, { recursive: true, force: true });
+  }
+
+  const finishPassDir = fs.mkdtempSync(path.join(os.tmpdir(), "runbook-finish-pass-"));
+  try {
+    run(["init", finishPassDir, "--profile", "full"], { quiet: true });
+    fillProjectMemory(finishPassDir);
+    run(["doctor", finishPassDir, "--strict-live", "--json"], { includes: '"ok": true' });
+    run(["finish", finishPassDir], { includes: "Finish gate passed" });
+  } finally {
+    fs.rmSync(finishPassDir, { recursive: true, force: true });
+  }
+
+  const retentionDir = fs.mkdtempSync(path.join(os.tmpdir(), "runbook-retention-"));
+  try {
+    for (let index = 0; index < 6; index += 1) {
+      run(["session", "new", retentionDir], { quiet: true });
+      run(["session", "close", retentionDir, "--status", "completed"], { quiet: true });
+    }
+
+    const completed = readSessionFiles(retentionDir).filter((filePath) => {
+      const parsed = JSON.parse(fs.readFileSync(filePath, "utf8"));
+      return parsed.session?.status === "COMPLETED";
+    });
+
+    if (completed.length !== 5) {
+      throw new Error(`Expected completed session retention to keep 5 files, found ${completed.length}.`);
+    }
+  } finally {
+    fs.rmSync(retentionDir, { recursive: true, force: true });
+  }
+
+  const clearDir = fs.mkdtempSync(path.join(os.tmpdir(), "runbook-clear-"));
+  try {
+    run(["session", "list", clearDir], { includes: "RunBook sessions in" });
+    run(["session", "clear", clearDir, "--dry-run"], { includes: "No runtime sessions found" });
+  } finally {
+    fs.rmSync(clearDir, { recursive: true, force: true });
+  }
 
   runFails(["context", "nope"], { includes: "Unknown context route" });
   runFails(["init", "--profile", "nope", "--dry-run"], { includes: "Unknown profile" });
@@ -259,6 +393,30 @@ function assertFileIncludes(baseDir, relativePath, expected) {
   }
 }
 
+function assertJsonFileIncludes(baseDir, relativePath, expected) {
+  assertFile(baseDir, relativePath);
+  const parsed = JSON.parse(fs.readFileSync(path.join(baseDir, relativePath), "utf8"));
+
+  for (const [key, value] of Object.entries(expected)) {
+    if (Array.isArray(value)) {
+      if (!Array.isArray(parsed[key])) {
+        throw new Error(`Expected ${relativePath}.${key} to be an array.`);
+      }
+
+      for (const item of value) {
+        if (!parsed[key].includes(item)) {
+          throw new Error(`Expected ${relativePath}.${key} to include "${item}".`);
+        }
+      }
+      continue;
+    }
+
+    if (parsed[key] !== value) {
+      throw new Error(`Expected ${relativePath}.${key} to equal "${value}".`);
+    }
+  }
+}
+
 function assertLatestSessionIncludes(baseDir, expected) {
   const sessionsDir = path.join(baseDir, ".runbook", "sessions");
   const latest = fs
@@ -289,6 +447,52 @@ function assertLatestSessionIncludes(baseDir, expected) {
   if (!verification.includes(expected.verification)) {
     throw new Error(`Expected verification to include "${expected.verification}".`);
   }
+  if (expected.artifactRegistry && !parsed.summary.artifacts) {
+    throw new Error("Expected session summary to include artifact registry.");
+  }
+}
+
+function fillProjectMemory(baseDir) {
+  fs.writeFileSync(
+    path.join(baseDir, "PROJECT.md"),
+    [
+      "# PROJECT.md",
+      "",
+      "## Project Snapshot",
+      "Smoke test project used to verify RunBook finish gates.",
+      "",
+      "## Commands",
+      "- Test: npm test",
+      "- Build: npm run build",
+      "",
+      "## Architecture",
+      "Single temporary package fixture.",
+    ].join("\n"),
+  );
+  fs.writeFileSync(
+    path.join(baseDir, "FRONTEND.md"),
+    [
+      "# FRONTEND.md",
+      "",
+      "## UI Stack",
+      "No frontend surface in this smoke fixture.",
+      "",
+      "## Verification",
+      "Use CLI smoke coverage.",
+    ].join("\n"),
+  );
+}
+
+function readSessionFiles(baseDir) {
+  const sessionsDir = path.join(baseDir, ".runbook", "sessions");
+  if (!fs.existsSync(sessionsDir)) {
+    return [];
+  }
+
+  return fs
+    .readdirSync(sessionsDir)
+    .filter((fileName) => /^SESSION-\d{8}-\d{4}\.json$/.test(fileName))
+    .map((fileName) => path.join(sessionsDir, fileName));
 }
 
 function run(args, options = {}) {

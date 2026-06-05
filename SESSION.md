@@ -13,6 +13,10 @@ JSON files inside `.runbook/sessions/`.
 
 ## Purpose
 
+Runtime sessions are task-scoped working memory, not permanent project memory.
+Use `PROJECT.md` for durable reusable project facts and `CHANGELOG.md` for finished
+meaningful changes.
+
 Use this protocol to make handoffs and recovery explicit:
 
 - what the user asked for
@@ -67,16 +71,19 @@ storage prevents agents from accidentally resuming a session from another repo.
 
 ## When To Use A Session File
 
-Create and maintain a runtime session file when any of these are true:
+Create and maintain a runtime session file for implementation, debugging,
+refactoring, audits, multi-step repository work, risky work, or any task that
+changes code, configuration, docs, package metadata, database schema, auth,
+billing, security, deployment, or public behavior.
 
-- the task is non-trivial, multi-step, risky, or spans multiple files
+Also create or inspect a session when:
+
 - the task may take long enough to be interrupted
-- the task changes code, configuration, docs, package metadata, database schema, auth, billing, security, deployment, or public behavior
 - the user asks for resumability, continuity, status tracking, or handoff safety
 - the user sends `run:status`, `run:resume`, or `run:recap`
 
-For trivial low-risk tasks, a session file is optional unless the user explicitly
-asks for resumability.
+Skip session creation only for read-only answers, brainstorming, or trivial
+one-command checks that do not change the repository.
 
 ---
 
@@ -140,18 +147,181 @@ Session files are useful but can contain sensitive context. Keep them safe.
 
 ---
 
+## Disposable Artifacts
+
+Some tasks need temporary files that are useful only while working: pentest scan
+output, throwaway reports, generated payloads, downloaded samples, debug dumps,
+scratch coverage files, repro folders, migration rehearsal output, or ad-hoc
+`tmp` files.
+
+Agents must keep those artifacts out of the final workspace unless the user
+explicitly asks to keep them.
+
+- Prefer ignored temporary locations such as `/tmp`, `.tmp/`, `tmp/`, or a
+  project-approved scratch path.
+- Record disposable artifact paths in the runtime session before or immediately
+  after creating them.
+- Before closing the session, delete disposable artifacts that are not required
+  deliverables.
+- Record cleanup in `log[]` or `summary.completed[]`.
+- Do not delete implementation files, tests, fixtures, docs, snapshots,
+  lockfiles, or other outputs that are part of the requested task.
+- If a temporary artifact must remain for user review, move it to a deliberate
+  project path, document why it remains, and list it in the final response.
+
+Never store sensitive pentest payloads, credentials, exploit material, auth
+headers, or private data in session files. Summarize and redact instead.
+
+---
+
 ## Agent Behavior
 
-### Starting a non-trivial task
+### Before task work
+
+Before implementation, debugging, refactoring, audits, or repository-changing
+work, check for recoverable sessions:
+
+```bash
+runbook session pending
+```
+
+If `runbook` is not available in PATH, use:
+
+```bash
+npx @matsumiko/runbook session pending
+```
+
+If the CLI cannot run, inspect `.runbook/sessions/` manually and enforce the
+same gate before editing.
+
+When manually editing runtime JSON as a fallback, preserve the schema in this
+file. In particular, keep `summary.filesChanged` as objects with `path` and
+`change`, and keep `summary.verification` as objects with `status` and
+`command` or `result`.
+
+If a recoverable session exists, do not start new work. Report the newest
+recoverable session's status, last action, and next step. Ask the user to type
+exactly:
+
+```text
+I will fight
+```
+
+Only resume after that exact phrase. Then run:
+
+```bash
+runbook session resume
+```
+
+If `runbook` is not available in PATH, use `npx @matsumiko/runbook session resume`.
+
+Audit the current workspace and continue from `lastPosition.nextStep` if safe.
+
+If the user explicitly chooses to abandon the pending work and start fresh, use:
+
+```bash
+runbook session new --force
+```
+
+### Starting task work
 
 1. Read `SESSION.md`.
-2. Create `.runbook/sessions/` if it does not exist.
-3. Create a new `.runbook/sessions/SESSION-[YYYYMMDD]-[HHMM].json` before implementation begins.
+2. Run `runbook session pending`.
+3. If no recoverable session exists, create a new `.runbook/sessions/SESSION-[YYYYMMDD]-[HHMM].json` before implementation begins.
 4. Record the project metadata before the plan.
 5. Record the user's original prompt verbatim, except redact secrets.
 6. Record understood goal, assumptions, out-of-scope items, and blockers.
 7. Record the execution plan before file edits or risky operations.
 8. Set `session.status` to `ACTIVE`.
+
+Use the CLI when available:
+
+```bash
+runbook session new
+```
+
+If the CLI is available, do not create runtime session JSON by hand. Use the
+CLI commands so the schema stays valid and recoverable by future agents.
+
+Only if the CLI is unavailable or fails after a real attempt, manually create
+the runtime JSON file before editing. Use local time for the filename. Preserve
+the full schema below, set `session.status` to `ACTIVE`, and update
+`lastPosition.nextStep` with the next concrete action. Never create a short
+ad-hoc session object with only `name`, `status`, and `summary`.
+
+### Atomic checkpoint loop
+
+Do not treat runtime session updates as end-of-task paperwork. They are part of
+the implementation loop.
+
+For every meaningful step:
+
+1. Before editing, record the step that is about to start.
+2. Make the smallest file change that completes that step.
+3. Immediately record every touched file and the current `lastPosition`.
+4. Set `lastPosition.nextStep` to the next concrete action before starting it.
+5. After running a verification command, record the exact command and result.
+
+Use the CLI when available:
+
+```bash
+runbook session step "Create app.js task logic"
+runbook session touch app.js
+runbook session note "Implemented localStorage task persistence"
+runbook session verify "node verify.js passed"
+```
+
+If manually editing JSON, keep these fields current after each step:
+
+- `plan[].status`, `startedAt`, and `completedAt`
+- `log[]`
+- `summary.filesChanged[]`
+- `summary.verification[]`
+- `lastPosition.lastAction`
+- `lastPosition.lastFileTouched`
+- `lastPosition.nextStep`
+
+No file change is considered checkpointed until it appears in
+`summary.filesChanged[]` or an equivalent `log[]` entry and `lastPosition` points
+to the next useful action. Do not begin the next implementation step with
+uncheckpointed file changes.
+
+If a step creates disposable artifacts, record both their creation and cleanup.
+For example:
+
+```bash
+runbook session note "Created disposable scan output in /tmp/runbook-scan-1234"
+runbook session note "Removed disposable scan output /tmp/runbook-scan-1234"
+```
+
+### Project bootstrap
+
+When a repository starts with only RunBook files, the first agreed build task is
+project bootstrap.
+
+During bootstrap:
+
+- create a runtime session before the first project file edit
+- implement the smallest project shape that satisfies the agreed task
+- checkpoint each created project file before creating the next file
+- verify with a real command
+- update `PROJECT.md` after verification with reusable facts: commands,
+  architecture, important paths, environment, tests, and gotchas
+- remove every bracket placeholder from `PROJECT.md`; replace unknown or
+  inapplicable fields with `none` or `n/a`
+- for frontend bootstrap, update `FRONTEND.md` after verification with the
+  actual visual system, layout, component, responsive, accessibility, and
+  preview/test decisions now present in the project
+- checkpoint `PROJECT.md`, `FRONTEND.md`, and verification before closing the
+  runtime session
+- audit `PROJECT.md` and `FRONTEND.md` for template placeholders before closing;
+  replace placeholders with verified facts, `none`, or `n/a`
+- use `ACTIVE-PLAN.md` only for large or multi-phase bootstrap work
+- use `BACKLOG.md` only for deferred follow-up work
+- update `CHANGELOG.md` only for meaningful completed milestones
+
+Do not leave `PROJECT.md` in placeholder form after a real project has been
+created.
 
 ### During work
 
@@ -166,6 +336,22 @@ Update the session file in real time:
 
 Do not wait until the end to write the session file. The last saved state must be
 useful if the machine dies immediately afterward.
+
+Before reporting completion, audit the runtime session:
+
+- `session.status` is `COMPLETED`
+- every changed file is recorded in `summary.filesChanged[]`
+- every verification command is recorded in `summary.verification[]`
+- disposable artifacts created for the task are deleted or intentionally kept
+  with a documented reason
+- `lastPosition.nextStep` is `none`, `n/a`, or a true follow-up outside the
+  completed request
+- `runbook session pending` reports no recoverable sessions
+
+For frontend bootstrap or meaningful frontend work, also audit `FRONTEND.md` for
+template placeholders such as `[e.g. ...]`, `#______`, `___px`, `[font name]`,
+`[describe]`, and `[value]`. The task is incomplete while those placeholders
+remain in sections that describe the implemented UI.
 
 ### Ending work
 
@@ -226,8 +412,8 @@ runbook session clear [target] --all --force
 Default cleanup is conservative:
 
 - delete only `COMPLETED` and `CANCELLED` sessions
-- keep the newest 20 sessions
-- delete matching cleanup candidates with filename timestamps older than 14 days
+- keep the newest 5 `COMPLETED` or `CANCELLED` sessions
+- apply cleanup after completed/cancelled sessions are closed
 - never delete `ACTIVE`, `PAUSED`, `BLOCKED`, or `INTERRUPTED` unless `--all --force` is provided
 
 If no runtime session file exists, respond:

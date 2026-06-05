@@ -14,8 +14,8 @@ Frontend work
 Read:
   - AGENTS.md
   - CONTEXT.md
-  - CODER.md
-  - FRONTEND-DNA.md
+  - PROJECT.md
+  - FRONTEND.md
 
 Use for UI, layout, visual, interaction, responsive, or design-system work.
 ```
@@ -31,7 +31,7 @@ runbook context frontend --json
   "route": "frontend",
   "source": "built-in",
   "title": "Frontend work",
-  "files": ["AGENTS.md", "CONTEXT.md", "CODER.md", "FRONTEND-DNA.md"],
+  "files": ["AGENTS.md", "CONTEXT.md", "PROJECT.md", "FRONTEND.md"],
   "note": "Use for UI, layout, visual, interaction, responsive, or design-system work."
 }
 ```
@@ -47,8 +47,8 @@ RunBook doctor for /path/to/project
   + package.json is valid
   + SESSION-EXAMPLE.json is valid
   + core context files are present
-  ? CODER.md has project-specific content
-    Fix: Fill CODER.md with real commands, architecture notes, paths, environment notes, tests, and gotchas.
+  ? PROJECT.md has project-specific content
+    Fix: Fill PROJECT.md with real commands, architecture notes, paths, environment notes, tests, and gotchas.
 
 Doctor passed with 1 warning(s).
 ```

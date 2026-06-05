@@ -1,4 +1,4 @@
-# CODER.md
+# PROJECT.md
 
 Persistent project memory for agents and developers.
 

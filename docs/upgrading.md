@@ -49,7 +49,7 @@ runbook doctor --strict
 runbook context inspect
 ```
 
-Then review `CODER.md`, `CONTEXT.md`, and any adapter files that matter for your team.
+Then review `PROJECT.md`, `CONTEXT.md`, and any adapter files that matter for your team.
 
 ## Migration Notes
 

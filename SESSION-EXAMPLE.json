@@ -171,6 +171,12 @@
       }
     ],
     "verification": [],
+    "artifacts": {
+      "created": [],
+      "disposable": [],
+      "kept": [],
+      "cleaned": []
+    },
     "nextSessionMustKnow": [
       "Resume at Step 3.",
       "Audit the current working tree before continuing because the interrupted file may have changed.",

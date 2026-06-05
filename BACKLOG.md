@@ -1,6 +1,11 @@
-# TODO.md
+# BACKLOG.md
 
-Strategic task backlog for this project.
+Strategic backlog and future work for this project.
+
+Use this file for work that is not currently being executed: ideas, tech debt,
+future improvements, deferred follow-ups, and prioritization. Do not use it for
+active task progress; use `.runbook/sessions/*.json` and, for large active work,
+`ACTIVE-PLAN.md`.
 
 ---
 

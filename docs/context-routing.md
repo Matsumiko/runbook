@@ -16,6 +16,10 @@ runbook context list
 runbook context general
 runbook context frontend
 runbook context backend
+runbook context architecture
+runbook context bugfix
+runbook context module-work
+runbook context security-audit
 runbook context resume
 runbook context planning
 runbook context inspect
@@ -25,11 +29,15 @@ runbook context inspect
 
 | Task | Recommended files |
 | --- | --- |
-| General code task | `AGENTS.md`, `CONTEXT.md`, `CODER.md` |
-| Frontend work | `AGENTS.md`, `CONTEXT.md`, `CODER.md`, `FRONTEND-DNA.md` |
-| Backend or security-sensitive work | `AGENTS.md`, `CONTEXT.md`, `CODER.md`, `BACKEND-SECURITY-CHECKLIST.md` |
+| General code task | `AGENTS.md`, `CONTEXT.md`, `PROJECT.md` |
+| Frontend work | `AGENTS.md`, `CONTEXT.md`, `PROJECT.md`, `FRONTEND.md` |
+| Backend or security-sensitive work | `AGENTS.md`, `CONTEXT.md`, `PROJECT.md`, `SECURITY.md` |
+| Architecture or product decision work | `AGENTS.md`, `CONTEXT.md`, `PROJECT.md`, `DECISIONS.md`, `MODULE-MAP.md` |
+| Bugfix or regression work | `AGENTS.md`, `CONTEXT.md`, `PROJECT.md`, `MODULE-MAP.md`, `BUG-HISTORY.md`, `DECISIONS.md` |
+| Module-specific implementation work | `AGENTS.md`, `CONTEXT.md`, `PROJECT.md`, `MODULE-MAP.md`, `DECISIONS.md` |
+| Security audit or pentest | `AGENTS.md`, `CONTEXT.md`, `PROJECT.md`, `SESSION.md`, `SECURITY.md`, `POLICIES.md` |
 | Resume or handoff | `AGENTS.md`, `CONTEXT.md`, `SESSION.md`, `.runbook/sessions/` |
-| Planning or prioritization | `AGENTS.md`, `CONTEXT.md`, `CODER.md`, `PLAN.md`, `TODO.md` |
+| Planning or prioritization | `AGENTS.md`, `CONTEXT.md`, `PROJECT.md`, `ACTIVE-PLAN.md`, `BACKLOG.md` |
 
 ## Inspection
 
@@ -51,8 +59,8 @@ Projects can add custom routes in `CONTEXT.md`:
 
 | Route | Read these files | Why |
 | --- | --- | --- |
-| database migration | `CODER.md`, `BACKEND-SECURITY-CHECKLIST.md`, `docs/database.md` | Use for schema changes and rollback planning. |
-| billing work | `CODER.md`, `BACKEND-SECURITY-CHECKLIST.md`, `docs/billing.md` | Use for payments and subscription flows. |
+| database migration | `PROJECT.md`, `SECURITY.md`, `docs/database.md` | Use for schema changes and rollback planning. |
+| billing work | `PROJECT.md`, `SECURITY.md`, `docs/billing.md` | Use for payments and subscription flows. |
 ```
 
 Then call:

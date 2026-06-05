@@ -12,8 +12,8 @@ const sessionDirectory = path.join(".runbook", "sessions");
 const sessionFilePattern = /^SESSION-\d{8}-\d{4}\.json$/;
 const recoverableSessionStatuses = new Set(["ACTIVE", "PAUSED", "INTERRUPTED", "BLOCKED"]);
 const cleanupSessionStatuses = new Set(["COMPLETED", "CANCELLED"]);
-const defaultSessionKeepCount = 20;
-const defaultSessionOlderThanDays = 14;
+const defaultSessionKeepCount = 5;
+const defaultSessionOlderThanDays = 0;
 
 const coreFiles = [
   ["AGENTS.md", "AGENTS.md"],
@@ -21,12 +21,16 @@ const coreFiles = [
   ["SESSION.md", "SESSION.md"],
   ["SESSION-EXAMPLE.json", "SESSION-EXAMPLE.json"],
   [".runbook/sessions/.gitkeep", ".runbook/sessions/.gitkeep"],
-  ["templates/core/CODER.md", "CODER.md"],
-  ["templates/core/PLAN.md", "PLAN.md"],
-  ["templates/core/TODO.md", "TODO.md"],
+  ["templates/core/PROJECT.md", "PROJECT.md"],
+  ["templates/core/DECISIONS.md", "DECISIONS.md"],
+  ["templates/core/BUG-HISTORY.md", "BUG-HISTORY.md"],
+  ["templates/core/MODULE-MAP.md", "MODULE-MAP.md"],
+  ["templates/core/ACTIVE-PLAN.md", "ACTIVE-PLAN.md"],
+  ["templates/core/BACKLOG.md", "BACKLOG.md"],
   ["templates/core/CHANGELOG.md", "CHANGELOG.md"],
-  ["FRONTEND-DNA.md", "FRONTEND-DNA.md"],
-  ["BACKEND-SECURITY-CHECKLIST.md", "BACKEND-SECURITY-CHECKLIST.md"],
+  ["FRONTEND.md", "FRONTEND.md"],
+  ["SECURITY.md", "SECURITY.md"],
+  ["POLICIES.md", "POLICIES.md"],
   ["AGENT-VARIANTS.md", "AGENT-VARIANTS.md"],
 ];
 
@@ -34,19 +38,19 @@ const profileFiles = {
   minimal: [
     ["AGENTS.md", "AGENTS.md"],
     ["templates/context/CONTEXT.md", "CONTEXT.md"],
-    ["templates/core/CODER.md", "CODER.md"],
+    ["templates/core/PROJECT.md", "PROJECT.md"],
   ],
   frontend: [
     ["AGENTS.md", "AGENTS.md"],
     ["templates/context/CONTEXT.md", "CONTEXT.md"],
-    ["templates/core/CODER.md", "CODER.md"],
-    ["FRONTEND-DNA.md", "FRONTEND-DNA.md"],
+    ["templates/core/PROJECT.md", "PROJECT.md"],
+    ["FRONTEND.md", "FRONTEND.md"],
   ],
   backend: [
     ["AGENTS.md", "AGENTS.md"],
     ["templates/context/CONTEXT.md", "CONTEXT.md"],
-    ["templates/core/CODER.md", "CODER.md"],
-    ["BACKEND-SECURITY-CHECKLIST.md", "BACKEND-SECURITY-CHECKLIST.md"],
+    ["templates/core/PROJECT.md", "PROJECT.md"],
+    ["SECURITY.md", "SECURITY.md"],
   ],
   full: coreFiles,
 };
@@ -56,6 +60,7 @@ const validProfiles = Object.keys(profileFiles);
 const variantFiles = {
   codex: [],
   claude: ["CLAUDE.md"],
+  opencode: [".opencode/agents/runbook.md"],
   cursor: [".cursor/rules/10-core.mdc"],
   copilot: [
     ".github/copilot-instructions.md",
@@ -69,12 +74,14 @@ const variantFiles = {
 };
 
 const validAgents = Object.keys(variantFiles);
+const opencodeInstructionFiles = ["AGENTS.md", "CONTEXT.md", "SESSION.md"];
+const opencodeRunBookAgent = "runbook";
 
 const contextRoutes = {
   list: {
     title: "Available context routes",
     files: [],
-    note: "Use: runbook context <general|frontend|backend|resume|planning|inspect>",
+    note: "Use: runbook context <general|frontend|backend|architecture|bugfix|module-work|security-audit|resume|planning|inspect>",
   },
   inspect: {
     title: "Inspect installed RunBook context",
@@ -83,27 +90,47 @@ const contextRoutes = {
   },
   general: {
     title: "General code task",
-    files: ["AGENTS.md", "CONTEXT.md", "CODER.md"],
+    files: ["AGENTS.md", "CONTEXT.md", "PROJECT.md"],
     note: "Use for ordinary code tasks that need project commands, architecture, and gotchas.",
   },
   frontend: {
     title: "Frontend work",
-    files: ["AGENTS.md", "CONTEXT.md", "CODER.md", "FRONTEND-DNA.md"],
+    files: ["AGENTS.md", "CONTEXT.md", "PROJECT.md", "FRONTEND.md"],
     note: "Use for UI, layout, visual, interaction, responsive, or design-system work.",
   },
   backend: {
     title: "Backend or security-sensitive work",
-    files: ["AGENTS.md", "CONTEXT.md", "CODER.md", "BACKEND-SECURITY-CHECKLIST.md"],
+    files: ["AGENTS.md", "CONTEXT.md", "PROJECT.md", "SECURITY.md"],
     note: "Use for backend changes, auth, billing, payments, uploads, webhooks, secrets, migrations, or sensitive data.",
+  },
+  architecture: {
+    title: "Architecture or product decision work",
+    files: ["AGENTS.md", "CONTEXT.md", "PROJECT.md", "DECISIONS.md", "MODULE-MAP.md"],
+    note: "Use for architectural direction, business rules, ownership boundaries, and changes that could conflict with accepted decisions.",
+  },
+  bugfix: {
+    title: "Bugfix or regression work",
+    files: ["AGENTS.md", "CONTEXT.md", "PROJECT.md", "MODULE-MAP.md", "BUG-HISTORY.md", "DECISIONS.md"],
+    note: "Use for debugging, regression fixes, and repeated failures where old fixes or module ownership matter.",
+  },
+  "module-work": {
+    title: "Module-specific implementation work",
+    files: ["AGENTS.md", "CONTEXT.md", "PROJECT.md", "MODULE-MAP.md", "DECISIONS.md"],
+    note: "Use when the task names a feature/module and the agent needs likely files, responsibilities, related rules, and known module constraints.",
   },
   resume: {
     title: "Resumable work or handoff",
     files: ["AGENTS.md", "CONTEXT.md", "SESSION.md", ".runbook/sessions/"],
     note: "Use for run:status, run:resume, run:recap, interrupted work, or handoff.",
   },
+  "security-audit": {
+    title: "Security audit or pentest",
+    files: ["AGENTS.md", "CONTEXT.md", "PROJECT.md", "SESSION.md", "SECURITY.md", "POLICIES.md"],
+    note: "Use for security review, pentest prep, vulnerability triage, abuse checks, secrets handling, or cleanup-sensitive audit work.",
+  },
   planning: {
     title: "Planning or prioritization",
-    files: ["AGENTS.md", "CONTEXT.md", "CODER.md", "PLAN.md", "TODO.md"],
+    files: ["AGENTS.md", "CONTEXT.md", "PROJECT.md", "ACTIVE-PLAN.md", "BACKLOG.md"],
     note: "Use for active task planning, backlog review, or prioritization.",
   },
 };
@@ -133,6 +160,11 @@ function main(argv) {
     return;
   }
 
+  if (args.command === "finish") {
+    runFinish(args);
+    return;
+  }
+
   if (args.command === "context" || args.command === "contexts") {
     if (args.subcommand === "inspect") {
       inspectContext(args);
@@ -154,8 +186,23 @@ function main(argv) {
       return;
     }
 
+    if (args.subcommand === "pending") {
+      printPendingSessions(args);
+      return;
+    }
+
+    if (args.subcommand === "resume") {
+      printResumeSession(args);
+      return;
+    }
+
     if (args.subcommand === "latest") {
       printLatestSession(args);
+      return;
+    }
+
+    if (args.subcommand === "validate") {
+      validateSessionsCommand(args);
       return;
     }
 
@@ -212,6 +259,7 @@ function parseArgs(argv) {
     dryRun: false,
     all: false,
     strict: false,
+    strictLive: false,
     json: false,
     version: false,
     keep: defaultSessionKeepCount,
@@ -255,6 +303,12 @@ function parseArgs(argv) {
     }
 
     if (value === "--strict") {
+      args.strict = true;
+      continue;
+    }
+
+    if (value === "--strict-live") {
+      args.strictLive = true;
       args.strict = true;
       continue;
     }
@@ -343,7 +397,7 @@ function parseArgs(argv) {
 
   const first = positional[0];
 
-  if (first === "help" || first === "version" || first === "list" || first === "init" || first === "upgrade" || first === "doctor") {
+  if (first === "help" || first === "version" || first === "list" || first === "init" || first === "upgrade" || first === "doctor" || first === "finish") {
     args.command = first;
   } else if (first === "context" || first === "contexts") {
     args.command = first;
@@ -372,6 +426,10 @@ function parseArgs(argv) {
   }
 
   if (args.command === "doctor" && positional[1]) {
+    args.target = positional[1];
+  }
+
+  if (args.command === "finish" && positional[1]) {
     args.target = positional[1];
   }
 
@@ -453,6 +511,14 @@ function installRunBook(args, mode) {
         label: file,
       });
     }
+
+    if (agent === "opencode") {
+      operations.push({
+        type: "opencode-config",
+        destination: path.join(targetDir, "opencode.json"),
+        label: "opencode.json",
+      });
+    }
   }
 
   const result = copyOperations(operations, {
@@ -499,6 +565,12 @@ function createSession(args) {
   const sessionsDir = path.join(targetDir, sessionDirectory);
   fs.mkdirSync(sessionsDir, { recursive: true });
 
+  const pending = readRecoverableSessions(targetDir);
+  if (pending.length > 0 && !args.force) {
+    printPendingGate(targetDir, pending);
+    fail('Recoverable runtime session exists. Resume it with "I will fight", or run "runbook session new --force" only when starting fresh is intentional.');
+  }
+
   const now = new Date();
   const sessionId = nextSessionId(sessionsDir, now);
   const sessionFile = path.join(sessionsDir, `${sessionId}.json`);
@@ -540,12 +612,47 @@ function createSession(args) {
       incomplete: [],
       filesChanged: [],
       verification: [],
+      artifacts: {
+        created: [],
+        disposable: [],
+        kept: [],
+        cleaned: [],
+      },
       nextSessionMustKnow: [],
     },
   };
 
   fs.writeFileSync(sessionFile, `${JSON.stringify(session, null, 2)}\n`);
   console.log(`Created ${sessionFile}`);
+}
+
+function printPendingSessions(args) {
+  const targetDir = path.resolve(process.cwd(), args.target);
+  const pending = readRecoverableSessions(targetDir);
+
+  if (pending.length === 0) {
+    console.log(`No recoverable runtime sessions found in ${path.join(targetDir, sessionDirectory)}.`);
+    return;
+  }
+
+  printPendingGate(targetDir, pending);
+}
+
+function printResumeSession(args) {
+  const targetDir = path.resolve(process.cwd(), args.target);
+  const pending = readRecoverableSessions(targetDir);
+
+  if (pending.length === 0) {
+    console.log(`No recoverable runtime sessions found in ${path.join(targetDir, sessionDirectory)}.`);
+    return;
+  }
+
+  const item = pending[0];
+  const parsed = parseJsonFile(item.filePath);
+  printSessionSummary(item);
+  printResumeDetails(parsed);
+  console.log("\nResume confirmation:");
+  console.log("  Only continue this session after the user types exactly: I will fight");
 }
 
 function printLatestSession(args) {
@@ -596,6 +703,38 @@ function showLatestSession(args) {
   }
 }
 
+function validateSessionsCommand(args) {
+  const targetDir = path.resolve(process.cwd(), args.target);
+  const result = validateRuntimeSessions(targetDir);
+
+  if (args.json) {
+    printJson(result);
+  } else {
+    console.log(`RunBook session validation for ${targetDir}`);
+    for (const item of result.sessions) {
+      const marker = item.ok ? "+" : "!";
+      console.log(`  ${marker} ${item.file}`);
+      for (const issue of item.issues) {
+        console.log(`    Fix: ${issue}`);
+      }
+    }
+
+    if (result.sessions.length === 0) {
+      console.log("  + No runtime sessions found.");
+    }
+
+    if (result.ok) {
+      console.log("\nSession validation passed.");
+    } else {
+      console.log(`\nSession validation failed with ${result.issues} issue(s).`);
+    }
+  }
+
+  if (!result.ok) {
+    process.exitCode = 1;
+  }
+}
+
 function closeLatestSession(args) {
   const targetDir = path.resolve(process.cwd(), args.target);
   const sessions = readSessionSummaries(targetDir);
@@ -620,6 +759,15 @@ function closeLatestSession(args) {
 
   fs.writeFileSync(item.filePath, `${JSON.stringify(parsed, null, 2)}\n`);
   console.log(`Closed ${item.filePath} as ${status}.`);
+
+  if (cleanupSessionStatuses.has(status)) {
+    pruneCleanupSessions(targetDir, {
+      keep: defaultSessionKeepCount,
+      olderThanDays: defaultSessionOlderThanDays,
+      dryRun: false,
+      silent: false,
+    });
+  }
 }
 
 function updateLatestSession(args) {
@@ -680,8 +828,7 @@ function updateLatestSession(args) {
 }
 
 function findEditableSession(targetDir) {
-  const sessions = readSessionSummaries(targetDir);
-  return sessions.find((session) => recoverableSessionStatuses.has(session.status)) || null;
+  return readRecoverableSessions(targetDir)[0] || null;
 }
 
 function setLastPosition(session, time, lastAction, lastStepStatus, nextStep, lastFileTouched = "") {
@@ -709,32 +856,13 @@ function clearSessions(args) {
     fail("Refusing to clear all sessions without --force.");
   }
 
-  const cutoff = Date.now() - args.olderThanDays * 24 * 60 * 60 * 1000;
-  const keptByCount = new Set(
-    sessions
-      .slice(0, args.keep)
-      .map((item) => item.filePath),
-  );
-
-  const candidates = sessions.filter((item) => {
-    if (args.all) {
-      return true;
-    }
-
-    if (!cleanupSessionStatuses.has(item.status)) {
-      return false;
-    }
-
-    if (keptByCount.has(item.filePath)) {
-      return false;
-    }
-
-    return item.sessionTime.getTime() < cutoff;
-  });
+  const candidates = args.all
+    ? sessions
+    : cleanupSessionCandidates(sessions, args.keep, args.olderThanDays);
 
   if (candidates.length === 0) {
     console.log(`No sessions eligible for cleanup in ${sessionsDir}.`);
-    console.log(`Policy: keep newest ${args.keep}, clear COMPLETED/CANCELLED older than ${args.olderThanDays} day(s) by filename timestamp.`);
+    console.log(`Policy: keep newest ${args.keep} COMPLETED/CANCELLED sessions and never clear recoverable sessions unless --all --force is provided.`);
     return;
   }
 
@@ -749,6 +877,110 @@ function clearSessions(args) {
 
   if (args.dryRun) {
     console.log("\nDry run only. Re-run without --dry-run to remove these files.");
+  }
+}
+
+function pruneCleanupSessions(targetDir, options) {
+  const sessions = readSessionSummaries(targetDir);
+  const candidates = cleanupSessionCandidates(sessions, options.keep, options.olderThanDays);
+
+  if (candidates.length === 0) {
+    return;
+  }
+
+  const sessionsDir = path.join(targetDir, sessionDirectory);
+  if (!options.silent) {
+    console.log(`Session cleanup: keeping newest ${options.keep} COMPLETED/CANCELLED sessions.`);
+  }
+
+  for (const item of candidates) {
+    if (!options.dryRun) {
+      fs.unlinkSync(item.filePath);
+    }
+
+    if (!options.silent) {
+      console.log(`  ${options.dryRun ? "-" : "x"} ${path.relative(sessionsDir, item.filePath)} (${item.status})`);
+    }
+  }
+}
+
+function cleanupSessionCandidates(sessions, keep, olderThanDays) {
+  const cutoff = Date.now() - olderThanDays * 24 * 60 * 60 * 1000;
+  const cleanupSessions = sessions.filter((item) => cleanupSessionStatuses.has(item.status));
+  const keptByCount = new Set(cleanupSessions.slice(0, keep).map((item) => item.filePath));
+
+  return cleanupSessions.filter((item) => {
+    if (keptByCount.has(item.filePath)) {
+      return false;
+    }
+
+    return item.sessionTime.getTime() < cutoff;
+  });
+}
+
+function readRecoverableSessions(targetDir) {
+  return readSessionSummaries(targetDir).filter((session) => recoverableSessionStatuses.has(session.status));
+}
+
+function printPendingGate(targetDir, pending) {
+  const sessionsDir = path.join(targetDir, sessionDirectory);
+  console.log(`Recoverable RunBook session found in ${sessionsDir}:`);
+
+  for (const item of pending.slice(0, 5)) {
+    const parsed = safeParseSession(item.filePath);
+    const lastPosition = parsed?.lastPosition || {};
+    console.log(`\n- ${item.fileName}`);
+    console.log(`  Status: ${item.status}`);
+    console.log(`  Project: ${item.projectName || "(unknown project)"}`);
+    console.log(`  Branch: ${item.gitBranch || "(unknown branch)"}`);
+    console.log(`  Last action: ${lastPosition.lastAction || "(not recorded)"}`);
+    console.log(`  Next step: ${lastPosition.nextStep || "(not recorded)"}`);
+  }
+
+  if (pending.length > 5) {
+    console.log(`\n${pending.length - 5} more recoverable session(s) not shown.`);
+  }
+
+  console.log("\nDo not start new work until the user chooses what to do.");
+  console.log('To resume the newest recoverable session, the user must type exactly: I will fight');
+  console.log('To start fresh, the user must explicitly say to start a new task; then use "runbook session new --force".');
+}
+
+function printResumeDetails(session) {
+  const prompt = session.prompt || {};
+  const lastPosition = session.lastPosition || {};
+  const summary = session.summary || {};
+
+  console.log("\nOriginal prompt:");
+  console.log(`  ${prompt.original || "(not recorded)"}`);
+  console.log("\nUnderstood goal:");
+  console.log(`  ${prompt.understoodGoal || "(not recorded)"}`);
+  console.log("\nLast position:");
+  console.log(`  Last action: ${lastPosition.lastAction || "(not recorded)"}`);
+  console.log(`  Step status: ${lastPosition.lastStepStatus || "(not recorded)"}`);
+  console.log(`  Next step: ${lastPosition.nextStep || "(not recorded)"}`);
+  console.log(`  System condition: ${lastPosition.systemCondition || "(not recorded)"}`);
+
+  if (Array.isArray(summary.filesChanged) && summary.filesChanged.length > 0) {
+    console.log("\nFiles changed:");
+    for (const file of summary.filesChanged) {
+      console.log(`  - ${file.path || "(unknown)"}${file.change ? ` - ${file.change}` : ""}`);
+    }
+  }
+
+  if (Array.isArray(summary.verification) && summary.verification.length > 0) {
+    console.log("\nVerification:");
+    for (const item of summary.verification) {
+      console.log(`  - ${item.command || item.result || JSON.stringify(item)}`);
+    }
+  }
+}
+
+function safeParseSession(filePath) {
+  try {
+    return parseJsonFile(filePath);
+  } catch (error) {
+    return null;
   }
 }
 
@@ -942,6 +1174,11 @@ function copyOperations(operations, options) {
   };
 
   for (const operation of operations) {
+    if (operation.type === "opencode-config") {
+      mergeOpencodeConfig(operation, options, result);
+      continue;
+    }
+
     if (typeof operation.content !== "string" && !fs.existsSync(operation.source)) {
       result.missing.push(operation.label);
       continue;
@@ -967,6 +1204,95 @@ function copyOperations(operations, options) {
   }
 
   return result;
+}
+
+function mergeOpencodeConfig(operation, options, result) {
+  const exists = fs.existsSync(operation.destination);
+
+  if (!exists) {
+    if (!options.dryRun) {
+      fs.mkdirSync(path.dirname(operation.destination), { recursive: true });
+      fs.writeFileSync(operation.destination, `${JSON.stringify(defaultOpencodeConfig(), null, 2)}\n`);
+    }
+
+    result.copied.push(operation.label);
+    return;
+  }
+
+  let parsed;
+  try {
+    parsed = parseJsonFile(operation.destination);
+  } catch (error) {
+    if (!options.force) {
+      result.skipped.push(`${operation.label} (invalid JSON; not modified)`);
+      return;
+    }
+
+    if (!options.dryRun) {
+      fs.writeFileSync(operation.destination, `${JSON.stringify(defaultOpencodeConfig(), null, 2)}\n`);
+    }
+
+    result.copied.push(`${operation.label} (replaced invalid JSON)`);
+    return;
+  }
+
+  if (!parsed || Array.isArray(parsed) || typeof parsed !== "object") {
+    result.skipped.push(`${operation.label} (not a JSON object; not modified)`);
+    return;
+  }
+
+  const next = { ...parsed };
+  let changed = false;
+
+  if (!next.$schema) {
+    next.$schema = "https://opencode.ai/config.json";
+    changed = true;
+  }
+
+  if (!next.default_agent || options.force) {
+    if (next.default_agent !== opencodeRunBookAgent) {
+      next.default_agent = opencodeRunBookAgent;
+      changed = true;
+    }
+  }
+
+  if (next.instructions === undefined) {
+    next.instructions = [...opencodeInstructionFiles];
+    changed = true;
+  } else if (Array.isArray(next.instructions)) {
+    const merged = [...next.instructions];
+    for (const file of opencodeInstructionFiles) {
+      if (!merged.includes(file)) {
+        merged.push(file);
+      }
+    }
+
+    if (merged.length !== next.instructions.length) {
+      next.instructions = merged;
+      changed = true;
+    }
+  } else {
+    result.skipped.push(`${operation.label} instructions (not an array; not modified)`);
+  }
+
+  if (!changed) {
+    result.skipped.push(`${operation.label} (already configured)`);
+    return;
+  }
+
+  if (!options.dryRun) {
+    fs.writeFileSync(operation.destination, `${JSON.stringify(next, null, 2)}\n`);
+  }
+
+  result.copied.push(`${operation.label} (merged)`);
+}
+
+function defaultOpencodeConfig() {
+  return {
+    $schema: "https://opencode.ai/config.json",
+    default_agent: opencodeRunBookAgent,
+    instructions: [...opencodeInstructionFiles],
+  };
 }
 
 function printSummary({ title, mode, targetDir, detailLines, result }) {
@@ -1003,7 +1329,11 @@ function printSummary({ title, mode, targetDir, detailLines, result }) {
 function printAgents() {
   console.log("Supported agents:");
   for (const agent of validAgents) {
-    const note = agent === "codex" ? "core AGENTS.md only" : `${variantFiles[agent].length} native file(s)`;
+    const note = agent === "codex"
+      ? "core AGENTS.md only"
+      : agent === "opencode"
+        ? "opencode.json + .opencode/agents/runbook.md"
+        : `${variantFiles[agent].length} native file(s)`;
     console.log(`  ${agent.padEnd(8)} ${note}`);
   }
   console.log("\nSpecial selections:");
@@ -1155,14 +1485,17 @@ function inspectContext(args) {
   const checks = [
     { label: "AGENTS.md", path: "AGENTS.md", required: true },
     { label: "CONTEXT.md", path: "CONTEXT.md", required: true },
-    { label: "CODER.md", path: "CODER.md", required: true, templateCheck: true },
-    { label: "PLAN.md", path: "PLAN.md", required: false },
-    { label: "TODO.md", path: "TODO.md", required: false },
+    { label: "PROJECT.md", path: "PROJECT.md", required: true, templateCheck: true },
+    { label: "DECISIONS.md", path: "DECISIONS.md", required: false },
+    { label: "BUG-HISTORY.md", path: "BUG-HISTORY.md", required: false },
+    { label: "MODULE-MAP.md", path: "MODULE-MAP.md", required: false },
+    { label: "ACTIVE-PLAN.md", path: "ACTIVE-PLAN.md", required: false },
+    { label: "BACKLOG.md", path: "BACKLOG.md", required: false },
     { label: "CHANGELOG.md", path: "CHANGELOG.md", required: false },
     { label: "SESSION.md", path: "SESSION.md", required: false },
     { label: ".runbook/sessions/", path: sessionDirectory, required: false, directory: true },
-    { label: "FRONTEND-DNA.md", path: "FRONTEND-DNA.md", required: false, templateCheck: true },
-    { label: "BACKEND-SECURITY-CHECKLIST.md", path: "BACKEND-SECURITY-CHECKLIST.md", required: false },
+    { label: "FRONTEND.md", path: "FRONTEND.md", required: false, templateCheck: true },
+    { label: "SECURITY.md", path: "SECURITY.md", required: false },
     { label: "AGENT-VARIANTS.md", path: "AGENT-VARIANTS.md", required: false },
   ];
 
@@ -1243,7 +1576,7 @@ function runDoctor(args) {
 
   addDoctorCheck(results, {
     label: "core context files are present",
-    ok: ["AGENTS.md", "CONTEXT.md", "CODER.md"].every((file) => fs.existsSync(path.join(targetDir, file))),
+    ok: ["AGENTS.md", "CONTEXT.md", "PROJECT.md"].every((file) => fs.existsSync(path.join(targetDir, file))),
     hint: "Run `runbook init --profile minimal` to install the minimum context files.",
   });
 
@@ -1254,10 +1587,17 @@ function runDoctor(args) {
   });
 
   addDoctorCheck(results, {
-    label: "CODER.md has project-specific content",
-    ok: fs.existsSync(path.join(targetDir, "CODER.md")) && !looksLikeTemplate(path.join(targetDir, "CODER.md")),
+    label: "PROJECT.md has project-specific content",
+    ok: fs.existsSync(path.join(targetDir, "PROJECT.md")) && !looksLikeTemplate(path.join(targetDir, "PROJECT.md")),
     warning: true,
-    hint: "Fill CODER.md with real commands, architecture notes, paths, environment notes, tests, and gotchas.",
+    hint: "Fill PROJECT.md with real commands, architecture notes, paths, environment notes, tests, and gotchas.",
+  });
+
+  addDoctorCheck(results, {
+    label: "FRONTEND.md has project-specific content",
+    ok: !fs.existsSync(path.join(targetDir, "FRONTEND.md")) || !looksLikeTemplate(path.join(targetDir, "FRONTEND.md")),
+    warning: true,
+    hint: "For frontend work, fill FRONTEND.md with real tone, palette, typography, layout, component, responsive, accessibility, and preview/test decisions.",
   });
 
   addDoctorCheck(results, {
@@ -1285,6 +1625,13 @@ function runDoctor(args) {
       : "Adapters are aligned with context routing.",
   });
 
+  addDoctorCheck(results, {
+    label: "opencode config includes RunBook instructions",
+    ok: opencodeConfigRoutesRunBook(targetDir),
+    warning: true,
+    hint: "Run `runbook init --agent opencode` to merge AGENTS.md and CONTEXT.md into opencode.json instructions.",
+  });
+
   const missingCustomRouteFiles = customContextRouteMissingFiles(targetDir);
   addDoctorCheck(results, {
     label: "custom context route files exist",
@@ -1294,6 +1641,25 @@ function runDoctor(args) {
       ? `Create or correct these custom route files: ${missingCustomRouteFiles.join(", ")}`
       : "Custom context routes point to existing files.",
   });
+
+  if (args.strictLive) {
+    const sessionValidation = validateRuntimeSessions(targetDir);
+    const pending = readRecoverableSessions(targetDir);
+    addDoctorCheck(results, {
+      label: "runtime session schema is valid",
+      ok: sessionValidation.ok,
+      hint: sessionValidation.ok
+        ? "Runtime session JSON follows the expected schema."
+        : "Run `runbook session validate` and fix invalid session files.",
+    });
+    addDoctorCheck(results, {
+      label: "no recoverable runtime sessions remain",
+      ok: pending.length === 0,
+      hint: pending.length === 0
+        ? "No pending sessions remain."
+        : "Close completed work with `runbook session close --status completed`, or resume pending work.",
+    });
+  }
 
   const failures = results.filter((result) => !result.ok && !result.warning);
   const warnings = results.filter((result) => !result.ok && result.warning);
@@ -1348,6 +1714,83 @@ function runDoctor(args) {
   console.log("\nDoctor passed.");
 }
 
+function runFinish(args) {
+  const targetDir = path.resolve(process.cwd(), args.target);
+  const checks = [];
+
+  const doctorArgs = {
+    ...args,
+    target: targetDir,
+    strict: true,
+    strictLive: true,
+    json: true,
+  };
+  const doctor = collectDoctorResult(doctorArgs);
+  checks.push({
+    label: "doctor --strict-live",
+    ok: doctor.ok,
+    hint: doctor.ok ? "RunBook doctor strict-live passed." : "Run `runbook doctor --strict-live` for details.",
+  });
+
+  const sessions = validateRuntimeSessions(targetDir);
+  checks.push({
+    label: "session validate",
+    ok: sessions.ok,
+    hint: sessions.ok ? "Runtime sessions are valid." : "Run `runbook session validate` for details.",
+  });
+
+  const pending = readRecoverableSessions(targetDir);
+  checks.push({
+    label: "session pending",
+    ok: pending.length === 0,
+    hint: pending.length === 0 ? "No recoverable sessions remain." : "Finish or intentionally pause recoverable sessions.",
+  });
+
+  const placeholders = placeholderFiles(targetDir);
+  checks.push({
+    label: "placeholder audit",
+    ok: placeholders.length === 0,
+    hint: placeholders.length === 0 ? "No project memory placeholders found." : `Fill placeholders in: ${placeholders.join(", ")}`,
+  });
+
+  const ok = checks.every((check) => check.ok);
+
+  if (args.json) {
+    printJson({ target: targetDir, ok, checks });
+  } else {
+    console.log(`RunBook finish gate for ${targetDir}`);
+    for (const check of checks) {
+      console.log(`  ${check.ok ? "+" : "!"} ${check.label}`);
+      if (!check.ok) {
+        console.log(`    Fix: ${check.hint}`);
+      }
+    }
+    console.log(ok ? "\nFinish gate passed." : "\nFinish gate failed.");
+  }
+
+  if (!ok) {
+    process.exitCode = 1;
+  }
+}
+
+function collectDoctorResult(args) {
+  const originalLog = console.log;
+  let output = "";
+  console.log = (value = "") => {
+    output += `${value}\n`;
+  };
+
+  const previousExitCode = process.exitCode;
+  process.exitCode = 0;
+  try {
+    runDoctor(args);
+    return JSON.parse(output);
+  } finally {
+    console.log = originalLog;
+    process.exitCode = previousExitCode;
+  }
+}
+
 function addDoctorCheck(results, check) {
   results.push({
     label: check.label,
@@ -1355,6 +1798,141 @@ function addDoctorCheck(results, check) {
     warning: Boolean(check.warning),
     hint: check.hint || "",
   });
+}
+
+function validateRuntimeSessions(targetDir) {
+  const sessionsDir = path.join(targetDir, sessionDirectory);
+  const result = {
+    target: targetDir,
+    ok: true,
+    issues: 0,
+    sessions: [],
+  };
+
+  if (!fs.existsSync(sessionsDir)) {
+    return result;
+  }
+
+  const files = fs
+    .readdirSync(sessionsDir, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && sessionFilePattern.test(entry.name))
+    .map((entry) => entry.name)
+    .sort();
+
+  for (const file of files) {
+    const filePath = path.join(sessionsDir, file);
+    const issues = validateRuntimeSessionFile(filePath);
+    result.sessions.push({ file, ok: issues.length === 0, issues });
+    result.issues += issues.length;
+  }
+
+  result.ok = result.issues === 0;
+  return result;
+}
+
+function validateRuntimeSessionFile(filePath) {
+  const issues = [];
+  let parsed;
+
+  try {
+    parsed = parseJsonFile(filePath);
+  } catch (error) {
+    return [`Invalid JSON: ${error.message}`];
+  }
+
+  if (!parsed || Array.isArray(parsed) || typeof parsed !== "object") {
+    return ["Session file must be a JSON object."];
+  }
+
+  if (!parsed.session || typeof parsed.session !== "object") {
+    issues.push("Missing session object.");
+  } else {
+    requireString(parsed.session.id, "session.id", issues);
+    requireString(parsed.session.date, "session.date", issues);
+    requireString(parsed.session.startedAt, "session.startedAt", issues);
+    requireString(parsed.session.status, "session.status", issues);
+  }
+
+  if (!parsed.project || typeof parsed.project !== "object") {
+    issues.push("Missing project object.");
+  } else {
+    requireString(parsed.project.name, "project.name", issues);
+    requireString(parsed.project.root, "project.root", issues);
+  }
+
+  if (!parsed.prompt || typeof parsed.prompt !== "object") {
+    issues.push("Missing prompt object.");
+  } else {
+    for (const field of ["original", "understoodGoal"]) {
+      if (typeof parsed.prompt[field] !== "string") {
+        issues.push(`prompt.${field} must be a string.`);
+      }
+    }
+    for (const field of ["assumptions", "outOfScope", "blockers"]) {
+      if (!Array.isArray(parsed.prompt[field])) {
+        issues.push(`prompt.${field} must be an array.`);
+      }
+    }
+  }
+
+  for (const field of ["plan", "log", "blockers", "decisions"]) {
+    if (!Array.isArray(parsed[field])) {
+      issues.push(`${field} must be an array.`);
+    }
+  }
+
+  if (!parsed.lastPosition || typeof parsed.lastPosition !== "object") {
+    issues.push("Missing lastPosition object.");
+  } else {
+    for (const field of ["lastAction", "lastStepStatus", "nextStep", "systemCondition"]) {
+      if (typeof parsed.lastPosition[field] !== "string") {
+        issues.push(`lastPosition.${field} must be a string.`);
+      }
+    }
+  }
+
+  if (!parsed.summary || typeof parsed.summary !== "object") {
+    issues.push("Missing summary object.");
+  } else {
+    for (const field of ["completed", "incomplete", "filesChanged", "verification", "nextSessionMustKnow"]) {
+      if (!Array.isArray(parsed.summary[field])) {
+        issues.push(`summary.${field} must be an array.`);
+      }
+    }
+
+    const artifacts = parsed.summary.artifacts;
+    if (artifacts !== undefined) {
+      if (!artifacts || Array.isArray(artifacts) || typeof artifacts !== "object") {
+        issues.push("summary.artifacts must be an object.");
+      } else {
+        for (const field of ["created", "disposable", "kept", "cleaned"]) {
+          if (!Array.isArray(artifacts[field])) {
+            issues.push(`summary.artifacts.${field} must be an array.`);
+          }
+        }
+      }
+    }
+  }
+
+  if (parsed.name !== undefined || (parsed.status !== undefined && !parsed.session)) {
+    issues.push("Session appears to use short ad-hoc schema; use the full SESSION.md schema.");
+  }
+
+  return issues;
+}
+
+function requireString(value, label, issues) {
+  if (typeof value !== "string" || value.trim() === "") {
+    issues.push(`${label} must be a non-empty string.`);
+  }
+}
+
+function placeholderFiles(targetDir) {
+  return ["PROJECT.md", "FRONTEND.md"]
+    .filter((file) => {
+      const filePath = path.join(targetDir, file);
+      return fs.existsSync(filePath) && fs.statSync(filePath).isFile() && looksLikeTemplate(filePath);
+    });
 }
 
 function printJson(value) {
@@ -1416,12 +1994,43 @@ function installedAdaptersWithoutContext(targetDir) {
     ".windsurf/rules/10-core.md",
     ".clinerules/core.md",
     "CONVENTIONS.md",
+    ".opencode/agents/runbook.md",
   ];
 
   return adapterPaths.filter((file) => {
     const filePath = path.join(targetDir, file);
     return fs.existsSync(filePath) && fs.statSync(filePath).isFile() && !fileIncludes(filePath, "CONTEXT.md");
   });
+}
+
+function opencodeConfigRoutesRunBook(targetDir) {
+  const configPath = path.join(targetDir, "opencode.json");
+  const agentPath = path.join(targetDir, ".opencode", "agents", "runbook.md");
+
+  if (!fs.existsSync(configPath) && !fs.existsSync(agentPath)) {
+    return true;
+  }
+
+  if (!fs.existsSync(configPath)) {
+    return false;
+  }
+
+  let parsed;
+  try {
+    parsed = parseJsonFile(configPath);
+  } catch (error) {
+    return false;
+  }
+
+  if (!parsed || Array.isArray(parsed) || typeof parsed !== "object") {
+    return false;
+  }
+
+  if (!Array.isArray(parsed.instructions)) {
+    return false;
+  }
+
+  return opencodeInstructionFiles.every((file) => parsed.instructions.includes(file));
 }
 
 function customContextRouteMissingFiles(targetDir) {
@@ -1459,12 +2068,16 @@ Usage:
   runbook version [--json]
   runbook --version
   runbook list
-  runbook doctor [target] [--strict] [--json]
+  runbook doctor [target] [--strict] [--strict-live] [--json]
+  runbook finish [target] [--json]
   runbook context list [target] [--json]
-  runbook context <general|frontend|backend|resume|planning|custom-route> [target] [--json]
+  runbook context <general|frontend|backend|architecture|bugfix|module-work|security-audit|resume|planning|custom-route> [target] [--json]
   runbook context inspect [target]
   runbook session new [target]
+  runbook session pending [target]
+  runbook session resume [target]
   runbook session list [target]
+  runbook session validate [target] [--json]
   runbook session latest [target]
   runbook session show [target]
   runbook session note [target] <text>
@@ -1484,15 +2097,25 @@ Examples:
   npx @matsumiko/runbook --version
   npx @matsumiko/runbook doctor
   npx @matsumiko/runbook doctor --strict
+  npx @matsumiko/runbook doctor --strict-live
   npx @matsumiko/runbook doctor --json
+  npx @matsumiko/runbook finish
   npx @matsumiko/runbook init --agent claude
+  npx @matsumiko/runbook init --agent opencode
   npx @matsumiko/runbook init ./my-app --agent cursor,copilot
   npx @matsumiko/runbook context frontend
   npx @matsumiko/runbook context frontend --json
   npx @matsumiko/runbook context backend
+  npx @matsumiko/runbook context architecture
+  npx @matsumiko/runbook context bugfix
+  npx @matsumiko/runbook context module-work
+  npx @matsumiko/runbook context security-audit
   npx @matsumiko/runbook context inspect
   npx @matsumiko/runbook session new
+  npx @matsumiko/runbook session pending
+  npx @matsumiko/runbook session resume
   npx @matsumiko/runbook session list
+  npx @matsumiko/runbook session validate
   npx @matsumiko/runbook session latest
   npx @matsumiko/runbook session show
   npx @matsumiko/runbook session note "Found failing auth test"
@@ -1501,7 +2124,7 @@ Examples:
   npx @matsumiko/runbook session verify "npm test passed"
   npx @matsumiko/runbook session close --status completed
   npx @matsumiko/runbook session clear --dry-run
-  npx @matsumiko/runbook session clear --keep 20 --older-than 14
+  npx @matsumiko/runbook session clear --keep 5 --older-than 0
   npx @matsumiko/runbook session clear --all --force
 
 Default behavior:

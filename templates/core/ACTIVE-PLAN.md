@@ -1,7 +1,10 @@
-# PLAN.md
+# ACTIVE-PLAN.md
 
-Active execution plan for the current task or sprint.
-Use this file for non-trivial tasks so plans survive session boundaries.
+Active execution plan for the current large task only.
+
+Use this file for non-trivial, multi-phase, cross-file, or risky work that needs
+a human-readable plan. Do not use it as a backlog and do not duplicate ordinary
+session progress here. Small tasks can rely on `.runbook/sessions/*.json`.
 
 ---
 
@@ -59,7 +62,7 @@ Use this file for non-trivial tasks so plans survive session boundaries.
 - [ ] Step 2 - [description]
 - [ ] Step 3 - Verify: [checks]
 - [ ] Step 4 - Update CHANGELOG.md
-- [ ] Step 5 - Update TODO.md if follow-up items exist
+- [ ] Step 5 - Update BACKLOG.md if follow-up items exist
 
 ### Rollback Plan
 

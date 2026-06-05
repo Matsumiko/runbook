@@ -1,4 +1,4 @@
-# BACKEND-SECURITY-CHECKLIST.md
+# SECURITY.md
 
 Security review checklist for backend work.
 Run the relevant sections before shipping any feature that touches auth, data, payments,
