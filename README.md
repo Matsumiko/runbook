@@ -107,9 +107,33 @@ Default `runbook init` uses `--profile full`.
 2. Fill `PROJECT.md` with real commands, architecture, important paths, environment notes, tests, and gotchas.
 3. Have the agent read `AGENTS.md`.
 4. Have the agent read `CONTEXT.md` and choose task-specific files.
-5. For long work, create a checkpoint with `runbook session new`.
-6. Verify the change before claiming completion.
-7. Record meaningful finished work in `CHANGELOG.md`.
+5. Before repository-changing work, create a runtime session with `runbook session new`.
+6. During work, update the session with `step`, `touch`, and `verify`.
+7. Before closing, review durable memory and update the files that gained reusable facts.
+8. Close the session, then run the final RunBook proof gates.
+9. Record meaningful finished work in `CHANGELOG.md`.
+
+## Durable Memory
+
+RunBook separates active task progress from long-term project memory.
+
+| File | Purpose |
+| --- | --- |
+| `PROJECT.md` | Commands, architecture, important paths, environment notes, tests, gotchas, and do-not-touch areas. |
+| `MODULE-MAP.md` | Module responsibilities, first files to inspect, related rules, common tasks, and module-specific pitfalls. |
+| `DECISIONS.md` | Accepted product, business, architecture, security, data, or UX decisions future agents must not undo accidentally. |
+| `BUG-HISTORY.md` | Fixed bugs, causes, fixes, changed files, and regression checks. |
+| `FRONTEND.md` | Actual frontend design and interaction decisions. |
+| `SECURITY.md` | Security-sensitive rules, auth/authorization constraints, secrets, abuse protection, and sensitive data behavior. |
+
+Before closing repository-changing work, agents must review durable memory:
+
+- update the relevant memory file when the task created or verified reusable facts
+- preserve the file's structure and add concrete entries under the right section
+- checkpoint every memory update with `runbook session touch <file>`
+- state in the final report when a relevant memory file was reviewed but did not need changes
+
+Active progress still belongs in `.runbook/sessions/*.json`, not in durable memory files.
 
 ## Context Routing
 
@@ -138,16 +162,34 @@ For non-trivial work, RunBook can create project-local runtime sessions:
 npx @matsumiko/runbook session pending
 npx @matsumiko/runbook session new
 npx @matsumiko/runbook session resume
-npx @matsumiko/runbook session validate
 npx @matsumiko/runbook session note "Found failing auth test"
 npx @matsumiko/runbook session step "Fix token refresh handling"
+npx @matsumiko/runbook session touch src/auth.ts
 npx @matsumiko/runbook session verify "npm test passed"
 npx @matsumiko/runbook session latest
 npx @matsumiko/runbook session show
 npx @matsumiko/runbook session close --status completed
+npx @matsumiko/runbook session validate
 ```
 
-Agents should check `session pending` before repository-changing task work. If a recoverable session exists, they should wait for the user to type exactly `I will fight` before resuming. Completed/cancelled runtime sessions are kept to the newest 5 by default; recoverable sessions are not auto-deleted.
+Agents should check `session pending` before repository-changing task work. If a recoverable session exists, they should wait for the user to type exactly `I will fight` before resuming.
+
+When the CLI is available, agents must use session CLI commands instead of hand-writing session JSON. Hand-written sessions are only a fallback if both `runbook` and `npx @matsumiko/runbook` fail after a real attempt.
+
+Completed/cancelled runtime sessions are kept to the newest 5 by default; recoverable sessions are not auto-deleted.
+
+## Finish Gates
+
+Before an agent claims repository-changing work is complete, these commands should pass after the runtime session is closed:
+
+```bash
+npx @matsumiko/runbook session pending
+npx @matsumiko/runbook session validate
+npx @matsumiko/runbook doctor --strict-live
+npx @matsumiko/runbook finish
+```
+
+`doctor --strict-live` checks RunBook health plus runtime session validity and confirms no recoverable session remains. `finish` is the final completion gate over doctor, session validation, pending sessions, and placeholder memory files.
 
 Read more: [docs/session-recovery.md](docs/session-recovery.md)
 
@@ -160,8 +202,9 @@ Read more: [docs/session-recovery.md](docs/session-recovery.md)
 5. For a backend or auth bug, agent uses `runbook context backend` and reads `SECURITY.md`.
 6. For a regression, agent uses `runbook context bugfix` and reads `BUG-HISTORY.md`.
 7. For module-specific work, agent uses `runbook context module-work` and reads `MODULE-MAP.md`.
-8. For a long task, agent creates a checkpoint with `runbook session new`.
-9. Agent verifies the fix and closes the session.
+8. Agent updates `BUG-HISTORY.md` after the bug is fixed and verified.
+9. Agent updates `MODULE-MAP.md` if module ownership, entrypoints, or first files changed.
+10. Agent verifies the fix, closes the session, and runs the finish gates.
 
 ## Docs
 
@@ -187,9 +230,13 @@ Read more: [docs/session-recovery.md](docs/session-recovery.md)
 |-- AGENTS.md
 |-- CONTEXT.md
 |-- PROJECT.md
+|-- MODULE-MAP.md
+|-- DECISIONS.md
+|-- BUG-HISTORY.md
 |-- SESSION.md
 |-- FRONTEND.md
 |-- SECURITY.md
+|-- POLICIES.md
 `-- package.json
 ```
 
