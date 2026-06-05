@@ -39,56 +39,69 @@ The focus is the core workflow: project memory, context routing, recovery, adapt
 
 ## Quick Start
 
-Use it once without installing:
+Install the CLI globally first:
 
 ```bash
-npx @matsumiko/runbook init
+npm i -g @matsumiko/runbook
+runbook --version
+```
+
+Then initialize RunBook in a project:
+
+```bash
+cd my-project
+runbook init
 ```
 
 Pick a profile:
 
 ```bash
-npx @matsumiko/runbook init --profile minimal
-npx @matsumiko/runbook init --profile frontend
-npx @matsumiko/runbook init --profile backend
-npx @matsumiko/runbook init --profile full
+runbook init --profile minimal
+runbook init --profile frontend
+runbook init --profile backend
+runbook init --profile full
 ```
 
 Add adapter files:
 
 ```bash
-npx @matsumiko/runbook init --agent claude
-npx @matsumiko/runbook init --agent opencode
-npx @matsumiko/runbook init --agent cursor,copilot
-npx @matsumiko/runbook init --agent all
+runbook init --agent claude
+runbook init --agent opencode
+runbook init --agent cursor,copilot
+runbook init --agent all
 ```
 
 Preview before writing:
 
 ```bash
-npx @matsumiko/runbook init --dry-run
-npx @matsumiko/runbook upgrade --dry-run
+runbook init --dry-run
+runbook upgrade --dry-run
 ```
 
 Upgrade an existing RunBook install safely:
 
 ```bash
-npx @matsumiko/runbook upgrade
-npx @matsumiko/runbook --version
-npx @matsumiko/runbook doctor
-npx @matsumiko/runbook doctor --strict
-npx @matsumiko/runbook doctor --strict-live
-npx @matsumiko/runbook doctor --json
-npx @matsumiko/runbook finish
+runbook upgrade
+runbook doctor
+runbook doctor --strict
+runbook doctor --strict-live
+runbook doctor --json
+runbook finish
+```
+
+One-shot usage is still supported when you do not want a global install:
+
+```bash
+npx @matsumiko/runbook init
 ```
 
 ## Install Options
 
 | Use case | Command | Run command |
 | --- | --- | --- |
+| Recommended CLI | `npm i -g @matsumiko/runbook` | `runbook ...` |
 | One-shot usage | no install needed | `npx @matsumiko/runbook ...` |
 | Project-local dependency | `npm i -D @matsumiko/runbook` | `npx runbook ...` or an npm script |
-| Global CLI | `npm i -g @matsumiko/runbook` | `runbook ...` |
 
 ## Profiles
 
@@ -140,16 +153,16 @@ Active progress still belongs in `.runbook/sessions/*.json`, not in durable memo
 RunBook uses `CONTEXT.md` so agents do not need to load every file by default.
 
 ```bash
-npx @matsumiko/runbook context list
-npx @matsumiko/runbook context frontend
-npx @matsumiko/runbook context backend
-npx @matsumiko/runbook context architecture
-npx @matsumiko/runbook context bugfix
-npx @matsumiko/runbook context module-work
-npx @matsumiko/runbook context security-audit
-npx @matsumiko/runbook context resume
-npx @matsumiko/runbook context planning
-npx @matsumiko/runbook context inspect
+runbook context list
+runbook context frontend
+runbook context backend
+runbook context architecture
+runbook context bugfix
+runbook context module-work
+runbook context security-audit
+runbook context resume
+runbook context planning
+runbook context inspect
 ```
 
 Read more: [docs/context-routing.md](docs/context-routing.md)
@@ -159,17 +172,17 @@ Read more: [docs/context-routing.md](docs/context-routing.md)
 For non-trivial work, RunBook can create project-local runtime sessions:
 
 ```bash
-npx @matsumiko/runbook session pending
-npx @matsumiko/runbook session new
-npx @matsumiko/runbook session resume
-npx @matsumiko/runbook session note "Found failing auth test"
-npx @matsumiko/runbook session step "Fix token refresh handling"
-npx @matsumiko/runbook session touch src/auth.ts
-npx @matsumiko/runbook session verify "npm test passed"
-npx @matsumiko/runbook session latest
-npx @matsumiko/runbook session show
-npx @matsumiko/runbook session close --status completed
-npx @matsumiko/runbook session validate
+runbook session pending
+runbook session new
+runbook session resume
+runbook session note "Found failing auth test"
+runbook session step "Fix token refresh handling"
+runbook session touch src/auth.ts
+runbook session verify "npm test passed"
+runbook session latest
+runbook session show
+runbook session close --status completed
+runbook session validate
 ```
 
 Agents should check `session pending` before repository-changing task work. If a recoverable session exists, they should wait for the user to type exactly `I will fight` before resuming.
@@ -183,10 +196,10 @@ Completed/cancelled runtime sessions are kept to the newest 5 by default; recove
 Before an agent claims repository-changing work is complete, these commands should pass after the runtime session is closed:
 
 ```bash
-npx @matsumiko/runbook session pending
-npx @matsumiko/runbook session validate
-npx @matsumiko/runbook doctor --strict-live
-npx @matsumiko/runbook finish
+runbook session pending
+runbook session validate
+runbook doctor --strict-live
+runbook finish
 ```
 
 `doctor --strict-live` checks RunBook health plus runtime session validity and confirms no recoverable session remains. `finish` is the final completion gate over doctor, session validation, pending sessions, and placeholder memory files.

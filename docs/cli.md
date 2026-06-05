@@ -1,6 +1,13 @@
 # RunBook CLI
 
-Use `npx @matsumiko/runbook ...` for one-shot usage, `npx runbook ...` after a local install, or `runbook ...` after a global install.
+Recommended install:
+
+```bash
+npm i -g @matsumiko/runbook
+runbook --version
+```
+
+Use `runbook ...` for normal CLI usage. `npx @matsumiko/runbook ...` is available for one-shot usage, and `npx runbook ...` works after a project-local install.
 
 ## Commands
 
